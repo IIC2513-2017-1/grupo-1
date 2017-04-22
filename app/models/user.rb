@@ -21,10 +21,10 @@ class User < ApplicationRecord
                        uniqueness: true,
                        length: { minimum: 6, maximum: 50 }
   validates :name, presence: true,
-                   format: { with: /\A[A-Z][a-z]+\z/i },
+                   format: { with: /\A[A-Z]{1}[a-z]+\z/ },
                    length: { minimum: 3, maximum: 50 }
   validates :lastname, presence: true,
-                       format: { with: /\A[A-Z][a-z]+\z/i },
+                       format: { with: /\A[A-Z]{1}[a-z]+\z/ },
                        length: { minimum: 3, maximum: 50 }
   validates :email, presence: true,
                     format:
