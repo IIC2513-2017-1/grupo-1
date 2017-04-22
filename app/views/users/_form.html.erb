@@ -12,18 +12,44 @@
   <% end %>
 
   <div class="field">
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= f.label :lastname %>
+    <%= f.text_field :lastname %>
+  </div>
+
+  <div class="field">
     <%= f.label :username %>
     <%= f.text_field :username %>
   </div>
 
   <div class="field">
-    <%= f.label :role %>
-    <%= f.text_field :role %>
+    <%= f.label :birthday %>
+    <%= f.date_select :birthday, start_year: Date.today.year - 100,
+                                 end_year: Date.today.year %>
+  </div>
+
+  <div class="field">
+    <%= f.label :description %>
+    <%= f.text_field :description %>
   </div>
 
   <div class="field">
     <%= f.label :email %>
     <%= f.text_field :email %>
+  </div>
+
+  <div class="field">
+    <%= f.label :password %>
+    <%= f.password_field :password %>
+  </div>
+
+  <div class="field">
+    <%= f.label :password_confirmation %>
+    <%= f.password_field :password_confirmation %>
   </div>
 
   <div class="actions">

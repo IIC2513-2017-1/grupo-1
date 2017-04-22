@@ -11,8 +11,23 @@
 </p>
 
 <p>
-  <strong>Email:</strong>
-  <%= @user.email %>
+  <strong>Name:</strong>
+  <%= @user.name + " " + @user.lastname %>
+</p>
+
+<p>
+  <strong>Birthday:</strong>
+  <%= @user.birthday %>
+</p>
+
+<p>
+  <strong>Money:</strong>
+  <%= @user.money %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @user.description %>
 </p>
 
 <%= link_to 'Edit', edit_user_path(@user) %> |
