@@ -14,7 +14,7 @@ class UserBetsController < ApplicationController
   # GET /user_bets/new
   def new
     @user_bet = UserBet.new
-    @user = User.all
+    @users = User.all
   end
 
   # GET /user_bets/1/edit
