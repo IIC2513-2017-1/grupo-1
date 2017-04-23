@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @user_bet.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @user_bet.description %>
+</p>
+
+<p>
+  <strong>Challenger amount:</strong>
+  <%= @user_bet.challenger_amount %>
+</p>
+
+<p>
+  <strong>Gambler amount:</strong>
+  <%= @user_bet.gambler_amount %>
+</p>
+
+<p>
+  <strong>Bet limit:</strong>
+  <%= @user_bet.bet_limit %>
+</p>
+
+<p>
+  <strong>Start date:</strong>
+  <%= @user_bet.start_date %>
+</p>
+
+<p>
+  <strong>End date:</strong>
+  <%= @user_bet.end_date %>
+</p>
+
+<%= link_to 'Edit', edit_user_bet_path(@user_bet) %> |
+<%= link_to 'Back', user_bets_path %>

@@ -56,23 +56,31 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
-  test 'formato de nombre correcto' do
-    not_valid_names = %w[ramon Juan-castro Nombre.invalido MalFormado]
+  test 'formato de nombre incorrecto' do
+    not_valid_names = %w[Juan,castro Nombre.invalido Malformado9]
     not_valid_names.each do |not_valid_name|
       @user.name = not_valid_name
       assert_not @user.valid?, "#{not_valid_name.inspect} no debiese ser valido"
     end
   end
 
+  test 'formato de apellido correcto' do
+    valid_lastnames = ['del Real', 'Castro', 'Ruiz-Tagle']
+    valid_lastnames.each do |valid_lastname|
+      @user.name = valid_lastname
+      assert @user.valid?, "#{valid_lastname.inspect} debiese ser valido"
+    end
+  end
+
   test 'largo de nombre correcto' do
-    @user.name = 'Aa'
+    @user.name = 'A'
     assert_not @user.valid?
     @user.name = 'A' + 'a' * 50
     assert_not @user.valid?
   end
 
   test 'largo de apellido correcto' do
-    @user.lastname = 'Aa'
+    @user.lastname = 'A'
     assert_not @user.valid?
     @user.lastname = 'A' + 'a' * 50
     assert_not @user.valid?

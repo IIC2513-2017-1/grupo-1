@@ -1,0 +1,38 @@
+# == Schema Information
+#
+# Table name: user_bets
+#
+#  id                :integer          not null, primary key
+#  name              :string
+#  description       :string
+#  user_id           :integer
+#  challenger_amount :integer
+#  gambler_amount    :integer
+#  bet_limit         :integer
+#  start_date        :date
+#  end_date          :date
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  description: MyString
+  user: one
+  challenger_amount: 1
+  gambler_amount: 1
+  bet_limit: 1
+  start_date: 2017-04-22
+  end_date: 2017-04-22
+
+two:
+  name: MyString
+  description: MyString
+  user: two
+  challenger_amount: 1
+  gambler_amount: 1
+  bet_limit: 1
+  start_date: 2017-04-22
+  end_date: 2017-04-22

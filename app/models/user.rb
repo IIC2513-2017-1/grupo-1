@@ -17,15 +17,22 @@
 #
 
 class User < ApplicationRecord
+  has_many :user_bets, dependent: :destroy
   validates :username, presence: true,
                        uniqueness: true,
                        length: { minimum: 6, maximum: 50 }
   validates :name, presence: true,
-                   format: { with: /\A[A-Z]{1}[a-z]+\z/ },
-                   length: { minimum: 3, maximum: 50 }
+                   format: { with: /\A[a-z '-]+\z/i,
+                             message: 'Nombre debe estar compuesto solo
+                                       por letras, espacios, guiones y
+                                      apostrofes.' },
+                   length: { minimum: 2, maximum: 50 }
   validates :lastname, presence: true,
-                       format: { with: /\A[A-Z]{1}[a-z]+\z/ },
-                       length: { minimum: 3, maximum: 50 }
+                       format: { with: /\A[a-z '-]+\z/i,
+                                 message: 'Apellido debe estar compuesto solo
+                                           por letras, espacios, guiones y
+                                          apostrofes.' },
+                       length: { minimum: 2, maximum: 50 }
   validates :email, presence: true,
                     format:
                       { with: /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i },
