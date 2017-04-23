@@ -26,7 +26,7 @@ class UserBetsControllerTest < ActionDispatch::IntegrationTest
         gambler_amount: 1,
         name: 'asdasda',
         start_date: Date.today,
-        user_id: @user_bet.user_id
+        user_id: @user.id
       } }
     end
 

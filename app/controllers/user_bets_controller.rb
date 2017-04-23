@@ -75,6 +75,6 @@ class UserBetsController < ApplicationController
   def user_bet_params
     params.require(:user_bet).permit(:name, :description, :challenger_amount,
                                      :gambler_amount, :bet_limit, :start_date,
-                                     :end_date)
+                                     :end_date, :user_id)
   end
 end

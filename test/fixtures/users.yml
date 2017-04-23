@@ -29,7 +29,7 @@ one:
   birthday: <%= Date.today %>
   password_digest: <%= User.digest('password') %>
 
-two:
+one:
   username: juanpenna
   role: gambler
   email: castropenna@hotmail.com
