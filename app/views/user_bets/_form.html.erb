@@ -1,11 +1,15 @@
 <%= form_for(user_bet) do |f| %>
   <% if user_bet.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(user_bet.errors.count, "error") %> prohibited this user_bet from being saved:</h2>
-
+      <h2>
+        <%= pluralize(user_bet.errors.count, "error") %>
+        prohibited this user_bet from being saved:
+      </h2>
       <ul>
       <% user_bet.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
+        <li>
+          <%= message %>
+        </li>
       <% end %>
       </ul>
     </div>
