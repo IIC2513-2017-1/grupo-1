@@ -19,23 +19,23 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  username: jecastro
-  role: admin
-  email: jecastro2@uc.cl
-  name: Juan
-  lastname: Castro
-  description: descripcion
-  money: 0
-  birthday: <%= Date.today %>
-  password_digest: <%= User.digest('password') %>
+  username: pperez
+  role: gambler
+  email: pperez@hotmail.com
+  name: Pedro
+  lastname: Perez
+  description: descripcion descriptiva
+  money: 20000
+  birthday: <%= Date.today - 21.years %>
+  password_digest: <%= User.digest('password1') %>
 
-one:
+two:
   username: juanpenna
   role: gambler
-  email: castropenna@hotmail.com
+  email: jecastro2@hotmail.com
   name: Pedro
   lastname: Penna
   description: descripcion
-  money: 0
-  birthday: <%= Date.today %>
-  password_digest: <%= User.digest('password') %>
+  money: 5000
+  birthday: <% Date.today - 40.years - 100.days %>
+  password_digest: <%= User.digest('password2') %>

@@ -18,21 +18,21 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  name: MyString
-  description: MyString
+  name: Apuesto por cleveland
+  description: Apuesto a que cleveland sale campeon de la nba esta temporada
   user: one
-  challenger_amount: 1
-  gambler_amount: 1
-  bet_limit: 1
-  start_date: 2017-04-22
-  end_date: 2017-04-22
+  challenger_amount: 1000
+  gambler_amount: 1000
+  bet_limit: 2
+  start_date: <%= Date.today %>
+  end_date: 2017-06-30
 
 two:
-  name: MyString
-  description: MyString
+  name: Apuesto a algo
+  description: Quiero apostar algo
   user: two
-  challenger_amount: 1
-  gambler_amount: 1
-  bet_limit: 1
-  start_date: 2017-04-22
-  end_date: 2017-04-22
+  challenger_amount: 2000
+  gambler_amount: 3000
+  bet_limit: 4
+  start_date: <%= Date.today %>
+  end_date: <%= Date.today + 30.days %>

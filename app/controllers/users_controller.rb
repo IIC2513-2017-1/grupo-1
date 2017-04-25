@@ -10,6 +10,7 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
+    @bets = @user.accepted_bets
   end
 
   # GET /users/new

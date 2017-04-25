@@ -29,6 +29,17 @@
   <strong>Description:</strong>
   <%= @user.description %>
 </p>
+<hr />
+<p>
+  <strong> Bets: </strong>
+  <div class="bets">
+    <% @bets.each do |bet| %>
+      <p> name: <%= bet.name %></p>
+      <p> oponnent: <%= bet.user.name %></p>
+      <p> amount: <%= bet.gambler_amount %></p>
+    <% end %>
+  </div>
+</p>
 
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', users_path %>

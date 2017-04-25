@@ -3,12 +3,25 @@
   <head>
     <title>Grupo1</title>
     <%= csrf_meta_tags %>
-
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
-
   <body>
-    <%= yield %>
+    <div class="container">
+      <header>
+        <a href="/"><h1>Mr. MeesBet</h1></a>
+      </header>
+      <nav>
+        <a href="/users"> <p>Users </p></a>
+        <a href="/user_bets"><p>Users bets </p></a>
+        <a href="/bet_list"><p>Make a bet </p></a>
+      </nav>
+      <% flash.each do |key, value| %>
+        <div class="alert-<%= key %>"><%= value %></div>
+      <% end %>
+      <div class='jumbotron'>
+        <%= yield %>
+      </div>
+    </div>
   </body>
 </html>

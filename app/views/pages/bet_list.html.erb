@@ -1,0 +1,34 @@
+<h2>Lista de apuestas</h2>
+<hr />
+<% @bets.each do |bet| %>
+  <h4>Apuesta numero: <%=bet.id %></h4>
+  <table>
+    <tr>
+      <th>Nombre:</th>
+      <th><%= bet.name %></th>
+    </tr>
+    <tr>
+      <th>Usuario:</th>
+      <th><%= bet.user.username %></th>
+    </tr>
+    <tr>
+      <th>Descripcion:</th>
+      <th><%= bet.description %></th>
+    </tr>
+    <tr>
+      <th>Apuesta de challenger:</th>
+      <th><%= bet.challenger_amount %></th>
+    </tr>
+    <tr>
+      <th>Apuesta de retador:</th>
+      <th><%= bet.gambler_amount %></th>
+    </tr>
+  </table>
+  <%= form_tag("/bet_list", method: "POST") do %>
+    <%= select_tag :user_id, options_from_collection_for_select(@users, "id", "name")%>
+    <%= hidden_field_tag :bet_id, bet.id %>
+    <%= submit_tag("Accept the bet") %>
+  <% end %>
+  <!-- <%= button_to 'Accept the bet', { bet: bet, user: bet.user } %> -->
+  <hr />
+<% end %>

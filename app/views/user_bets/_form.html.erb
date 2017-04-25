@@ -20,14 +20,16 @@
     <%= f.text_field :name %>
   </div>
 
-  <div class="field">
-    <%= f.label :user %>
-    <%= f.select(:user_id) do  %>
-      <% users.each do |user| %>
-        <%= content_tag(:option, user.username, value: user.id) %>
+  <% unless users.nil? %>
+    <div class="field">
+      <%= f.label :user %>
+      <%= f.select(:user_id) do  %>
+        <% users.each do |user| %>
+          <%= content_tag(:option, user.username, value: user.id) %>
+        <% end %>
       <% end %>
-    <% end %>
-  </div>
+    </div>
+  <% end %>
 
   <div class="field">
     <%= f.label :description %>

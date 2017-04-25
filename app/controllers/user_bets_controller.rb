@@ -13,8 +13,13 @@ class UserBetsController < ApplicationController
 
   # GET /user_bets/new
   def new
-    @user_bet = UserBet.new
     @users = User.all
+    if @users.empty?
+      return return_flash_and_redirect(
+        :alert, 'Primero debo crear un usuario', users_path
+      )
+    end
+    @user_bet = UserBet.new
   end
 
   # GET /user_bets/1/edit
@@ -76,5 +81,10 @@ class UserBetsController < ApplicationController
     params.require(:user_bet).permit(:name, :description, :challenger_amount,
                                      :gambler_amount, :bet_limit, :start_date,
                                      :end_date, :user_id)
+  end
+
+  def return_flash_and_redirect(type, message, path)
+    flash[type] = message
+    redirect_to path
   end
 end
