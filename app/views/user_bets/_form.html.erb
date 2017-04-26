@@ -17,12 +17,8 @@
   </div>
 
   <div class="field">
-    <%= f.label :user %>
-    <%= f.select(:user_id) do  %>
-      <% users.each do |user| %>
-        <%= content_tag(:option, user.username, value: user.id) %>
-      <% end %>
-    <% end %>
+    <%= f.label :user_id %>
+    <%= f.number_field :user_id %>
   </div>
 
   <div class="field">
@@ -47,7 +43,7 @@
 
   <div class="field">
     <%= f.label :start_date %>
-    <%= f.date_select :start_date %>
+    <%= f.datetime_select :start_date %>
   </div>
 
   <div class="field">

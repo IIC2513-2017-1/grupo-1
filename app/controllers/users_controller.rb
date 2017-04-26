@@ -24,7 +24,7 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
-    @user = User.new(user_params.merge(money: 0, role: 'gambler'))
+    @user = User.new(user_params.merge(money: 10, role: 'gambler'))
 
     respond_to do |format|
       if @user.save

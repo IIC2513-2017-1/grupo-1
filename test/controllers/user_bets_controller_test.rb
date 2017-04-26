@@ -22,10 +22,10 @@ class UserBetsControllerTest < ActionDispatch::IntegrationTest
         bet_limit: 1,
         challenger_amount: 1,
         description: 'hola',
-        end_date: Date.today,
+        end_date: DateTime.current + 4.days,
         gambler_amount: 1,
-        name: 'asdasda',
-        start_date: Date.today,
+        name: 'asdasdaasd',
+        start_date: DateTime.current + 3.days,
         user_id: @user.id
       } }
     end

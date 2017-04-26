@@ -25,7 +25,7 @@ one:
   name: Juan
   lastname: Castro
   description: descripcion
-  money: 0
+  money: 100
   birthday: <%= Date.today %>
   password_digest: <%= User.digest('password') %>
 
@@ -36,6 +36,6 @@ one:
   name: Pedro
   lastname: Penna
   description: descripcion
-  money: 0
+  money: 10
   birthday: <%= Date.today %>
   password_digest: <%= User.digest('password') %>
