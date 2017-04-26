@@ -1,31 +1,32 @@
-$light_grey: rgba(47, 47, 47, 0.7);;
-
 th {
   text-align: left;
   width: 200px;
 }
 
 header {
-  background-color: $light_grey;
+  background-color: rgba(18, 18, 18, 0.83);
   overflow: hidden;
-}
-
-nav {
-  background-color: $light_grey;
+  border-radius: 10px 10px 0px 0px;
 }
 
 h1 {
   margin: 1em;
-  color: lightblue;
+  color: #fff;
 }
 
-nav a {
+nav {
+  background-color: rgba(47, 47, 47, 0.7);
+  border-radius: 0px 0px 10px 10px;
+  a {
     display: inline-block;
     padding: 0;
-
-}
-
-nav a p {
-  margin: 1em;
-  color: lightblue;
+    p {
+      margin: 1em;
+      color: #fff;
+    }
+  }
+  a:hover {
+      background-color: black;
+      text-decoration: none;
+  }
 }

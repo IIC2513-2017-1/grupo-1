@@ -32,9 +32,12 @@ class UserBetsController < ApplicationController
 
     respond_to do |format|
       if @user_bet.save
-        format.html { redirect_to @user_bet, notice: 'User bet was successfully created.' }
+        format.html do
+          redirect_to @user_bet, notice: 'User bet was successfully created.'
+        end
         format.json { render :show, status: :created, location: @user_bet }
       else
+        @users = User.all
         format.html { render :new }
         format.json { render json: @user_bet.errors, status: :unprocessable_entity }
       end

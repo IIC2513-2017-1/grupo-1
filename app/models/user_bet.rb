@@ -18,4 +18,5 @@
 class UserBet < ApplicationRecord
   has_and_belongs_to_many :bettors, class_name: 'User', join_table: :user_user_bets
   belongs_to :user
+  validates :name, presence: true
 end

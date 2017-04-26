@@ -25,7 +25,7 @@ one:
   name: Pedro
   lastname: Perez
   description: descripcion descriptiva
-  money: 20000
+  money: 2000
   birthday: <%= Date.today - 21.years %>
   password_digest: <%= User.digest('password1') %>
 
