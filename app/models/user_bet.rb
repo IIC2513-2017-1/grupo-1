@@ -21,12 +21,11 @@ class MyValidator1 < ActiveModel::Validator
       record.errors[:end_date] << 'Ingrese fechas con sentido'
     end
     usuario = User.where(id: record.user_id)
-    unless usuario.empty?
-      if record.challenger_amount * record.bet_limit > usuario.first.money
-        record.errors[:challenger_amount] << 'Debes tener el
-                                              dinerin para apostar'
-      end
-    end
+    return if usuario.empty?
+    return unless record.challenger_amount * record.bet_limit >
+                  usuario.first.money
+    record.errors[:challenger_amount] << 'Debes tener el
+                                          dinerin para apostar'
   end
 end
 
