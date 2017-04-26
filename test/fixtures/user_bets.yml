@@ -24,8 +24,8 @@ one:
   challenger_amount: 1000
   gambler_amount: 1000
   bet_limit: 2
-  start_date: <%= Date.today %>
-  end_date: 2017-06-30
+  start_date: <%= DateTime.current + 3.days %>
+  end_date: <%= DateTime.current + 3.months %>
 
 two:
   name: Apuesto a algo
@@ -34,5 +34,5 @@ two:
   challenger_amount: 2000
   gambler_amount: 3000
   bet_limit: 4
-  start_date: <%= Date.today %>
-  end_date: <%= Date.today + 30.days %>
+  start_date: <%= DateTime.current + 1.day %>
+  end_date: <%= DateTime.current + 30.days %>

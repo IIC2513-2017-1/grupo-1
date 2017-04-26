@@ -7,8 +7,8 @@ class CreateUserBets < ActiveRecord::Migration[5.0]
       t.integer :challenger_amount
       t.integer :gambler_amount
       t.integer :bet_limit
-      t.date :start_date
-      t.date :end_date
+      t.datetime :start_date
+      t.datetime :end_date
 
       t.timestamps
     end
