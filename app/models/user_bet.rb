@@ -15,8 +15,37 @@
 #  updated_at        :datetime         not null
 #
 
+class MyValidator1 < ActiveModel::Validator
+  def validate(record)
+    if record.start_date > record.end_date
+      record.errors[:end_date] << 'Ingrese fechas con sentido'
+    end
+    usuario = User.where(id: record.user_id)
+    unless usuario.empty?
+      if record.challenger_amount * record.bet_limit > usuario.first.money
+        record.errors[:challenger_amount] << 'Debes tener el
+                                              dinerin para apostar'
+      end
+    end
+  end
+end
+
 class UserBet < ApplicationRecord
-  has_and_belongs_to_many :bettors, class_name: 'User', join_table: :user_user_bets
+  has_and_belongs_to_many :bettors,
+                          class_name: 'User',
+                          join_table: :user_user_bets
+  include ActiveModel::Validations
   belongs_to :user
-  validates :name, presence: true
+  validates :name, presence: true, length: { minimum: 7, maximum: 100 }
+  validates :description, presence: true, length: { maximum: 300 }
+  validates :challenger_amount,
+            numericality: { only_integer: true, greater_than: 0 }
+  validates :gambler_amount,
+            numericality: { only_integer: true, greater_than: 0 }
+  validates :bet_limit, numericality: { only_integer: true, greater_than: 0 }
+  validates_with MyValidator1
+  validates :start_date,
+            inclusion: {
+              in: (DateTime.current + 2.hours..DateTime.current + 1.years)
+            }
 end

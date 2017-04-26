@@ -7,6 +7,7 @@
   <thead>
     <tr>
       <th>Name</th>
+      <th>User_id</th>
       <th>Description</th>
       <th>Challenger amount</th>
       <th>Gambler amount</th>
@@ -21,6 +22,7 @@
     <% @user_bets.each do |user_bet| %>
       <tr>
         <td><%= user_bet.name %></td>
+        <td><%= user_bet.user_id %></td>
         <td><%= user_bet.description %></td>
         <td><%= user_bet.challenger_amount %></td>
         <td><%= user_bet.gambler_amount %></td>
