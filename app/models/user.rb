@@ -17,6 +17,8 @@
 #
 
 class User < ApplicationRecord
+  has_many :active_relationships, class_name: 'Relationship',
+            foreign_key: 'follower_id', dependent: :destroy
   has_and_belongs_to_many :accepted_bets, class_name: 'UserBet', join_table: :user_user_bets
   has_many :user_bets, dependent: :destroy
   validates :username, presence: true,
