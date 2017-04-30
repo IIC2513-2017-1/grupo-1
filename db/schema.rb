@@ -10,10 +10,73 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170426042612) do
+ActiveRecord::Schema.define(version: 20170430204634) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "bets", force: :cascade do |t|
+    t.string   "sport"
+    t.datetime "start_date"
+    t.string   "country"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.float    "pay_per_tie"
+  end
+
+  create_table "bets_competitors", id: false, force: :cascade do |t|
+    t.integer "competitor_id", null: false
+    t.integer "bet_id",        null: false
+    t.float   "multiplicator"
+    t.integer "local"
+    t.index ["bet_id"], name: "index_bets_competitors_on_bet_id", using: :btree
+    t.index ["competitor_id", "bet_id"], name: "index_bets_competitors_on_competitor_id_and_bet_id", unique: true, using: :btree
+    t.index ["competitor_id"], name: "index_bets_competitors_on_competitor_id", using: :btree
+  end
+
+  create_table "bets_grands", id: false, force: :cascade do |t|
+    t.integer "grand_id",  null: false
+    t.integer "bet_id",    null: false
+    t.string  "selection"
+    t.index ["bet_id"], name: "index_bets_grands_on_bet_id", using: :btree
+    t.index ["grand_id", "bet_id"], name: "index_bets_grands_on_grand_id_and_bet_id", unique: true, using: :btree
+    t.index ["grand_id"], name: "index_bets_grands_on_grand_id", using: :btree
+  end
+
+  create_table "competitors", force: :cascade do |t|
+    t.string   "name"
+    t.string   "country"
+    t.string   "sport"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "grands", force: :cascade do |t|
+    t.integer  "amount"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "end_date"
+    t.integer  "user_id"
+    t.index ["user_id"], name: "index_grands_on_user_id", using: :btree
+  end
+
+  create_table "make_ups", force: :cascade do |t|
+    t.integer  "bet_id"
+    t.integer  "grand_id"
+    t.string   "selection"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "parts", force: :cascade do |t|
+    t.integer  "competitor_id"
+    t.integer  "bet_id"
+    t.float    "multiplicator"
+    t.integer  "local"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["competitor_id", "bet_id"], name: "index_parts_on_competitor_id_and_bet_id", unique: true, using: :btree
+  end
 
   create_table "relationships", force: :cascade do |t|
     t.integer  "follower_id"
@@ -32,8 +95,8 @@ ActiveRecord::Schema.define(version: 20170426042612) do
     t.integer  "challenger_amount"
     t.integer  "gambler_amount"
     t.integer  "bet_limit"
-    t.date     "start_date"
-    t.date     "end_date"
+    t.datetime "start_date"
+    t.datetime "end_date"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
     t.index ["user_id"], name: "index_user_bets_on_user_id", using: :btree
@@ -61,6 +124,7 @@ ActiveRecord::Schema.define(version: 20170426042612) do
     t.index ["username"], name: "index_users_on_username", unique: true, using: :btree
   end
 
+  add_foreign_key "grands", "users"
   add_foreign_key "user_user_bets", "user_bets"
   add_foreign_key "user_user_bets", "users"
 end

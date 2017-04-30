@@ -1,17 +1,19 @@
 # == Schema Information
 #
-# Table name: relationships
+# Table name: bets
 #
 #  id          :integer          not null, primary key
-#  follower_id :integer
-#  followed_id :integer
+#  sport       :string
+#  start_date  :datetime
+#  country     :string
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  pay_per_tie :float
 #
 
 require 'test_helper'
 
-class RelationshipTest < ActiveSupport::TestCase
+class BetTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

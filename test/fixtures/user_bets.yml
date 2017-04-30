@@ -9,8 +9,8 @@
 #  challenger_amount :integer
 #  gambler_amount    :integer
 #  bet_limit         :integer
-#  start_date        :date
-#  end_date          :date
+#  start_date        :datetime
+#  end_date          :datetime
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
 #

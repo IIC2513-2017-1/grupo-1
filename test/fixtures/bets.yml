@@ -1,16 +1,24 @@
 # == Schema Information
 #
-# Table name: relationships
+# Table name: bets
 #
 #  id          :integer          not null, primary key
-#  follower_id :integer
-#  followed_id :integer
+#  sport       :string
+#  start_date  :datetime
+#  country     :string
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  pay_per_tie :float
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  follower_id: 1
-  followed_id: 2
+  sport: MyString
+  start_date: 2017-04-30 14:44:30
+  country: MyString
+
+two:
+  sport: MyString
+  start_date: 2017-04-30 14:44:30
+  country: MyString

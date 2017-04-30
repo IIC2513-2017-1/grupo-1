@@ -1,0 +1,20 @@
+# == Schema Information
+#
+# Table name: parts
+#
+#  id            :integer          not null, primary key
+#  competitor_id :integer
+#  bet_id        :integer
+#  multiplicator :float
+#  local         :integer
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  competitor_id: 1
+  bet_id: 1
+  multiplicator: 1.5
+  local: 1
