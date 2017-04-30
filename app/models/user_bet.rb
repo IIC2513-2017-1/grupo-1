@@ -22,6 +22,8 @@ class MyValidator1 < ActiveModel::Validator
     end
     usuario = User.where(id: record.user_id)
     return if usuario.empty?
+    return if record.challenger_amount.nil?
+    return if record.bet_limit.nil?
     return unless record.challenger_amount * record.bet_limit >
                   usuario.first.money
     record.errors[:dinerin] << 'insuficiente'
@@ -36,11 +38,12 @@ class UserBet < ApplicationRecord
   belongs_to :user
   validates :name, presence: true, length: { minimum: 7, maximum: 100 }
   validates :description, presence: true, length: { maximum: 300 }
-  validates :challenger_amount,
+  validates :challenger_amount, presence: true,
             numericality: { only_integer: true, greater_than: 0 }
-  validates :gambler_amount,
+  validates :gambler_amount, presence: true,
             numericality: { only_integer: true, greater_than: 0 }
-  validates :bet_limit, numericality: { only_integer: true, greater_than: 0 }
+  validates :bet_limit, presence: true,
+            numericality: { only_integer: true, greater_than: 0 }
   validates_with MyValidator1
   validates :start_date,
             inclusion: {

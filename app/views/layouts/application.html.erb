@@ -8,13 +8,15 @@
 
       <%= render 'layouts/header' %>
 
-      <% flash.each do |key, value| %>
-        <div id="<%= key %>"><%= value %></div>
-      <% end %>
       <div class='jumbotron'>
         <h2><%= yield(:header) %></h2>
+        <% flash.each do |key, value| %>
+          <div id="<%= key %>"><%= value %></div>
+        <% end %>
         <hr />
-        <%= yield %>
+        <div class="container">
+          <%= yield %>
+        </div>
       </div>
 
       <%= render 'layouts/footer' %>

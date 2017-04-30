@@ -32,8 +32,8 @@ ActiveRecord::Schema.define(version: 20170426042612) do
     t.integer  "challenger_amount"
     t.integer  "gambler_amount"
     t.integer  "bet_limit"
-    t.date     "start_date"
-    t.date     "end_date"
+    t.datetime "start_date"
+    t.datetime "end_date"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
     t.index ["user_id"], name: "index_user_bets_on_user_id", using: :btree

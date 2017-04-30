@@ -12,4 +12,8 @@ class PagesController < ApplicationController
     user.accepted_bets << bet
     redirect_to root_path
   end
+
+  def follow_list
+    @users = User.all
+  end
 end
