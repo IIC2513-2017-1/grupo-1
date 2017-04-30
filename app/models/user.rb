@@ -32,13 +32,13 @@ class User < ApplicationRecord
                        uniqueness: true,
                        length: { minimum: 6, maximum: 50 }
   validates :name, presence: true,
-                   format: { with: /\A[a-z '-´]+\z/i,
+                   format: { with: /\A[a-z '-]+\z/i,
                              message: 'Nombre debe estar compuesto solo
                                        por letras, espacios, guiones, acentos y
                                       apostrofes.' },
                    length: { minimum: 2, maximum: 50 }
   validates :lastname, presence: true,
-                       format: { with: /\A[a-z '-´]+\z/i,
+                       format: { with: /\A[a-z '-]+\z/i,
                                  message: 'Apellido debe estar compuesto solo
                                            por letras, espacios, guiones,
                                            acentos y apostrofes.' },
