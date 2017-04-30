@@ -1,5 +1,6 @@
-<h2>Lista de apuestas</h2>
-<hr />
+<%= provide(:title, 'Lista de apuestas') %>
+<%= provide(:header, 'Lista de apuestas') %>
+
 <% @bets.each do |bet| %>
   <h4>Apuesta numero: <%=bet.id %></h4>
   <table>

@@ -1,4 +1,4 @@
-<%= form_for(user) do |f| %>
+<%= simple_form_for(user) do |f| %>
   <% if user.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h2>
@@ -11,48 +11,48 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :name %>
-    <%= f.text_field :name %>
+  <div class="form-group">
+    <%= f.label :nombre %>
+    <%= f.input_field :name %>
   </div>
 
-  <div class="field">
-    <%= f.label :lastname %>
-    <%= f.text_field :lastname %>
+  <div class="form-group">
+    <%= f.label :apellido %>
+    <%= f.input_field :lastname %>
   </div>
 
-  <div class="field">
-    <%= f.label :username %>
-    <%= f.text_field :username %>
+  <div class="form-group">
+    <%= f.label :nombre_de_usuario %>
+    <%= f.input_field :username %>
   </div>
 
-  <div class="field">
-    <%= f.label :birthday %>
-    <%= f.date_select :birthday, start_year: Date.today.year - 100,
+  <div class="form-group">
+    <%= f.label :fecha_de_nacimiento%>
+    <%= f.input_field :birthday, start_year: Date.today.year - 100,
                                  end_year: Date.today.year %>
   </div>
 
-  <div class="field">
-    <%= f.label :description %>
-    <%= f.text_field :description %>
+  <div class="form-group">
+    <%= f.label :descripcion %>
+    <%= f.input_field :description %>
   </div>
 
-  <div class="field">
-    <%= f.label :email %>
-    <%= f.text_field :email %>
+  <div class="form-group">
+    <%= f.label :mail %>
+    <%= f.input_field :email %>
   </div>
 
-  <div class="field">
-    <%= f.label :password %>
-    <%= f.password_field :password %>
+  <div class="form-group">
+    <%= f.label :contraseña %>
+    <%= f.input_field :password, as: :password %>
   </div>
 
-  <div class="field">
-    <%= f.label :password_confirmation %>
-    <%= f.password_field :password_confirmation %>
+  <div class="form-group">
+    <%= f.label :confirmacion_de_contraseña %>
+    <%= f.input_field :password_confirmation, as: :password %>
   </div>
 
-  <div class="actions">
+  <div class="btn">
     <%= f.submit %>
   </div>
 <% end %>

@@ -1,27 +1,22 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Grupo1</title>
-    <%= csrf_meta_tags %>
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-  </head>
+
+    <%= render 'layouts/head' %>
+
   <body>
-      <header>
-        <div>
-          <a href="/"><h1>Mr. MeesBet</h1></a>
-        </div>
-        <nav>
-          <a href="/users"> <p>Users </p></a>
-          <a href="/user_bets"><p>Users bets </p></a>
-          <a href="/bet_list"><p>Make a bet </p></a>
-        </nav>
-      </header>
+
+      <%= render 'layouts/header' %>
+
       <% flash.each do |key, value| %>
-        <div class="alert-<%= key %>"><%= value %></div>
+        <div id="<%= key %>"><%= value %></div>
       <% end %>
       <div class='jumbotron'>
+        <h2><%= yield(:header) %></h2>
+        <hr />
         <%= yield %>
       </div>
+
+      <%= render 'layouts/footer' %>
   </body>
 </html>

@@ -31,15 +31,13 @@ class UserBetsController < ApplicationController
     @user_bet = UserBet.new(user_bet_params)
 
     respond_to do |format|
-      if @user_bet.save
+      if @user_bet.save && save_money(@user_bet)
         format.html do
           redirect_to @user_bet, notice: 'User bet was successfully created.'
         end
-        format.json { render :show, status: :created, location: @user_bet }
       else
         @users = User.all
         format.html { render :new }
-        format.json { render json: @user_bet.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -50,10 +48,8 @@ class UserBetsController < ApplicationController
     respond_to do |format|
       if @user_bet.update(user_bet_params)
         format.html { redirect_to @user_bet, notice: 'User bet was successfully updated.' }
-        format.json { render :show, status: :ok, location: @user_bet }
       else
         format.html { render :edit }
-        format.json { render json: @user_bet.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -67,19 +63,21 @@ class UserBetsController < ApplicationController
         redirect_to user_bets_url, notice: 'User bet was
                                             successfully destroyed.'
       end
-      format.json { head :no_content }
     end
   end
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
+  def save_money(user_bet)
+    user = user_bet.user
+    user.money -= user_bet.bet_limit * user_bet.challenger_amount
+    user.save
+  end
+
   def set_user_bet
     @user_bet = UserBet.find(params[:id])
   end
 
-  # Never trust parameters from the scary internet, only allow the white list
-  # through.
   def user_bet_params
     params.require(:user_bet).permit(:name, :description, :challenger_amount,
                                      :gambler_amount, :bet_limit, :start_date,

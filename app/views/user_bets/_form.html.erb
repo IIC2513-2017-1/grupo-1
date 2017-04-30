@@ -1,4 +1,4 @@
-<%= form_for(user_bet) do |f| %>
+<%= simple_form_for user_bet do |f| %>
   <% if user_bet.errors.any? %>
     <div id="error_explanation">
       <h2>
@@ -15,53 +15,50 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :name %>
-    <%= f.text_field :name %>
+  <div class="form-group">
+    <%= f.label :nombre %>
+    <%= f.input_field :name %>
   </div>
 
   <% unless users.nil? %>
-    <div class="field">
+    <div class="form-group">
       <%= f.label :user %>
-      <%= f.select(:user_id) do  %>
-        <% users.each do |user| %>
-          <%= content_tag(:option, user.username, value: user.id) %>
-        <% end %>
-      <% end %>
+      <%= f.input_field :user_id, collection: users, label_method: :username, value_method: :id  %>
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :description %>
-    <%= f.text_field :description %>
+  <div class="form-group">
+    <%= f.label :descripción %>
+    <%= f.input_field :description %>
   </div>
 
-  <div class="field">
-    <%= f.label :challenger_amount %>
-    <%= f.number_field :challenger_amount %>
+  <div class="form-group">
+    <%= f.label :apuesta_desafiada %>
+    <%= f.input_field :challenger_amount %>
   </div>
 
-  <div class="field">
-    <%= f.label :gambler_amount %>
-    <%= f.number_field :gambler_amount %>
+  <div class="form-group">
+    <%= f.label :apuesta_pedida %>
+    <%= f.input_field :gambler_amount %>
   </div>
 
-  <div class="field">
-    <%= f.label :bet_limit %>
-    <%= f.number_field :bet_limit %>
+  <div class="form-group">
+    <%= f.label :apuestas_maximas %>
+    <%= f.input_field :bet_limit %>
   </div>
 
-  <div class="field">
-    <%= f.label :start_date %>
-    <%= f.datetime_select :start_date %>
+  <div class="form-group">
+    <%= f.label :fecha_de_inicio %>
+    <%= f.input_field :start_date %>
   </div>
 
-  <div class="field">
-    <%= f.label :end_date %>
-    <%= f.date_select :end_date %>
+  <div class="form-group">
+    <%= f.label :fecha_de_termino %>
+    <%= f.input_field :end_date %>
   </div>
 
-  <div class="actions">
-    <%= f.submit %>
+  <div class="form-group">
+    <%= f.button :submit %>
   </div>
+
 <% end %>

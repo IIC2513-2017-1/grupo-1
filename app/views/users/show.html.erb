@@ -1,4 +1,5 @@
-<p id="notice"><%= notice %></p>
+<%= provide(:title, 'Usuario') %>
+<%= provide(:header, "#{@user.username}") %>
 
 <p>
   <strong>Username:</strong>
@@ -30,15 +31,18 @@
   <%= @user.description %>
 </p>
 <hr />
+
 <p>
-  <strong> Bets: </strong>
-  <div class="bets">
-    <% @bets.each do |bet| %>
-      <p> name: <%= bet.name %></p>
-      <p> oponnent: <%= bet.user.name %></p>
-      <p> amount: <%= bet.gambler_amount %></p>
-    <% end %>
-  </div>
+  <% unless @bets.empty? %>
+    <strong> Bets: </strong>
+    <div class="bets">
+      <% @bets.each do |bet| %>
+        <p> name: <%= bet.name %></p>
+        <p> oponnent: <%= bet.user.name %></p>
+        <p> amount: <%= bet.gambler_amount %></p>
+      <% end %>
+    </div>
+  <% end %>
 </p>
 
 <%= link_to 'Edit', edit_user_path(@user) %> |

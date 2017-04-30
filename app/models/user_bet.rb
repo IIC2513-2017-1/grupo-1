@@ -24,8 +24,7 @@ class MyValidator1 < ActiveModel::Validator
     return if usuario.empty?
     return unless record.challenger_amount * record.bet_limit >
                   usuario.first.money
-    record.errors[:challenger_amount] << 'Debes tener el
-                                          dinerin para apostar'
+    record.errors[:dinerin] << 'insuficiente'
   end
 end
 
