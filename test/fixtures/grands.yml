@@ -1,0 +1,19 @@
+# == Schema Information
+#
+# Table name: grands
+#
+#  id         :integer          not null, primary key
+#  amount     :integer
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#  end_date   :datetime
+#  user_id    :integer
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  amount: 1
+
+two:
+  amount: 1

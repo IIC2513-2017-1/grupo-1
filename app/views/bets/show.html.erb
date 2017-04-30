@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Sport:</strong>
+  <%= @bet.sport %>
+</p>
+
+<p>
+  <strong>Start date:</strong>
+  <%= @bet.start_date %>
+</p>
+
+<p>
+  <strong>Country:</strong>
+  <%= @bet.country %>
+</p>
+
+<%= link_to 'Edit', edit_bet_path(@bet) %> |
+<%= link_to 'Back', bets_path %>
