@@ -27,6 +27,9 @@ class BetsController < ApplicationController
       @bets << Bet.find(bet_id)
     end
     if @bets.empty?
+      flash[:alert] = 'Debe elegir alguna apuesta'
+      redirect_to root_path
+    end
     @users = User.all
   end
 
