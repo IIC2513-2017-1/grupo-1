@@ -15,18 +15,15 @@
     <tbody>
       <% @bets.each do |bet| %>
         <tr>
-          <td><%= bet.id %></td>
+          <td><%= link_to bet.id, bet %></td>
           <td><%= bet.sport %></td>
           <td><%= bet.start_date %></td>
           <td><%= bet.country %></td>
-          <td><%= link_to 'Show', bet %></td>
-          <td><%= link_to 'Edit', edit_bet_path(bet) %></td>
-          <td><%= link_to 'Destroy', bet, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-          <!--<td><%= select_tag "competitors#{bet.id}", options_from_collection_for_select(bet.competitors, "id", "name")%></td>-->
+          <td><%= link_to 'Eliminar', bet, method: :delete, data: { confirm: 'Are you sure?' } %></td>
           <td><%= check_box_tag bet.id %></td>
         </tr>
       <% end %>
     </tbody>
   </table>
-  <div><%= submit_tag 'Save' %></div>
+  <div><%= submit_tag 'Confirmar seleccion' %></div>
 <% end %>

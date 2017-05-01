@@ -29,7 +29,7 @@
     <%= form_tag("/bet_list", method: "POST") do %>
       <%= select_tag :user_id, options_from_collection_for_select(@users, "id", "name")%>
       <%= hidden_field_tag :bet_id, bet.id %>
-      <%= submit_tag("Accept the bet") %>
+      <%= submit_tag("Aceptar la apuesta") %>
     <% end %>
   <% end %>
 <% end %>
