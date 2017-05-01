@@ -1,24 +1,16 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Primero que todo nuestra ~~super~~ app está en www.mrmeesbet.herokuapp.com 
 
-Things you may want to cover:
 
-* Ruby version
+Esteticamente corre bien en safari con un pc de 15 pulgadas  :sweat_smile:.
 
-* System dependencies
 
-* Configuration
+Hay seeds en el archivo seeds de la carpeta db, se corren con rails db:seed. Lamentablemente falla en un 10% de las ejecuciones por problemas en las keys.
 
-* Database creation
+Las validaciones de frontend están realizadas mediante el form de rails, las de backend en los modelos y las de base de datos en las migraciones.
 
-* Database initialization
 
-* How to run the test suite
 
-* Services (job queues, cache servers, search engines, etc.)
 
-* Deployment instructions
 
-* ...
