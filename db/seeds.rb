@@ -11,6 +11,7 @@ user_amount = 10
 competitor_amount = 100
 bet_amount = 30
 grands_amount = 10
+user_bets_amount = 50
 
 user_amount.times do
   User.create!(
@@ -68,4 +69,17 @@ grands_amount.times do
   end
   grand.end_date = final_date
   grand.save
+end
+user_bets_amount.times do
+  aleatorea = Random.rand(1..50)
+  UserBet.create(
+    end_date: DateTime.current + (aleatorea + 2).days,
+    start_date: DateTime.current + aleatorea.days,
+    name: Faker::Internet.unique.user_name(7..99),
+    description: Faker::Name.name,
+    user_id: Random.rand(1..10),
+    challenger_amount: Random.rand(20..500),
+    gambler_amount: Random.rand(20..2000),
+    bet_limit: Random.rand(1..7)
+  )
 end

@@ -9,7 +9,6 @@ class PagesController < ApplicationController
   def accept_a_bet
     user = User.find(params[:user_id])
     bet = UserBet.find(params[:bet_id])
-    p bet.bet_limit
     if bet.gambler_amount > user.money || bet.bet_limit <= 0
       redirect_to bet_list_path
       flash[:alert] = 'No se pudo ejecutar la apuesta'
