@@ -16,7 +16,8 @@ user_amount.times do
   User.create!(
     username: Faker::Internet.unique.user_name(6..40),
     name: Faker::Name.first_name,
-    role: 'user',
+    role: 'gambler',
+    money: 1000,
     email: Faker::Internet.unique.email,
     lastname: Faker::Name.last_name,
     password_digest: Faker::Internet.password
@@ -38,11 +39,11 @@ bet_amount.times do
   )
   if bet.save
     2.times do |i|
-      Part.create!(
+      Part.create(
         local: i,
         multiplicator: 1 + Random.rand(0..10) / 10,
         bet_id: bet.id,
-        competitor_id: Random.rand(1..competitor_amount)
+        competitor_id: Random.rand(50 * i..(50 * i) + 49)
       )
     end
   end
@@ -53,7 +54,7 @@ grands_amount.times do
     user_id: Random.rand(1..10)
   )
   if grand.save
-    MakeUp.create!(
+    MakeUp.create(
       bet_id: Random.rand(1..bet_amount),
       grand_id: grand.id,
       selection: 'mientras'
