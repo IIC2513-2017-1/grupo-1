@@ -15,5 +15,19 @@
   <%= @bet.country %>
 </p>
 
+<p>
+  <% unless @bet.competitors.empty? %>
+    <strong> Competidores: </strong>
+    <% @bet.competitors.each do |competitor| %>
+      <div class="competitors">
+        <p><%= competitor.name %></p>
+        <p>Pais: <%= competitor.country %></p>
+        <p>Deporte: <%= competitor.sport %></p>
+        <p>Pago: <%= @bet.competitors_per_bet.find_by(competitor_id: competitor.id).multiplicator %></p>
+      </div>
+    <% end %>
+  <% end %>
+</p>
+
 <%= link_to 'Editar', edit_bet_path(@bet) %> |
 <%= link_to 'Volver Atras', bets_path %>
