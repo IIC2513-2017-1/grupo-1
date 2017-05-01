@@ -77,7 +77,7 @@ user_bets_amount.times do
     start_date: DateTime.current + aleatorea.days,
     name: Faker::Internet.unique.user_name(7..99),
     description: Faker::Name.name,
-    user_id: Random.rand(1..10),
+    user_id: User.order('RANDOM()').first.id,
     challenger_amount: Random.rand(20..500),
     gambler_amount: Random.rand(20..2000),
     bet_limit: Random.rand(1..7)

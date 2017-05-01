@@ -6,5 +6,9 @@ class Bet < ApplicationRecord
   has_and_belongs_to_many :grands
   validates :start_date, presence: true
   validates :sport, presence: true
-  validates :country, presence: true
+  validates :country, presence: true,
+                      format: { with: /\A[a-z '-]+\z/i,
+                                message: 'País debe estar compuesto solo
+                                         por letras, espacios, guiones y
+                                         apostrofes.' },
 end
