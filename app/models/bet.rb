@@ -10,5 +10,5 @@ class Bet < ApplicationRecord
                       format: { with: /\A[a-z '-]+\z/i,
                                 message: 'País debe estar compuesto solo
                                          por letras, espacios, guiones y
-                                         apostrofes.' },
+                                         apostrofes.' }
 end
