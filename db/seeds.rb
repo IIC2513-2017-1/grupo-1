@@ -44,7 +44,7 @@ bet_amount.times do
         local: i,
         multiplicator: 1 + Random.rand(0..10) / 10,
         bet_id: bet.id,
-        competitor_id: Random.rand(50 * i..(50 * i) + 49)
+        competitor_id: Competitor.order("RANDOM()").first.id
       )
     end
   end
@@ -52,11 +52,11 @@ end
 grands_amount.times do
   grand = Grand.new(
     amount: Random.rand(1..1000),
-    user_id: Random.rand(1..10)
+    user_id: User.order('RANDOM()').first.id
   )
   if grand.save
     MakeUp.create(
-      bet_id: Random.rand(1..bet_amount),
+      bet_id: Bet.order("RANDOM()").first.id,
       grand_id: grand.id,
       selection: 'mientras'
     )
