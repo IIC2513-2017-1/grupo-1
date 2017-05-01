@@ -21,11 +21,14 @@ class MyValidator1 < ActiveModel::Validator
       record.errors[:end_date] << 'Ingrese fechas con sentido'
     end
     usuario = User.find(record.user_id)
-    return if usuario.nil?
-    return if record.challenger_amount.nil?
-    return if record.bet_limit.nil?
-    return unless usuario.money < record.challenger_amount * record.bet_limit
-    record.errors[:dinerin] << 'insuficiente'
+    record.errors[:usuario] << 'No definido' if usuario.nil?
+    if record.challenger_amount.nil?
+      record.errors[:challenger_amount] << 'No definido'
+    end
+    record.errors[:bet_limit] << 'No definido' if record.bet_limit.nil?
+    #if usuario.money < record.challenger_amount * record.bet_limit
+    #  record.errors[:dinerin] << 'insuficiente'
+    #end
   end
 end
 

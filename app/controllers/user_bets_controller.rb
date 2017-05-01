@@ -28,18 +28,17 @@ class UserBetsController < ApplicationController
   # POST /user_bets
   # POST /user_bets.json
   def create
-    @user_bet = UserBet.new(user_bet_params)
-
-    respond_to do |format|
-      if @user_bet.save && save_money(@user_bet)
-        format.html do
-          redirect_to @user_bet, notice: 'User bet was successfully created.'
-        end
-      else
-        @users = User.all
-        format.html { render :new }
-      end
+    UserBet.transaction do
+      @user_bet = UserBet.new(user_bet_params)
+      @user_bet.save!
+      save_money(@user_bet)
     end
+  rescue => invalid
+    flash[:notice] = invalid
+    @users = User.all
+    render :new
+  else
+    redirect_to @user_bet, notice: 'User bet was successfully created.'
   end
 
   # PATCH/PUT /user_bets/1
@@ -70,7 +69,11 @@ class UserBetsController < ApplicationController
 
   def save_money(user_bet)
     user = user_bet.user
-    user.money -= user_bet.bet_limit * user_bet.challenger_amount
+    if user.money > user_bet.bet_limit * user_bet.challenger_amount
+      user.money -= user_bet.bet_limit * user_bet.challenger_amount
+    else
+      raise 'No posee el dinerin suficiente'
+    end
     user.save
   end
 

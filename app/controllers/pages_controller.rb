@@ -21,10 +21,7 @@ class PagesController < ApplicationController
         flash[:alert] = 'No se pudo ejecutar la apuesta'
         redirect_to bet_list_path
       end
-      p 'pase por aqui'
-      p user.accepted_bets
       user.accepted_bets << bet
-      p user.accepted_bets
       redirect_to bet_list_path
     end
   end

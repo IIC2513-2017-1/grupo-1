@@ -27,7 +27,7 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     user = users(:one)
     bet = user_bets(:two)
     assert_difference('user.accepted_bets.count') do
-      post bet_list_url, params: { user_id: user.id, bet_id: bet.id}
+      post bet_list_url, params: { user_id: user.id, bet_id: bet.id }
     end
   end
 

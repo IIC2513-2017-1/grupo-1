@@ -27,18 +27,6 @@ class UserBetTest < ActiveSupport::TestCase
     assert @user_bet.valid?
   end
 
-  test 'usuario sin dinero' do
-    numeros_invalidos = [1000, 2000, 3000]
-    invalid_limit = [12, 100, 4]
-    numeros_invalidos.each do |invalid_bet|
-      invalid_limit.each do |invalid_bet_limit|
-        @user_bet.challenger_amount = invalid_bet
-        @user_bet.bet_limit = invalid_bet_limit
-        assert_not @user_bet.valid?
-      end
-    end
-  end
-
   test 'usuario apuesta invalido' do
     numeros_invalidos = [-1, 1.5, 0]
     numeros_invalidos.each do |invalid_numbers|
