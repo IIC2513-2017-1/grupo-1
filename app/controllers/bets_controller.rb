@@ -35,13 +35,14 @@ class BetsController < ApplicationController
 
   def create_grand
     grand = Grand.new(amount: params[:amount], user_id: params[:user_id])
-    unless grand.save
+    user = User.find(params[:user_id])
+    unless grand.save && grand.amount <= user.money
       flash[:alert] = 'Grand no fue creado'
       redirect_to root_path
+      return
     end
     bets_id = params.select { |_, v| v == '-1' }.map { |i| i[0] }
     bets_id.each do |bet_id|
-      p bet_id
       competitor_selection = Competitor.find(
         params["competitors#{bet_id}"]
       ).name
@@ -49,7 +50,17 @@ class BetsController < ApplicationController
                     bet_id: bet_id,
                     selection: competitor_selection)
     end
+    final_date = DateTime.current - 1.years
+    grand.bets.each do |bet|
+      if final_date < bet.start_date
+        final_date = bet.start_date
+      end
+    end
+    grand.end_date = final_date
+    grand.save
     flash[:notice] = 'Grand fue creado con exito'
+    user.money -= grand.amount
+    user.save
     redirect_to root_path
   end
   # POST /bets
