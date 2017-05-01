@@ -24,7 +24,7 @@ class MyValidator1 < ActiveModel::Validator
     return if usuario.nil?
     return if record.challenger_amount.nil?
     return if record.bet_limit.nil?
-    return unless usuario.money <= record.challenger_amount * record.bet_limit
+    return unless usuario.money < record.challenger_amount * record.bet_limit
     record.errors[:dinerin] << 'insuficiente'
   end
 end

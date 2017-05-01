@@ -38,6 +38,10 @@ class UsersController < ApplicationController
   end
 
   def new_follow_relation
+    unless params.has_key?(:follower_id) && params.has_key?(:followed_id)
+      flash[:alert] = 'Debe seleccionar usuario seguidor y seguido'
+      return redirect_to follow_path
+    end
     follower = User.find(params[:follower_id])
     followed = User.find(params[:followed_id])
     if followed.in?(follower.following)
