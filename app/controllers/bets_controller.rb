@@ -68,6 +68,6 @@ class BetsController < ApplicationController
   end
 
   def bet_params
-    params.require(:bet).permit(:sport, :start_date, :country)
+    params.require(:bet).permit(:sport, :start_date, :country, :pay_per_tie)
   end
 end

@@ -16,4 +16,6 @@ class Grand < ApplicationRecord
                             dependent: :destroy
   has_many :bets, through: :bets_per_grand, source: :bet
   belongs_to :user
+  validates :amount, presence: true,
+            numericality: { only_integer: true, greater_than: 0 }
 end

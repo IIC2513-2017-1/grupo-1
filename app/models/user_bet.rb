@@ -21,11 +21,11 @@ class MyValidator1 < ActiveModel::Validator
       record.errors[:end_date] << 'Ingrese fechas con sentido'
     end
     usuario = User.where(id: record.user_id)
+    p usuario.first
     return if usuario.empty?
     return if record.challenger_amount.nil?
     return if record.bet_limit.nil?
-    return unless record.challenger_amount * record.bet_limit >
-                  usuario.first.money
+    return unless usuario.first.money <= record.challenger_amount * record.bet_limit
     record.errors[:dinerin] << 'insuficiente'
   end
 end
@@ -43,7 +43,7 @@ class UserBet < ApplicationRecord
   validates :gambler_amount, presence: true,
             numericality: { only_integer: true, greater_than: 0 }
   validates :bet_limit, presence: true,
-            numericality: { only_integer: true, greater_than: 0 }
+            numericality: { only_integer: true, greater_than: -1 }
   validates_with MyValidator1
   validates :start_date,
             inclusion: {
