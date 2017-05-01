@@ -1,0 +1,47 @@
+<%= provide(:title, 'Grand') %>
+<%= provide(:header, 'Formando Grand') %>
+
+<%= form_tag('/create_grand') do %>
+  <table>
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Sport</th>
+        <th>Start date</th>
+        <th>Country</th>
+        <th>Equipo</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @bets.each do |bet| %>
+        <tr>
+          <td><%= bet.id %></td>
+          <td><%= bet.sport %></td>
+          <td><%= bet.start_date %></td>
+          <td><%= bet.country %></td>
+          <td>
+            <%= select_tag "competitors#{bet.id}",
+              options_from_collection_for_select(bet.competitors, "id", "name"),
+              include_blank: true, required: true %>
+          </td>
+          <td><%= hidden_field_tag bet.id, "-1" %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <div class="form-group">
+    <%= label_tag :monto %>
+    <%= number_field_tag :amount, required: true %>
+  </div>
+
+  <div class="form-group">
+    <%= label_tag :usuario %>
+    <%= select_tag :user_id,
+        options_from_collection_for_select(@users, "id", "name"),
+        include_blank: true,
+        required: true %>
+  </div>
+
+  <div><%= submit_tag 'Save' %></div>
+<% end %>

@@ -13,7 +13,7 @@ bet_amount = 30
 grands_amount = 10
 
 user_amount.times do
-  user = User.new(
+  User.create!(
     username: Faker::Internet.unique.user_name(6..40),
     name: Faker::Name.first_name,
     role: 'user',
@@ -21,9 +21,6 @@ user_amount.times do
     lastname: Faker::Name.last_name,
     password_digest: Faker::Internet.password
   )
-  if user.save
-    p user.name
-  end
 end
 competitor_amount.times do
   Competitor.create!(

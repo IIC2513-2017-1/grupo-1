@@ -18,9 +18,37 @@ class BetsController < ApplicationController
   end
 
   # GET /bets/1/edit
-  def edit
+  def edit; end
+
+  def make_up_grand
+    bets_id = params.select { |_, v| v == '1' }.map { |i| i[0] }
+    @bets = []
+    bets_id.each do |bet_id|
+      @bets << Bet.find(bet_id)
+    end
+    if @bets.empty?
+    @users = User.all
   end
 
+  def create_grand
+    grand = Grand.new(amount: params[:amount], user_id: params[:user_id])
+    unless grand.save
+      flash[:alert] = 'Grand no fue creado'
+      redirect_to root_path
+    end
+    bets_id = params.select { |_, v| v == '-1' }.map { |i| i[0] }
+    bets_id.each do |bet_id|
+      p bet_id
+      competitor_selection = Competitor.find(
+        params["competitors#{bet_id}"]
+      ).name
+      MakeUp.create(grand_id: grand.id,
+                    bet_id: bet_id,
+                    selection: competitor_selection)
+    end
+    flash[:notice] = 'Grand fue creado con exito'
+    redirect_to root_path
+  end
   # POST /bets
   # POST /bets.json
   def create

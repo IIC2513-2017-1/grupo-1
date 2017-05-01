@@ -1,6 +1,12 @@
 <% provide(:title, 'Follow relations') %>
 <% provide(:header, 'Follow list') %>
 
+<%= form_tag(follow_path, method: "POST") do %>
+    <%= select_tag :follower_id, options_from_collection_for_select(@users, "id", "username") %>
+    <%= select_tag :followed_id, options_from_collection_for_select(@users, "id", "username")  %>
+    <%= submit_tag("Start following") %>
+<% end %>
+
 <% @users.each do |user| %>
   <% unless user.following.empty? %>
     <% user.following.each do |followed|%>
@@ -18,10 +24,4 @@
       </div>
     <% end %>
   <% end %>
-<% end %>
-
-<%= form_tag(follow_path, method: "POST") do %>
-    <%= select_tag :follower_id, options_from_collection_for_select(@users, "id", "username") %>
-    <%= select_tag :followed_id, options_from_collection_for_select(@users, "id", "username")  %>
-    <%= submit_tag("Start following") %>
 <% end %>

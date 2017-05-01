@@ -1,10 +1,34 @@
+<%= form_for(bet) do |f| %>
+    <% if bet.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(bet.errors.count, "error") %> prohibited this user from being saved:</h2>
 
-  <div class="form-inputs">
-    <%= f.input :sport %>
-    <%= f.input :start_date %>
-    <%= f.input :country %>
-  </div>
+        <ul>
+        <% bet.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+    <div class="error_notification">
+    </div>
 
-  <div class="form-actions">
-    <%= f.button :submit %>
-  </div>
+    <div class="form-group">
+      <%= f.label :deporte %>
+      <%= f.text_field :sport, required: true %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :pais %>
+      <%= f.text_field :country, required: true %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :fecha_de_inicio %>
+      <%= f.datetime_select :start_date %>
+    </div>
+
+    <div class="form-group">
+      <%= f.submit 'Crear bet' %>
+    </div>
+  <% end %>
