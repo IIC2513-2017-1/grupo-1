@@ -1,6 +1,6 @@
 # README
 
-Primero que todo nuestra ~~super~~ app está en www.mrmeesbet.herokuapp.com 
+Primero que todo nuestra ~~super~~ app está en mrmeesbet.herokuapp.com 
 
 
 Esteticamente corre bien en safari con un pc de 15 pulgadas  :sweat_smile:.
