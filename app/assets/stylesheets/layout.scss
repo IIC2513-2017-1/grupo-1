@@ -1,29 +1,27 @@
-$header_color: rgba(18, 18, 18, 0.83);
+$header_color: rgb(18, 18, 18);
+
+/* Body */
 
 body {
-  width: 100%;
+  margin: 0;
+  font: 1em/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 /* Header */
 
 header {
   background-color: $header_color;
-  overflow: hidden;
-  position: fixed;
-  display: block;
-  top: 0;
-  left: 0;
   width: 100%;
-
   a {
     text-decoration: none;
     color: #fff;
-
+  }
+  div {
     h1 {
       padding: 10px;
+
     }
   }
-
   nav {
     background-color: rgba(47, 47, 47, 0.7);
     border-radius: 0px 0px 10px 10px;
@@ -52,13 +50,19 @@ header {
 
 /* Jumbotron */
 
+.title-header {
+  width: 60%;
+  margin: auto;
+  #header {
+    padding: 10px;
+  }
+}
+
 .jumbotron {
-  position: relative;
   overflow: scroll;
-  height: 600px;
-  width: 100%;
-  margin-top: 150px;
-  margin-bottom: 100px;
+  margin: auto;
+  width: 60%;
+  padding: 20px 0px 100px;
 }
 
 .container {
