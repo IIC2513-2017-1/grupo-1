@@ -15,4 +15,4 @@
 one:
   bet_id: 1
   grand_id: 2
-  selection: MyString
+  selection: 1

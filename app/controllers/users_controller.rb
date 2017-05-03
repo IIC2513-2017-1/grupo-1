@@ -44,12 +44,13 @@ class UsersController < ApplicationController
     end
     follower = User.find(params[:follower_id])
     followed = User.find(params[:followed_id])
-    if followed.in?(follower.following)
+    if followed.in?(follower.following) || follower.in?(followed.following)
       flash[:alert] = 'Esta relacion ya existe'
     elsif follower == followed
       flash[:alert] = 'Un usuario no se puede seguir a si mismo'
     else
       follower.following << followed
+      followed.following << follower
     end
     redirect_to follow_path
   end

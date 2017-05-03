@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170502222125) do
+ActiveRecord::Schema.define(version: 20170503013734) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -66,6 +66,7 @@ ActiveRecord::Schema.define(version: 20170502222125) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "selection"
+    t.index ["grand_id", "bet_id"], name: "index_make_ups_on_grand_id_and_bet_id", unique: true, using: :btree
   end
 
   create_table "parts", force: :cascade do |t|
