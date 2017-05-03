@@ -14,3 +14,8 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
+
+$(document).live('pageload', function() {
+    var contentPlacement = $('header').position().top + $('header').height();
+    $('.title-header').css('margin-top', contentPlacement);
+});

@@ -10,8 +10,8 @@
 <% @users.each do |user| %>
   <% unless user.following.empty? %>
     <% user.following.each do |followed|%>
-      <div>
-        <table class="follow-table">
+      <div class="follow-table">
+        <table>
           <tr>
             <th>Seguidor: </th>
             <td><%= user.username %></td>

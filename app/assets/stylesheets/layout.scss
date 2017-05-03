@@ -11,20 +11,26 @@ body {
 
 header {
   background-color: $header_color;
-  width: 100%;
+  width:100%;
+  position:fixed;
+  height: 130px;
+  top:0px;
   a {
     text-decoration: none;
     color: #fff;
   }
   div {
-    h1 {
+    height: 70px;
+    .page-logo {
       padding: 10px;
-
+      margin: 0px 10px;
+      height: 50%;
     }
   }
   nav {
     background-color: rgba(47, 47, 47, 0.7);
     border-radius: 0px 0px 10px 10px;
+    height: 60px;
     a {
       display: inline-block;
       padding: 0;
@@ -52,10 +58,8 @@ header {
 
 .title-header {
   width: 60%;
+  padding-top: 140px;
   margin: auto;
-  #header {
-    padding: 10px;
-  }
 }
 
 .jumbotron {
@@ -113,4 +117,10 @@ footer {
     }
 
   }
+}
+
+/* Defaults */
+
+h2 {
+  margin: 0;
 }
