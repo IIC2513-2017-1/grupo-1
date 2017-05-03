@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: bets
+#
+#  id          :integer          not null, primary key
+#  sport       :string
+#  start_date  :datetime
+#  country     :string
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  pay_per_tie :float
+#
+
 class Bet < ApplicationRecord
   has_many :competitors_per_bet, class_name: 'Part',
                             foreign_key: 'bet_id',

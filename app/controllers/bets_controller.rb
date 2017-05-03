@@ -43,18 +43,13 @@ class BetsController < ApplicationController
     end
     bets_id = params.select { |_, v| v == '-1' }.map { |i| i[0] }
     bets_id.each do |bet_id|
-      competitor_selection = Competitor.find(
-        params["competitors#{bet_id}"]
-      ).name
       MakeUp.create(grand_id: grand.id,
                     bet_id: bet_id,
-                    selection: competitor_selection)
+                    selection: params["competitors#{bet_id}"])
     end
     final_date = DateTime.current - 1.years
     grand.bets.each do |bet|
-      if final_date < bet.start_date
-        final_date = bet.start_date
-      end
+      final_date = bet.start_date if final_date < bet.start_date
     end
     grand.end_date = final_date
     grand.save
@@ -65,6 +60,7 @@ class BetsController < ApplicationController
   end
   # POST /bets
   # POST /bets.json
+
   def create
     @bet = Bet.new(bet_params)
 
@@ -111,5 +107,16 @@ class BetsController < ApplicationController
 
   def bet_params
     params.require(:bet).permit(:sport, :start_date, :country, :pay_per_tie)
+  end
+
+  def get_multiplicator(grand)
+    multiplier = 1
+    grand.bets_per_grand do |bet|
+      selection = bet.selection
+      mul = bet.bet.competitors_per_bet.find_by(competitor_id:
+       selection).multiplicator
+      multiplier *= mul
+    end
+    multiplier
   end
 end

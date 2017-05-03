@@ -12,4 +12,5 @@
 
 class Competitor < ApplicationRecord
   has_and_belongs_to_many :bets
+  #has_many :parts
 end
