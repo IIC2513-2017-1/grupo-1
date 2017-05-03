@@ -26,8 +26,6 @@ class User < ApplicationRecord
   has_many :grands, dependent: :destroy
   has_many :following, through: :active_relationships, source: :followed
   has_many :followeds, through: :passive_relationships, source: :follower
-  has_many :friends, through: :passive_relationships, source: :follower
-  has_many :friends, through: :active_relationships, source: :followed
   has_and_belongs_to_many :accepted_bets, class_name: 'UserBet', join_table: :user_user_bets
   has_many :user_bets, dependent: :destroy
   validates :username, presence: true,
