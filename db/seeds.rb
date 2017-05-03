@@ -1,9 +1,9 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
+# This file should contain all the record creation needed to seed the database
+# The data can then be loaded with the rails db:seed command (or created alongsi
 #
 # Examples:
 #
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
+#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }
 #   Character.create(name: 'Luke', movie: movies.first)
 #
 
@@ -38,34 +38,30 @@ bet_amount.times do
     start_date: DateTime.current + Random.rand(1..10).days,
     pay_per_tie: 2
   )
-  if bet.save
-    2.times do |i|
-      Part.create(
-        local: i,
-        multiplicator: 1 + Random.rand(0..10) / 10,
-        bet_id: bet.id,
-        competitor_id: Competitor.order("RANDOM()").first.id
-      )
-    end
+  next unless bet.save
+  id1 = Competitor.order('RANDOM()').first.id
+  2.times do |i|
+    id2 = Competitor.order('RANDOM()').first.id
+    id2 = Competitor.order('RANDOM()').first.id while id2 == id_1
+    id1 = id_2
+    Part.create(
+      local: i,
+      multiplicator: 1 + Random.rand(0..10) / 10,
+      bet_id: bet.id,
+      competitor_id: id_1
+    )
   end
 end
 grands_amount.times do
-  grand = Grand.new(
+  grand = Grand.create(
     amount: Random.rand(1..1000),
     user_id: User.order('RANDOM()').first.id
   )
-  if grand.save
-    MakeUp.create(
-      bet_id: Bet.order("RANDOM()").first.id,
-      grand_id: grand.id,
-      selection: 'mientras'
-    )
-  end
+
   final_date = DateTime.current - 1.years
   grand.bets.each do |bet|
-    if final_date < bet.start_date
-      final_date = bet.start_date
-    end
+    next unless final_date < bet.start_date
+    final_date = bet.start_date
   end
   grand.end_date = final_date
   grand.save

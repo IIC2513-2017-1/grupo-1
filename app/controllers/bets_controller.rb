@@ -43,12 +43,9 @@ class BetsController < ApplicationController
     end
     bets_id = params.select { |_, v| v == '-1' }.map { |i| i[0] }
     bets_id.each do |bet_id|
-      competitor_selection = Competitor.find(
-        params["competitors#{bet_id}"]
-      ).name
       MakeUp.create(grand_id: grand.id,
                     bet_id: bet_id,
-                    selection: competitor_selection)
+                    selection: params["competitors#{bet_id}"])
     end
     final_date = DateTime.current - 1.years
     grand.bets.each do |bet|
