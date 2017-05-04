@@ -22,7 +22,11 @@ class MyValidator1 < ActiveModel::Validator
     end
     unless DateTime.current + 2.hours < record.start_date &&
            record.start_date < DateTime.current + 1.years
-       record.errors[:start_date] << 'debe ser dentro de dos horas como mínimo' if record.created_at.nil?
+      if record.created_at.nil?
+        record.errors[:start_date] << 'debe ser dentro de dos horas como mínimo'
+      elsif record.created_at + 2.hours > record.start_date
+        record.errors[:start_date] << 'debe ser dentro de dos horas como mínimo'
+      end
     end
     usuario = User.find(record.user_id)
     record.errors[:usuario] << 'No definido' if usuario.nil?
