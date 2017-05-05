@@ -1,51 +1,91 @@
-$header_color: rgb(18, 18, 18);
+/******************************************************************************/
+/************************++* Variables ****************************************/
+/******************************************************************************/
 
-/* Body */
+$header_color: rgb(18, 18, 18);
+$header_height: 100px;
+$header_div_height: 60px;
+$header_nav_height: $header-height - $header_div_height;
+
+/******************************************************************************/
+/************************++* Body *********************************************/
+/******************************************************************************/
 
 body {
   margin: 0;
   font: 1em/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+  h2 {
+    margin: 0;
+  }
+
 }
 
-/* Header */
+/******************************************************************************/
+/************************++* Header *******************************************/
+/******************************************************************************/
 
 header {
   background-color: $header_color;
   width:100%;
   position:fixed;
-  height: 130px;
+  height: $header_height;
   top:0px;
+
   a {
     text-decoration: none;
     color: #fff;
   }
+
   div {
-    height: 70px;
+    box-sizing: border-box;
+    min-width: 210px;
+    padding: 10px 0px 0px 10px;
+    height: $header_div_height;
+
     .page-logo {
       padding: 10px;
       margin: 0px 10px;
-      height: 50%;
     }
+
   }
+
   nav {
-    background-color: rgba(47, 47, 47, 0.7);
-    border-radius: 0px 0px 10px 10px;
-    height: 60px;
-    a {
-      display: inline-block;
-      padding: 0;
-      color: #fff;
-      p {
-        margin: 1em;
+    background-color: $header_color;
+    height: $header_nav_height;
+
+    ul {
+    list-style-type: none;
+    margin: 0;
+    margin-left: 10%;
+    height: $header_nav_height;
+    overflow: hidden;
+
+    li {
+        float: left;
+        padding: 0px 15px;
+
+        a {
+            display: block;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        a:hover {
+            background-color: none;
+            color: #9A9290;
+        }
+
       }
-    }
-    a:hover {
-        background-color: black;
-        text-decoration: none;
     }
   }
 }
-/* alerts */
+
+/******************************************************************************/
+/************************++* Alerts *******************************************/
+/******************************************************************************/
+
 .notice {
   color: green;
 }
@@ -54,7 +94,9 @@ header {
   color: red;
 }
 
-/* Jumbotron */
+/******************************************************************************/
+/************************++* Jumbotron ****************************************/
+/******************************************************************************/
 
 .title-header {
   width: 60%;
@@ -95,7 +137,9 @@ header {
   }
 }
 
-/* Footer */
+/******************************************************************************/
+/************************++* Footer *******************************************/
+/******************************************************************************/
 
 footer {
   position: fixed;
@@ -117,10 +161,4 @@ footer {
     }
 
   }
-}
-
-/* Defaults */
-
-h2 {
-  margin: 0;
 }

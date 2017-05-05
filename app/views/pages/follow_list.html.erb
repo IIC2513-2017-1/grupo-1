@@ -1,5 +1,5 @@
-<% provide(:title, 'Follow relations') %>
-<% provide(:header, 'Follow list') %>
+<% provide(:title, 'Relaciones de amistad') %>
+<% provide(:header, 'Lista de amistades') %>
 
 <%= form_tag(follow_path, method: "POST") do %>
     <%= select_tag :follower_id, options_from_collection_for_select(@users, "id", "username") %>
