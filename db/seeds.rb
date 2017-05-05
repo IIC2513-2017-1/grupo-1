@@ -12,6 +12,7 @@ competitor_amount = 100
 bet_amount = 30
 grands_amount = 10
 user_bets_amount = 50
+bet_per_grand = 3
 
 user_amount.times do
   User.create!(
@@ -42,13 +43,13 @@ bet_amount.times do
   id1 = Competitor.order('RANDOM()').first.id
   2.times do |i|
     id2 = Competitor.order('RANDOM()').first.id
-    id2 = Competitor.order('RANDOM()').first.id while id2 == id_1
-    id1 = id_2
+    id2 = Competitor.order('RANDOM()').first.id while id2 == id1
+    id1 = id2
     Part.create(
       local: i,
       multiplicator: 1 + Random.rand(0..10) / 10,
       bet_id: bet.id,
-      competitor_id: id_1
+      competitor_id: id1
     )
   end
 end
@@ -57,7 +58,14 @@ grands_amount.times do
     amount: Random.rand(1..1000),
     user_id: User.order('RANDOM()').first.id
   )
-
+  bet_per_grand.times do
+    bet = Bet.order('RANDOM()').first
+    MakeUp.create(
+      grand_id: grand.id,
+      bet_id: bet.id,
+      selection: bet.competitors.order('RANDOM()').first.id
+    )
+  end
   final_date = DateTime.current - 1.years
   grand.bets.each do |bet|
     next unless final_date < bet.start_date
