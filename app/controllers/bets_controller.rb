@@ -8,8 +8,7 @@ class BetsController < ApplicationController
 
   # GET /bets/1
   # GET /bets/1.json
-  def show
-  end
+  def show; end
 
   # GET /bets/new
   def new
@@ -65,7 +64,9 @@ class BetsController < ApplicationController
 
     respond_to do |format|
       if @bet.save
-        format.html { redirect_to @bet, notice: 'Bet was successfully created.' }
+        format.html do
+          redirect_to @bet, notice: 'Bet was successfully created.'
+        end
         format.json { render :show, status: :created, location: @bet }
       else
         format.html { render :new }
@@ -79,7 +80,9 @@ class BetsController < ApplicationController
   def update
     respond_to do |format|
       if @bet.update(bet_params)
-        format.html { redirect_to @bet, notice: 'Bet was successfully updated.' }
+        format.html do
+          redirect_to @bet, notice: 'Bet was successfully updated.'
+        end
         format.json { render :show, status: :ok, location: @bet }
       else
         format.html { render :edit }
@@ -93,7 +96,9 @@ class BetsController < ApplicationController
   def destroy
     @bet.destroy
     respond_to do |format|
-      format.html { redirect_to bets_url, notice: 'Bet was successfully destroyed.' }
+      format.html do
+        redirect_to bets_url, notice: 'Bet was successfully destroyed.'
+      end
       format.json { head :no_content }
     end
   end
