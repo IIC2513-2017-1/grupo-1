@@ -1,16 +1,17 @@
+<% provide(:title, 'Login') %>
+<% provide(:header, 'Ingresa a la aplicación') %>
 
-<h1>Login with yours credentials</h1>
 <div id="login-form">
   <%= form_for :session, url: sessions_path do |f| %>
-    <div class="field">
+    <div class="form-group">
       <%= f.label :email %>
       <%= f.text_field :email %>
     </div>
-    <div class="field">
+    <div class="form-group">
       <%= f.label :password %>
       <%= f.password_field :password %>
     </div>
-  <div class="actions">
+    <div class="form-group">
       <%= f.submit 'Login' %>
     </div>
   <% end %>

@@ -9,10 +9,10 @@
       <%= render 'layouts/header' %>
 
       <div class='title-header'>
-        <h2 id="header"><%= yield(:header) %></h2>
         <% flash.each do |key, value| %>
-          <div id="<%= key %>"><%= value %></div>
+          <div class="alert alert-<%= key %>"><%= value %></div>
         <% end %>
+        <h2 id="header"><%= yield(:header) %></h2>
       </div>
 
       <div class='jumbotron'>

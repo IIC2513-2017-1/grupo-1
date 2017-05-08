@@ -18,12 +18,16 @@ class UsersController < ApplicationController
   def edit; end
 
   def create
-    @user = User.new(user_params.merge(money: 10, role: 'gambler'))
-
+    @user = User.new(user_params.merge(money: 100, role: 'gambler'))
     respond_to do |format|
       if @user.save
-        format.html { redirect_to new_sessions_path,
-                      notice: "Se ha creado el usuario #{@user.user}" }
+        format.html do
+          redirect_to new_sessions_path,
+                      notice: "Se ha creado el usuario #{@user.username}"
+        end
+        format.html do
+          endredirect_to @user, notice: 'User was successfully created.'
+        end
       else
         format.html { render :new }
       end
@@ -33,7 +37,9 @@ class UsersController < ApplicationController
   def update
     respond_to do |format|
       if @user.update(user_params)
-        format.html { redirect_to @user, notice: 'User was successfully updated.' }
+        format.html do
+          redirect_to @user, notice: 'User was successfully updated.'
+        end
       else
         format.html { render :edit }
       end
@@ -61,7 +67,9 @@ class UsersController < ApplicationController
   def destroy
     @user.destroy
     respond_to do |format|
-      format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
+      format.html do
+        redirect_to users_url, notice: 'User was successfully destroyed.'
+      end
     end
   end
 
@@ -72,7 +80,7 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:username, :role, :email,
+    params.require(:user).permit(:username, :role, :email, :email_confirmation,
                                  :password, :password_confirmation,
                                  :name, :lastname, :description, :birthday)
   end

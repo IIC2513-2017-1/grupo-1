@@ -14,7 +14,6 @@
 #  description     :string
 #  money           :integer
 #  birthday        :date
-#
 
 class User < ApplicationRecord
   has_many :active_relationships, class_name: 'Relationship',
@@ -26,7 +25,8 @@ class User < ApplicationRecord
   has_many :grands, dependent: :destroy
   has_many :following, through: :active_relationships, source: :followed
   has_many :followeds, through: :passive_relationships, source: :follower
-  has_and_belongs_to_many :accepted_bets, class_name: 'UserBet', join_table: :user_user_bets
+  has_and_belongs_to_many :accepted_bets, class_name: 'UserBet',
+                                          join_table: :user_user_bets
   has_many :user_bets, dependent: :destroy
   validates :username, presence: true,
                        uniqueness: true,
@@ -44,11 +44,17 @@ class User < ApplicationRecord
                                            acentos y apostrofes.' },
                        length: { minimum: 2, maximum: 50 }
   validates :email, presence: true,
+                    confirmation: true,
                     format:
                       { with: /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i },
                     uniqueness: true,
                     length: { minimum: 6, maximum: 254 }
+  validates :role, presence: true, inclusion: %w[admin gambler]
   has_secure_password
+
+  def admin?
+    role == 'admin'
+  end
 
   def self.digest(string)
     cost = if ActiveModel::SecurePassword.min_cost

@@ -45,6 +45,7 @@ class UserBet < ApplicationRecord
   has_and_belongs_to_many :bettors,
                           class_name: 'User',
                           join_table: :user_user_bets
+
   include ActiveModel::Validations
   belongs_to :user
   validates :name, presence: true, length: { minimum: 7, maximum: 100 }
