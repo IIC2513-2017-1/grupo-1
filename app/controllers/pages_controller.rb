@@ -1,4 +1,8 @@
 class PagesController < ApplicationController
+include Secured
+
+before_action :logged_in?
+  
   def home; end
 
   def bet_list

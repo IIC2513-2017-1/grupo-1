@@ -1,6 +1,8 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: %i[show edit update destroy]
+  include Secured
 
+  before_action :set_user, only: %i[show edit update destroy]
+  before_action :logged_in?, only: %i[show edit update destroy index new_follow_relation]
   def index
     @users = User.all
   end
@@ -20,7 +22,8 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        format.html { redirect_to @user, notice: 'User was successfully created.' }
+        format.html { redirect_to new_sessions_path,
+                      notice: "Se ha creado el usuario #{@user.user}" }
       else
         format.html { render :new }
       end

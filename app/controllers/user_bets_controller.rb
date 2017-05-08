@@ -1,6 +1,8 @@
 class UserBetsController < ApplicationController
-  before_action :set_user_bet, only: [:show, :edit, :update, :destroy]
+  include Secured
 
+  before_action :set_user_bet, only: [:show, :edit, :update, :destroy]
+  before_action :logged_in?
   # GET /user_bets
   # GET /user_bets.json
   def index

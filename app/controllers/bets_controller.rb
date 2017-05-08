@@ -1,5 +1,8 @@
 class BetsController < ApplicationController
+  include Secured
+
   before_action :set_bet, only: [:show, :edit, :update, :destroy]
+  before_action :logged_in?, only: %i[edit update destroy new make_up_grand create_grand]
   # GET /bets
   # GET /bets.json
   def index
