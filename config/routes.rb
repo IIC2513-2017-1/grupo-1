@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
+
   resources :bets
-  root 'bets#index'
+  root 'sessions#new'
   get '/bet_list', to: 'pages#bet_list'
   get '/follow', to: 'pages#follow_list'
   post '/follow', to: 'users#new_follow_relation'
@@ -10,5 +11,6 @@ Rails.application.routes.draw do
 
   resources :user_bets
   resources :users
+  resource :sessions, only: [:new, :create, :destroy]
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
