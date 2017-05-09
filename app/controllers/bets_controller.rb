@@ -36,7 +36,7 @@ class BetsController < ApplicationController
 
   def create_grand
     grand = Grand.new(amount: params[:amount], user_id: params[:user_id])
-    user = User.find(params[:user_id])
+    user = current_user
     unless grand.save && grand.amount <= user.money
       flash[:alert] = 'Grand no fue creado'
       redirect_to root_path

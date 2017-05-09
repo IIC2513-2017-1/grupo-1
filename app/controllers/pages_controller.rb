@@ -1,8 +1,8 @@
 class PagesController < ApplicationController
-include Secured
+  include Secured
 
-before_action :logged_in?
-  
+  before_action :logged_in?
+
   def home; end
 
   def bet_list
@@ -12,7 +12,7 @@ before_action :logged_in?
 
   # Esto no debiera estar, aqui. Para la entrega 3 lo movemos
   def accept_a_bet
-    user = User.find(params[:user_id])
+    user = current_user
     bet = UserBet.find(params[:bet_id])
     if bet.gambler_amount > user.money || bet.bet_limit <= 0
       redirect_to bet_list_path
@@ -26,11 +26,12 @@ before_action :logged_in?
         redirect_to bet_list_path
       end
       user.accepted_bets << bet
-      redirect_to bet_list_path
+      redirect_to bet_list_path,
+                  flash: { success: 'Apuesta realizada correctamente' }
     end
   end
 
   def follow_list
-    @users = User.all
+    @users = User.where('username != ?', current_user.username)
   end
 end

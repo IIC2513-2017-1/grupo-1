@@ -2,7 +2,9 @@ class UsersController < ApplicationController
   include Secured
 
   before_action :set_user, only: %i[show edit update destroy]
-  before_action :logged_in?, only: %i[show edit update destroy index new_follow_relation]
+  before_action :logged_in?, only: %i[show edit update
+                                      destroy index new_follow_relation]
+
   def index
     @users = User.all
   end
@@ -47,14 +49,14 @@ class UsersController < ApplicationController
   end
 
   def new_follow_relation
-    unless params.has_key?(:follower_id) && params.has_key?(:followed_id)
-      flash[:alert] = 'Debe seleccionar usuario seguidor y seguido'
-      return redirect_to follow_path
+    unless params.key?(:followed_id)
+      return redirect_to follow_path,
+                         flash: { alert: 'Debe seleccionar usuario seguido' }
     end
-    follower = User.find(params[:follower_id])
+    follower = current_user
     followed = User.find(params[:followed_id])
     if followed.in?(follower.following) || follower.in?(followed.following)
-      flash[:alert] = 'Esta relacion ya existe'
+      flash[:notice] = "Ya sigues al usuario #{followed.username}"
     elsif follower == followed
       flash[:alert] = 'Un usuario no se puede seguir a si mismo'
     else

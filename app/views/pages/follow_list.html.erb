@@ -2,26 +2,23 @@
 <% provide(:header, 'Lista de amistades') %>
 
 <%= form_tag(follow_path, method: "POST") do %>
-    <%= select_tag :follower_id, options_from_collection_for_select(@users, "id", "username") %>
     <%= select_tag :followed_id, options_from_collection_for_select(@users, "id", "username")  %>
     <%= submit_tag("Start following") %>
 <% end %>
 
-<% @users.each do |user| %>
-  <% unless user.following.empty? %>
-    <% user.following.each do |followed|%>
-      <div class="follow-table">
-        <table>
-          <tr>
-            <th>Seguidor: </th>
-            <td><%= user.username %></td>
-          </tr>
-          <tr>
-            <th>Seguido: </th>
-            <td><%= followed.username %></td>
-          </tr>
-        </table>
-      </div>
-    <% end %>
+<% unless current_user.following.empty? %>
+  <% current_user.following.each do |followed|%>
+    <div class="follow-table">
+      <table>
+        <tr>
+          <th>Seguidor: </th>
+          <td><%= current_user.username %></td>
+        </tr>
+        <tr>
+          <th>Seguido: </th>
+          <td><%= followed.username %></td>
+        </tr>
+      </table>
+    </div>
   <% end %>
 <% end %>

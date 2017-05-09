@@ -30,20 +30,19 @@
   <strong>Description:</strong>
   <%= @user.description %>
 </p>
-<hr />
+
+<%= link_to 'Editar', edit_user_path(@user) %> |
+<%= link_to 'Volver atras', users_path %>
 
 <p>
   <% unless @bets.empty? %>
     <strong> Bets: </strong>
-    <div class="bets">
-      <% @bets.each do |bet| %>
+    <% @bets.each do |bet| %>
+      <div class="bets">
         <p> name: <%= bet.name %></p>
         <p> oponnent: <%= bet.user.name %></p>
         <p> amount: <%= bet.gambler_amount %></p>
-      <% end %>
-    </div>
+      </div>
+    <% end %>
   <% end %>
 </p>
-
-<%= link_to 'Editar', edit_user_path(@user) %> |
-<%= link_to 'Volver atras', users_path %>
