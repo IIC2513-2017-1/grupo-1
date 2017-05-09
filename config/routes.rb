@@ -2,7 +2,12 @@ Rails.application.routes.draw do
   resources :bets
   resources :users
   resources :user_bets
-  resource :sessions, only: %i[new create destroy]
+
+  # resource :sessions, only: %i[new create destroy]
+
+  get '/login', to: 'sessions#new'
+  post '/login', to: 'sessions#create'
+  delete '/logout', to: 'sessions#destroy'
 
   root 'bets#index'
 

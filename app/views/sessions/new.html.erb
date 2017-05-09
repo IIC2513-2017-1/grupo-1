@@ -2,7 +2,7 @@
 <% provide(:header, 'Ingresa a la aplicación') %>
 
 <div id="login-form">
-  <%= form_for :session, url: sessions_path do |f| %>
+  <%= form_for :session, url: login_path do |f| %>
     <div class="form-group">
       <%= f.label :email %>
       <%= f.text_field :email %>

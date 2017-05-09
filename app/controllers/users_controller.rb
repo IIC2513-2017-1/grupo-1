@@ -24,7 +24,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @user.save
         format.html do
-          redirect_to new_sessions_path,
+          redirect_to login_path,
                       notice: "Se ha creado el usuario #{@user.username}"
         end
         format.html do

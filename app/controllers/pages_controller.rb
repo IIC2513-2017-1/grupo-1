@@ -6,8 +6,7 @@ class PagesController < ApplicationController
   def home; end
 
   def bet_list
-    @bets = UserBet.all
-    @users = User.all
+    @bets = UserBet.includes(:user)
   end
 
   # Esto no debiera estar, aqui. Para la entrega 3 lo movemos
