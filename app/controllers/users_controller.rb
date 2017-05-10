@@ -14,10 +14,15 @@ class UsersController < ApplicationController
   end
 
   def new
+    redirect_to root_path, flash: { alert: 'Access denied' } if current_user
     @user = User.new
   end
 
-  def edit; end
+  def edit
+    if @user != current_user
+      redirect_to user_path(@user), flash: { alert: 'Access denied' }
+    end
+  end
 
   def create
     @user = User.new(user_params.merge(money: 100, role: 'gambler'))
@@ -45,6 +50,7 @@ class UsersController < ApplicationController
     end
   end
 
+  # Falta testear permisos
   def new_follow_relation
     unless params.key?(:followed_id)
       return redirect_to follow_path,
@@ -67,6 +73,7 @@ class UsersController < ApplicationController
     redirect_to follow_path
   end
 
+  # Falta testear permisos
   def accept_friend
     unless params.key?(:user_id)
       flash[:alert] = 'Seleccione un usuario'

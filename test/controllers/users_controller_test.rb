@@ -66,6 +66,30 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to user_url(@user)
   end
 
+  test 'can only edit my profile' do
+    log_in(@user, @password)
+    other_user = users(:two)
+    get edit_user_url(other_user)
+    assert_response :redirect
+    follow_redirect!
+    assert_not flash.empty?
+  end
+
+  test 'can access other users profile' do
+    log_in(@user, @password)
+    other_user = users(:two)
+    get user_url(other_user)
+    assert_response :success
+  end
+
+  test 'create user only when logged out' do
+    log_in(@user, @password)
+    get new_user_url
+    assert_response :redirect
+    follow_redirect!
+    assert_not flash.empty?
+  end
+
   # test 'should destroy user' do
   #   assert_difference('User.count', -1) do
   #     delete user_url(@user)
