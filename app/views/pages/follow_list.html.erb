@@ -1,9 +1,11 @@
 <% provide(:title, 'Relaciones de amistad') %>
 <% provide(:header, 'Lista de amistades') %>
 
+
+
 <%= form_tag(follow_path, method: "POST") do %>
     <%= select_tag :followed_id, options_from_collection_for_select(@users, "id", "username")  %>
-    <%= submit_tag("Start following") %>
+    <%= submit_tag("Enviar solicitud") %>
 <% end %>
 
 <% unless current_user.following.empty? %>

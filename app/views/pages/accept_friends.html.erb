@@ -1,0 +1,17 @@
+<% provide(:title, 'Solicitudes de amistad') %>
+<% provide(:header, 'Lista de solicitudes') %>
+
+<table>
+  <tr>
+    <td><strong> Nombre de usuario </strong></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <% current_user.demands.each do |cd| %>
+    <tr>
+      <td> <%= cd.username %> </td>
+      <td> <%= button_to 'Aceptar', accept_follow_path, params: { user_id: cd.id, accepted: false } %> </td>
+      <td> <%= button_to 'Rechazar', accept_follow_path, params: { user_id: cd.id, accepted: false } %> </td>
+    </tr>
+  <% end %>
+</table>

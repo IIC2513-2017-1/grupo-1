@@ -2,8 +2,8 @@ class UsersController < ApplicationController
   include Secured
 
   before_action :set_user, only: %i[show edit update destroy]
-  before_action :logged_in?, only: %i[show edit update
-                                      destroy index new_follow_relation]
+  before_action :logged_in?, only: %i[show edit update destroy index
+                                      new_follow_relation accept_friend]
 
   def index
     @users = User.all
@@ -56,11 +56,32 @@ class UsersController < ApplicationController
       flash[:notice] = "Ya sigues al usuario #{followed.username}"
     elsif follower == followed
       flash[:alert] = 'Un usuario no se puede seguir a si mismo'
+    elsif follower.in?(followed.demands)
+      flash[:alert] = 'La solicitud está pendiente'
+    elsif followed.in?(follower.demands)
+      flash[:alert] = "El usuario #{followed.username} ya le envió una solicitud"
     else
-      follower.following << followed
-      followed.following << follower
+      followed.demands << follower
+      flash[:success] = 'Solicitud enviada'
     end
     redirect_to follow_path
+  end
+
+  def accept_friend
+    unless params.key?(:user_id)
+      flash[:alert] = 'Seleccione un usuario'
+      redirect_to accept_follow_path
+    end
+    user = User.find(params[:user_id])
+    current_user.pending_relationships.find_by(follower_id: params[:user_id]).destroy
+    if params[:accepted]
+      current_user.following << user
+      user.following << current_user
+      flash[:success] = 'Usuario agregado'
+    else
+      flash[:success] = 'Solicitud de amistad rechazada'
+    end
+    redirect_to accept_follow_path
   end
 
   def destroy
