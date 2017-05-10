@@ -3,8 +3,22 @@ require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 
 class ActiveSupport::TestCase
-  # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
   fixtures :all
 
-  # Add more helper methods to be used by all tests here...
+  def log_in(user, password)
+    post login_url, params: { session: { email: user.email,
+                                         password: password }
+                                       }
+  end
+
+  def get_multiplicator(grand)
+    multiplier = 1
+    grand.bets_per_grand.each do |bet|
+      selection = bet.selection
+      mul = bet.bet.competitors_per_bet.find_by(competitor_id:
+       selection).multiplicator
+      multiplier *= mul
+    end
+    multiplier
+  end
 end

@@ -27,9 +27,6 @@ class UsersController < ApplicationController
           redirect_to login_path,
                       notice: "Se ha creado el usuario #{@user.username}"
         end
-        format.html do
-          endredirect_to @user, notice: 'User was successfully created.'
-        end
       else
         format.html { render :new }
       end
