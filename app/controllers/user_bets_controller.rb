@@ -6,7 +6,7 @@ class UserBetsController < ApplicationController
   # GET /user_bets
   # GET /user_bets.json
   def index
-    @user_bets = UserBet.all
+    @user_bets = current_user.user_bets
   end
 
   # GET /user_bets/1
@@ -15,12 +15,6 @@ class UserBetsController < ApplicationController
 
   # GET /user_bets/new
   def new
-    @users = User.all
-    if @users.empty?
-      return return_flash_and_redirect(
-        :alert, 'Primero debo crear un usuario', users_path
-      )
-    end
     @user_bet = UserBet.new
   end
 
@@ -31,7 +25,7 @@ class UserBetsController < ApplicationController
   # POST /user_bets.json
   def create
     UserBet.transaction do
-      @user_bet = UserBet.new(user_bet_params)
+      @user_bet = UserBet.new(user_bet_params.merge(user_id: current_user.id))
       @user_bet.save!
       save_money(@user_bet)
     end
@@ -40,7 +34,8 @@ class UserBetsController < ApplicationController
     @users = User.all
     render :new
   else
-    redirect_to @user_bet, notice: 'User bet was successfully created.'
+    redirect_to user_user_bet_path(current_user, @user_bet),
+                notice: 'User bet was successfully created.'
   end
 
   # PATCH/PUT /user_bets/1
@@ -48,7 +43,10 @@ class UserBetsController < ApplicationController
   def update
     respond_to do |format|
       if @user_bet.update(user_bet_params)
-        format.html { redirect_to @user_bet, notice: 'User bet was successfully updated.' }
+        format.html do
+          redirect_to user_user_bet_path(current_user, @user_bet),
+                      notice: 'User bet was successfully updated.'
+        end
       else
         format.html { render :edit }
       end
@@ -61,8 +59,8 @@ class UserBetsController < ApplicationController
     @user_bet.destroy
     respond_to do |format|
       format.html do
-        redirect_to user_bets_url, notice: 'User bet was
-                                            successfully destroyed.'
+        redirect_to user_user_bets_path(current_user), notice: 'User bet was
+                                                       successfully destroyed.'
       end
     end
   end
@@ -81,12 +79,13 @@ class UserBetsController < ApplicationController
 
   def set_user_bet
     @user_bet = UserBet.find(params[:id])
+    @user = current_user
   end
 
   def user_bet_params
     params.require(:user_bet).permit(:name, :description, :challenger_amount,
                                      :gambler_amount, :bet_limit, :start_date,
-                                     :end_date, :user_id)
+                                     :end_date)
   end
 
   def return_flash_and_redirect(type, message, path)

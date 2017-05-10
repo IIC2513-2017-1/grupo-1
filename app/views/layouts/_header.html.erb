@@ -9,7 +9,7 @@
       <ul>
         <% if current_user.admin? %>
           <li><%= link_to 'Usuarios', users_path %></li>
-          <li><%= link_to 'MeesBets', user_bets_path %></li>
+          <!-- <li><%= link_to 'MeesBets', user_bets_path %></li> -->
         <% end %>
         <li><%= link_to 'Aceptar una MeesBet',bet_list_path %></li>
       </ul>

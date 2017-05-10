@@ -3,5 +3,4 @@
 
 <%= render 'form', user_bet: @user_bet, users: nil %>
 
-<%= link_to 'Mostrar', @user_bet %> |
-<%= link_to 'Volver atras', user_bets_path %>
+<%= link_to 'Volver atras', user_user_bet_path(current_user, @user_bet) %>

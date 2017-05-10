@@ -24,14 +24,6 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
   #   assert_response :success
   # end
 
-  test 'should get user bets only when logged in' do
-    get user_bets_url
-    assert_response :redirect
-    log_in(@user, @password)
-    get user_bets_url
-    assert_response :success
-  end
-
   test 'make a bet' do
     bet = user_bets(:two)
     log_in(@user, @password)
