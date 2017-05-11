@@ -1,36 +1,57 @@
 <%= provide(:title, 'Lista de apuestas') %>
 <%= provide(:header, 'Lista de apuestas') %>
+<div class="meesbet-search">
+  <%= form_tag bet_list_search_path do %>
 
-<% @bets.each do |bet| %>
-  <% if bet.bet_limit > 0%>
-    <div class="MeesBets">
-      <h4>Apuesta numero: <%=bet.id %></h4>
-      <table>
-        <tr>
-          <th>Nombre:</th>
-          <th><%= bet.name %></th>
-        </tr>
-        <tr>
-          <th>Usuario:</th>
-          <th><%= bet.user.username %></th>
-        </tr>
-        <tr>
-          <th>Descripcion:</th>
-          <th><%= bet.description %></th>
-        </tr>
-        <tr>
-          <th>Apuesta de challenger:</th>
-          <th><%= bet.challenger_amount %></th>
-        </tr>
-        <tr>
-          <th>Apuesta de retador:</th>
-          <th><%= bet.gambler_amount %></th>
-        </tr>
-      </table>
-      <%= form_tag("/bet_list", method: "POST") do %>
-        <%= hidden_field_tag :bet_id, bet.id %>
-        <%= submit_tag "Aceptar la apuesta" %>
-      <% end %>
+    <div class="form-group">
+      <%= label_tag 'Usuario' %>
+      <%= text_field_tag :user %>
     </div>
+
+    <div class="form-group">
+      <%= label_tag 'Apuesta retador' %>
+      <%= number_field_tag :gambler_amount %>
+    </div>
+
+    <div class="form-group">
+      <%= label_tag 'Apuesta apostador' %>
+      <%= number_field_tag :accepted_amount %>
+    </div>
+
   <% end %>
-<% end %>
+</div>
+<div class="meesbets">
+  <% @bets.each do |bet| %>
+    <% if bet.bet_limit > 0%>
+      <div class="meesbets-content">
+        <h4>Apuesta numero: <%=bet.id %></h4>
+        <table>
+          <tr>
+            <th>Nombre:</th>
+            <th><%= bet.name %></th>
+          </tr>
+          <tr>
+            <th>Usuario:</th>
+            <th><%= bet.user.username %></th>
+          </tr>
+          <tr>
+            <th>Descripcion:</th>
+            <th><%= bet.description %></th>
+          </tr>
+          <tr>
+            <th>Apuesta de challenger:</th>
+            <th><%= bet.challenger_amount %></th>
+          </tr>
+          <tr>
+            <th>Apuesta de retador:</th>
+            <th><%= bet.gambler_amount %></th>
+          </tr>
+        </table>
+        <%= form_tag("/bet_list", method: "POST") do %>
+          <%= hidden_field_tag :bet_id, bet.id %>
+          <%= submit_tag "Aceptar la apuesta" %>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
+</div>

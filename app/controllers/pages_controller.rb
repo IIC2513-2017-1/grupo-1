@@ -9,6 +9,9 @@ class PagesController < ApplicationController
     @bets = UserBet.includes(:user)
   end
 
+  def search_mees_bet
+  end
+
   # Esto no debiera estar, aqui. Para la entrega 3 lo movemos
   def accept_a_bet
     user = current_user

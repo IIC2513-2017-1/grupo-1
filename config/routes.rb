@@ -59,4 +59,5 @@ Rails.application.routes.draw do
   post '/bet_list', to: 'pages#accept_a_bet'
   post '/make_up', to: 'bets#make_up_grand'
   post '/create_grand', to: 'bets#create_grand'
+  post '/bet_list/search', to: 'pages#search_mees_bet'
 end
