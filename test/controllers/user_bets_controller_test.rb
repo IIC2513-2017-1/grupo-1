@@ -104,4 +104,19 @@ class UserBetsControllerTest < ActionDispatch::IntegrationTest
     end
     assert_redirected_to user_user_bets_url(@user)
   end
+
+  test 'only create for current user' do
+    log_in @user, @password
+    other_user = users(:two)
+    get new_user_user_bet_url(other_user)
+    assert_response :redirect
+  end
+
+  test 'only edit meesbet if current user is owner' do
+    log_in @user, @password
+    other_user = users(:two)
+    other_user_bet = user_bets(:two)
+    get edit_user_user_bet_url(other_user, other_user_bet)
+    assert_response :redirect
+  end
 end

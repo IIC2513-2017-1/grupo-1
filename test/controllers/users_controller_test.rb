@@ -6,16 +6,16 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     @password = 'password1'
   end
 
-  test 'should get index only when logged in' do
-    get users_url
-    assert_response :redirect
-    log_in(@user, @password)
-    assert_response :redirect
-    follow_redirect!
-    assert_template 'bets/index'
-    get users_url
-    assert_response :success
-  end
+  # test 'should get index only when logged in' do
+  #   get users_url
+  #   assert_response :redirect
+  #   log_in(@user, @password)
+  #   assert_response :redirect
+  #   follow_redirect!
+  #   assert_template 'bets/index'
+  #   get users_url
+  #   assert_response :success
+  # end
 
   # test 'should get new' do
   #   get new_user_url
@@ -42,7 +42,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     get user_url(@user)
     assert_response :redirect
     log_in(@user, @password)
-    get users_url
+    get user_url(@user)
     assert_response :success
   end
 
@@ -85,6 +85,14 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   test 'create user only when logged out' do
     log_in(@user, @password)
     get new_user_url
+    assert_response :redirect
+    follow_redirect!
+    assert_not flash.empty?
+  end
+
+  test 'Only access yo /users if admin' do
+    log_in(@user, @password)
+    get users_url
     assert_response :redirect
     follow_redirect!
     assert_not flash.empty?

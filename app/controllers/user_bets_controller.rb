@@ -3,26 +3,28 @@ class UserBetsController < ApplicationController
 
   before_action :set_user_bet, only: [:show, :edit, :update, :destroy]
   before_action :logged_in?
-  # GET /user_bets
-  # GET /user_bets.json
+
   def index
-    @user_bets = current_user.user_bets
+    @user = User.find(params[:user_id])
+    @user_bets = @user.user_bets
   end
 
-  # GET /user_bets/1
-  # GET /user_bets/1.json
   def show; end
 
-  # GET /user_bets/new
   def new
+    @user = User.find(params[:user_id])
+    unless current_user == @user
+      return redirect_to root_path, flash: { alert: 'Access denied' }
+    end
     @user_bet = UserBet.new
   end
 
-  # GET /user_bets/1/edit
-  def edit; end
+  def edit
+    return if @user == current_user
+    redirect_to user_user_bet_path(@user, @user_bet),
+                flash: { alert: 'Access denied' }
+  end
 
-  # POST /user_bets
-  # POST /user_bets.json
   def create
     UserBet.transaction do
       @user_bet = UserBet.new(user_bet_params.merge(user_id: current_user.id))
@@ -38,8 +40,6 @@ class UserBetsController < ApplicationController
                 notice: 'User bet was successfully created.'
   end
 
-  # PATCH/PUT /user_bets/1
-  # PATCH/PUT /user_bets/1.json
   def update
     respond_to do |format|
       if @user_bet.update(user_bet_params)
@@ -53,8 +53,6 @@ class UserBetsController < ApplicationController
     end
   end
 
-  # DELETE /user_bets/1
-  # DELETE /user_bets/1.json
   def destroy
     @user_bet.destroy
     respond_to do |format|
@@ -79,7 +77,7 @@ class UserBetsController < ApplicationController
 
   def set_user_bet
     @user_bet = UserBet.find(params[:id])
-    @user = current_user
+    @user = User.find(params[:user_id])
   end
 
   def user_bet_params

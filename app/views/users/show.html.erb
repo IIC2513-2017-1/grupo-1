@@ -33,7 +33,6 @@
 <% if @user == current_user %>
   <%= link_to 'Editar', edit_user_path(@user) %> |
 <% end %>
-<%= link_to 'Volver atras', users_path %> |
 <%= link_to 'MeesBets', user_user_bets_path(@user) %>
 
 <p>
