@@ -20,14 +20,14 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'should search bet_list only when logged in' do
-    get bet_list_search_url, params: { user: '',
+    get bet_list_search_url, params: { user: users(:two).username,
                                        min_gambler_amount: '',
                                        max_gambler_amount: '',
                                        min_challenger_amount: '',
                                        max_challenger_amount: '' }
     assert_response :redirect
     log_in(@user, @password)
-    get bet_list_search_url, params: { user: '',
+    get bet_list_search_url, params: { user: users(:two).username,
                                        min_gambler_amount: '',
                                        max_gambler_amount: '',
                                        min_challenger_amount: '',
