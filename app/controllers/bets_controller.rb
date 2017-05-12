@@ -121,12 +121,12 @@ class BetsController < ApplicationController
     bets = []
     initial_bets.each do |bet|
       if !sport.blank?
-        bets << bet if bet.sport == sport
+        bets << bet if bet.sport.match?(/#{Regexp.escape sport}/i)
       elsif !country.blank?
-        bets << bet if bet.country == country
+        bets << bet if bet.country.match?(/#{Regexp.escape country}/i)
       elsif !team.blank?
         bet.competitors_per_bet.each do |competitor|
-          if competitor.competitor.name == team
+          if competitor.competitor.name.match?(/#{Regexp.escape team}/i)
             bets << bet
             break
           end
