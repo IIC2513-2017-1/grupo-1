@@ -21,7 +21,7 @@ class PagesController < ApplicationController
                                @min_challenger_amount, @max_challenger_amount)
     render 'bet_list'
   end
-    
+
   def friends_bet_list
     @bets = []
     current_user.following.each do |friend|
