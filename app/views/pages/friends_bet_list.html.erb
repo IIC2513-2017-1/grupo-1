@@ -1,0 +1,6 @@
+<%= provide(:title, 'Apuestas de amigos') %>
+<%= provide(:header, 'Apuestas de amigos') %>
+
+<% @bets.each do |bet| %>
+  <%= render 'bet_show', bet: bet, return_path: '/friends_bet_list' %>
+<% end %>

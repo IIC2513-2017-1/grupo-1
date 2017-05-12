@@ -21,6 +21,15 @@ class PagesController < ApplicationController
                                @min_challenger_amount, @max_challenger_amount)
     render 'bet_list'
   end
+    
+  def friends_bet_list
+    @bets = []
+    current_user.following.each do |friend|
+      friend.user_bets.each do |bet|
+        @bets << bet
+      end
+    end
+  end
 
   # Esto no debiera estar, aqui. Para la entrega 3 lo movemos
   def accept_a_bet

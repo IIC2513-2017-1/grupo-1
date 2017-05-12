@@ -54,6 +54,7 @@ Rails.application.routes.draw do
   get '/accept_follow', to: 'pages#accept_friends'
   get '/bet_list', to: 'pages#bet_list'
   get '/bet_list/search', to: 'pages#search_mees_bet'
+  get '/friends_bet_list', to: 'pages#friends_bet_list'
   get '/follow', to: 'pages#follow_list'
   post '/follow', to: 'users#new_follow_relation'
   post '/accept_follow', to: 'users#accept_friend'
