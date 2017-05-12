@@ -13,6 +13,6 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  bet_id: 1
-  grand_id: 2
+  bet: two
+  grand: two
   selection: 1

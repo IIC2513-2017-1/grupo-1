@@ -7,8 +7,7 @@ class ActiveSupport::TestCase
 
   def log_in(user, password)
     post login_url, params: { session: { email: user.email,
-                                         password: password }
-                                       }
+                                         password: password } }
   end
 
   def get_multiplicator(grand)

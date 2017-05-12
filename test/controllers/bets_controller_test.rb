@@ -2,7 +2,9 @@ require 'test_helper'
 
 class BetsControllerTest < ActionDispatch::IntegrationTest
   setup do
+    @user = users(:one)
     @bet = bets(:one)
+    @password = 'password1'
     @grand = grands(:one)
     @competitor = competitors(:one)
   end
@@ -17,13 +19,13 @@ class BetsControllerTest < ActionDispatch::IntegrationTest
   #   assert_response :success
   # end
 
-  # test "should create bet" do
-  #   assert_difference('Bet.count') do
-  #     post bets_url, params: { bet: { country: @bet.country, sport: @bet.sport, start_date: @bet.start_date } }
-  #   end
-  #
-  #   assert_redirected_to bet_url(Bet.last)
-  # end
+  test "should create grand" do
+    log_in(@user, @password)
+    assert_difference('Grand.count') do
+      post make_up_url, params: { amount: 2, bets(:two).id => competitors(:one).id }
+    end
+    #assert_redirected_to bet_url(Bet.last)
+  end
 
   test "should show bet" do
     get bet_url(@bet)

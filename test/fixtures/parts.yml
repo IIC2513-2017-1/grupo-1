@@ -14,7 +14,13 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  competitor_id: 1
-  bet_id: 1
+  competitor: one
+  bet: two
   multiplicator: 1.5
   local: 1
+
+two:
+  competitor: two
+  bet: two
+  multiplicator: 1.5
+  local: 0

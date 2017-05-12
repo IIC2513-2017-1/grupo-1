@@ -57,12 +57,6 @@ class PagesController < ApplicationController
 
   private
 
-  def number?(string)
-    true if Integer(string)
-  rescue
-    false
-  end
-
   def get_user_bets_with(user_username, min_gambler, max_gambler,
                          min_challenger, max_challenger)
     user = User.find_by(username: user_username)

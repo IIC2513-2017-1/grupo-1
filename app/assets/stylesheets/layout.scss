@@ -125,13 +125,11 @@ header {
 .jumbotron {
   overflow: scroll;
   margin: auto;
-  width: 60%;
+  width: 90%;
   padding: 20px 0px 100px;
 }
 
 .container {
-  margin: 30px;
-
   a {
     text-decoration: none;
     color: blue;
@@ -181,4 +179,14 @@ footer {
     }
 
   }
+}
+
+/******************************************************************************/
+/************************++* Forms *******************************************/
+/******************************************************************************/
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }

@@ -51,6 +51,7 @@ Rails.application.routes.draw do
 
   root 'bets#index'
 
+  get '/search', to: 'bets#search'
   get '/accept_follow', to: 'pages#accept_friends'
   get '/bet_list', to: 'pages#bet_list'
   get '/bet_list/search', to: 'pages#search_mees_bet'
@@ -59,6 +60,5 @@ Rails.application.routes.draw do
   post '/follow', to: 'users#new_follow_relation'
   post '/accept_follow', to: 'users#accept_friend'
   post '/bet_list', to: 'pages#accept_a_bet'
-  post '/make_up', to: 'bets#make_up_grand'
-  post '/create_grand', to: 'bets#create_grand'
+  post '/make_up', to: 'bets#create_grand'
 end

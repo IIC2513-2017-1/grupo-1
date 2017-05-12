@@ -3,49 +3,51 @@ class BetsController < ApplicationController
 
   before_action :set_bet, only: [:show, :edit, :update, :destroy]
   before_action :logged_in?, only: %i[edit update destroy new make_up_grand create_grand]
-  # GET /bets
-  # GET /bets.json
+
   def index
     @bets = Bet.includes(:competitors)
   end
 
-  # GET /bets/1
-  # GET /bets/1.json
   def show; end
 
-  # GET /bets/new
   def new
     @bet = Bet.new
   end
 
-  # GET /bets/1/edit
   def edit; end
 
-  def make_up_grand
-    bets_id = params.select { |_, v| v == '1' }.map { |i| i[0] }
-    @bets = []
-    bets_id.each do |bet_id|
-      @bets << Bet.find(bet_id)
-    end
+  def search
+    @tournament = params[:tournament]
+    @team = params[:team]
+    @sport = params[:sport]
+    @country = params[:country]
+    @bets = get_bets_width(@tournament, @team, @sport, @country)
     if @bets.empty?
-      flash[:alert] = 'Debe elegir alguna apuesta'
-      redirect_to root_path
+      return redirect_to root_path,
+                         flash: { notice: 'No se encontraron resultados' }
     end
+    render 'index'
   end
 
   def create_grand
-    grand = Grand.new(amount: params[:amount], user_id: params[:user_id])
+    unless number?(params[:amount])
+      return redirect_to root_path, flash: { alert: 'Ingrese un monto' }
+    end
+    grand = Grand.new(amount: params[:amount].to_i, user_id: current_user.id)
     user = current_user
     unless grand.save && grand.amount <= user.money
       flash[:alert] = 'Grand no fue creado'
       redirect_to root_path
       return
     end
-    bets_id = params.select { |_, v| v == '-1' }.map { |i| i[0] }
+    bets_id = params.select { |c, v| !v.blank? && c.match?(/\A\d+\z/) }.map { |i| i[0] }
+    if bets_id.empty?
+      return redirect_to root_path, flash: { alert: 'Ingrese alguna seleccion' }
+    end
     bets_id.each do |bet_id|
-      MakeUp.create(grand_id: grand.id,
-                    bet_id: bet_id,
-                    selection: params["competitors#{bet_id}"])
+      MakeUp.create!(grand_id: grand.id,
+                     bet_id: bet_id.to_i,
+                     selection: params[bet_id.to_s])
     end
     final_date = DateTime.current - 1.years
     grand.bets.each do |bet|
@@ -53,55 +55,43 @@ class BetsController < ApplicationController
     end
     grand.end_date = final_date
     grand.save
-    flash[:notice] = 'Grand fue creado con exito'
+    flash[:success] = 'Grand fue creado con exito'
     user.money -= grand.amount
     user.save
     redirect_to root_path
   end
-  # POST /bets
-  # POST /bets.json
 
   def create
     @bet = Bet.new(bet_params)
-
     respond_to do |format|
       if @bet.save
         format.html do
           redirect_to @bet, notice: 'Bet was successfully created.'
         end
-        format.json { render :show, status: :created, location: @bet }
       else
         format.html { render :new }
-        format.json { render json: @bet.errors, status: :unprocessable_entity }
       end
     end
   end
 
-  # PATCH/PUT /bets/1
-  # PATCH/PUT /bets/1.json
   def update
     respond_to do |format|
       if @bet.update(bet_params)
         format.html do
           redirect_to @bet, notice: 'Bet was successfully updated.'
         end
-        format.json { render :show, status: :ok, location: @bet }
       else
         format.html { render :edit }
-        format.json { render json: @bet.errors, status: :unprocessable_entity }
       end
     end
   end
 
-  # DELETE /bets/1
-  # DELETE /bets/1.json
   def destroy
     @bet.destroy
     respond_to do |format|
       format.html do
         redirect_to bets_url, notice: 'Bet was successfully destroyed.'
       end
-      format.json { head :no_content }
     end
   end
 
@@ -124,5 +114,25 @@ class BetsController < ApplicationController
       multiplier *= mul
     end
     multiplier
+  end
+
+  def get_bets_width(tournament, team, sport, country)
+    initial_bets = Bet.all
+    bets = []
+    initial_bets.each do |bet|
+      if !sport.blank?
+        bets << bet if bet.sport == sport
+      elsif !country.blank?
+        bets << bet if bet.country == country
+      elsif !team.blank?
+        bet.competitors_per_bet.each do |competitor|
+          if competitor.competitor.name == team
+            bets << bet
+            break
+          end
+        end
+      end
+    end
+    bets
   end
 end
