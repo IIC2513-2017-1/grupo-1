@@ -30,7 +30,7 @@
 
     </table>
 
-    <%= form_tag("/bet_list", method: "POST") do %>
+    <%= form_tag(return_path, method: "POST") do %>
       <%= hidden_field_tag :bet_id, bet.id %>
       <%= submit_tag "Aceptar la apuesta" %>
     <% end %>
