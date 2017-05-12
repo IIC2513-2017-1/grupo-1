@@ -6,7 +6,7 @@ class BetsController < ApplicationController
   # GET /bets
   # GET /bets.json
   def index
-    @bets = Bet.all
+    @bets = Bet.includes(:competitors)
   end
 
   # GET /bets/1
@@ -31,7 +31,6 @@ class BetsController < ApplicationController
       flash[:alert] = 'Debe elegir alguna apuesta'
       redirect_to root_path
     end
-    @users = User.all
   end
 
   def create_grand

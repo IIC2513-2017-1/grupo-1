@@ -23,12 +23,11 @@ class PagesController < ApplicationController
   end
 
   def friends_bet_list
-    @bets = []
-    current_user.following.each do |friend|
-      friend.user_bets.each do |bet|
-        @bets << bet
-      end
-    end
+    @bets = UserBet.joins(:user).joins(
+      "INNER JOIN relationships
+       ON users.id = followed_id
+       WHERE follower_id = #{current_user.id}"
+    ).includes(:user)
   end
 
   # Esto no debiera estar, aqui. Para la entrega 3 lo movemos
