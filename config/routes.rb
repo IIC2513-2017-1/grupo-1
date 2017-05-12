@@ -52,6 +52,7 @@ Rails.application.routes.draw do
   root 'bets#index'
 
   get '/bet_list', to: 'pages#bet_list'
+  get '/friends_bet_list', to: 'pages#friends_bet_list'
   get '/follow', to: 'pages#follow_list'
   post '/follow', to: 'users#new_follow_relation'
   get '/accept_follow', to: 'pages#accept_friends'
