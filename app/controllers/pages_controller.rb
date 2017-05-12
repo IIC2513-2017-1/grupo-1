@@ -5,11 +5,21 @@ class PagesController < ApplicationController
 
   def home; end
 
+  # eliminar mis apuestas de aqui
   def bet_list
     @bets = UserBet.includes(:user)
   end
 
   def search_mees_bet
+    # Parametros que vuelven como placeholder al form
+    @user = params[:user]
+    @min_gambler_amount = params[:min_gambler_amount]
+    @max_gambler_amount = params[:max_gambler_amount]
+    @min_challenger_amount = params[:min_challenger_amount]
+    @max_challenger_amount = params[:max_challenger_amount]
+    @bets = get_user_bets_with(@user, @min_gambler_amount, @max_gambler_amount,
+                               @min_challenger_amount, @max_challenger_amount)
+    render 'bet_list'
   end
 
   # Esto no debiera estar, aqui. Para la entrega 3 lo movemos
@@ -35,5 +45,42 @@ class PagesController < ApplicationController
 
   def follow_list
     @users = User.where('username != ?', current_user.username)
+  end
+
+  private
+
+  def number?(string)
+    true if Integer(string)
+  rescue
+    false
+  end
+
+  def get_user_bets_with(user_username, min_gambler, max_gambler,
+                         min_challenger, max_challenger)
+    user = User.find_by(username: user_username)
+    initial_bets = []
+    bets = []
+    initial_bets += if !user.blank?
+                      UserBet.where(user_id: user.id).includes(:user)
+                    else
+                      UserBet.all.includes(:user)
+                    end
+    initial_bets.each do |bet|
+      join = true
+      if number?(min_gambler) && bet.gambler_amount < min_gambler.to_i
+        join = false
+      end
+      if number?(max_gambler) && bet.gambler_amount > max_gambler.to_i
+        join = false
+      end
+      if number?(min_challenger) && bet.challenger_amount < min_challenger.to_i
+        join = false
+      end
+      if number?(max_challenger) && bet.challenger_amount > max_challenger.to_i
+        join = false
+      end
+      bets << bet if join == true
+    end
+    bets
   end
 end
