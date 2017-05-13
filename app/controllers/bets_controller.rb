@@ -102,7 +102,8 @@ class BetsController < ApplicationController
   end
 
   def bet_params
-    params.require(:bet).permit(:sport, :start_date, :country, :pay_per_tie)
+    params.require(:bet).permit(:sport, :start_date, :country,
+                                :pay_per_tie, :tournament)
   end
 
   def get_multiplicator(grand)
@@ -120,18 +121,26 @@ class BetsController < ApplicationController
     initial_bets = Bet.all
     bets = []
     initial_bets.each do |bet|
-      if !sport.blank?
-        bets << bet if bet.sport.match?(/#{Regexp.escape sport}/i)
-      elsif !country.blank?
-        bets << bet if bet.country.match?(/#{Regexp.escape country}/i)
-      elsif !team.blank?
+      unless sport.blank?
+        next unless bet.sport.match?(/#{Regexp.escape sport}/i)
+      end
+      unless country.blank?
+        next unless bet.country.match?(/#{Regexp.escape country}/i)
+      end
+      unless tournament.blank?
+        next unless bet.tournament.match?(/#{Regexp.escape tournament}/i)
+      end
+      unless team.blank?
+        found_competitor = false
         bet.competitors_per_bet.each do |competitor|
           if competitor.competitor.name.match?(/#{Regexp.escape team}/i)
-            bets << bet
+            found_competitor = true
             break
           end
         end
+        next unless found_competitor
       end
+      bets << bet
     end
     bets
   end

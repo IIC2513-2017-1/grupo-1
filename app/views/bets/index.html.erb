@@ -6,22 +6,22 @@
 
     <div class="form-group">
       <%= label_tag 'Nombre del torneo' %>
-      <%= text_field_tag :tournament %>
+      <%= text_field_tag :tournament, @tournament %>
     </div>
 
     <div class="form-group">
       <%= label_tag 'Nombre del equipo' %>
-      <%= text_field_tag :team %>
+      <%= text_field_tag :team, @team %>
     </div>
 
     <div class="form-group">
       <%= label_tag 'Deporte' %>
-      <%= text_field_tag :sport %>
+      <%= text_field_tag :sport, @sport %>
     </div>
 
     <div class="form-group">
       <%= label_tag 'Pais' %>
-      <%= text_field_tag :country %>
+      <%= text_field_tag :country, @country %>
     </div>
 
     <div class="form-group">
@@ -37,6 +37,7 @@
       <thead>
         <tr>
           <th class="text-center"> Deporte </th>
+          <th class="text-center"> Torneo </th>
           <th class="text-center"> Fecha de inicio </th>
           <th class="text-center"> Pais </th>
           <th class="text-center"> Selección </th>
@@ -46,6 +47,7 @@
         <% @bets.each do |bet| %>
           <tr>
             <td class="text-left"><%= bet.sport %></td>
+            <td class="text-left"><%= bet.tournament %></td>
             <td class="text-left"><%= bet.start_date %></td>
             <td class="text-left"><%= bet.country %></td>
             <td class="text-center">

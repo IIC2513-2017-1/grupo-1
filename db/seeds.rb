@@ -36,6 +36,7 @@ bet_amount.times do
   bet = Bet.new(
     sport: 'football',
     country: Faker::Address.country,
+    tournament: Faker::Company.name,
     start_date: DateTime.current + Random.rand(1..10).days,
     pay_per_tie: 2
   )

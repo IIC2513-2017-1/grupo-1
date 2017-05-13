@@ -19,39 +19,49 @@ th {
 
 .meesbet-search {
   margin: 30px 20px;
-  padding: 20px;
+  padding: 10px;
   width: 30%;
+  height: 40%;
+  max-height: 300px;
   max-width: 300px;
   float: left;
   position: fixed;
   border: 2px solid black;
   border-radius: 10px;
 
-  label, input {
-    width: 90%;
-  }
+  form {
+    height: 90%;
 
-  input[type='number'] {
-    width: 35%;
-    margin-right: 20px
-  }
+    .form-group {
+      height: 15%;
+      padding: 10px;
 
-  input[type="text"], input[type='number'] {
-    padding: 10px;
-    border: none;
-    border-bottom: solid 2px #c9c9c9;
-    transition: border 0.3s;
-  }
+      label, input {
+        width: 90%;
+      }
 
-  input[type="text"]:focus, input[type='number']:focus {
-    border-bottom: solid 2px #969696;
-  }
+      input[type='number'] {
+        width: 35%;
+        margin-right: 20px;
+      }
 
-  input[type="submit"] {
-    box-sizing: border-box;
-    padding: 20px
-  }
+      input[type="text"], input[type='number'] {
+        border: none;
+        border-bottom: solid 2px #c9c9c9;
+        transition: border 0.3s;
+      }
 
+      input[type="text"]:focus, input[type='number']:focus {
+        border-bottom: solid 2px #969696;
+      }
+
+      input[type="submit"] {
+        box-sizing: border-box;
+        padding: 20px
+        
+      }
+    }
+  }
 }
 
 
