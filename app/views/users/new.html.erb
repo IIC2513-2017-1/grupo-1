@@ -1,6 +1,6 @@
 <%= provide(:title, 'Nuevo usuario') %>
 <%= provide(:header, 'Nuevo usuario') %>
 
-<%= render 'form', user: @user %>
+<%= render 'form', user: @user, edit: false %>
 
 <%= link_to 'Volver atras', login_path %>

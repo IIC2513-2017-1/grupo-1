@@ -17,7 +17,7 @@
 
   <div class="form-group">
     <%= f.label :nombre %>
-    <%= f.text_field :name, required: true, minlength: 7; %>
+    <%= f.text_field :name, required: !edit, minlength: 7; %>
   </div>
 
   <div class="form-group">
@@ -27,17 +27,17 @@
 
   <div class="form-group">
     <%= f.label :apuesta_desafiada %>
-    <%= f.number_field :challenger_amount, required: true %>
+    <%= f.number_field :challenger_amount, required: !edit %>
   </div>
 
   <div class="form-group">
     <%= f.label :apuesta_pedida %>
-    <%= f.number_field :gambler_amount, required: true %>
+    <%= f.number_field :gambler_amount, required: !edit %>
   </div>
 
   <div class="form-group">
     <%= f.label :apuestas_maximas %>
-    <%= f.number_field :bet_limit, required: true %>
+    <%= f.number_field :bet_limit, required: !edit %>
   </div>
 
   <div class="form-group">
@@ -51,6 +51,7 @@
   </div>
 
   <div class="form-group">
-    <%= f.submit 'Crear MeesBet' %>
+    <%= f.submit 'Crear MeesBet' if !edit %>
+    <%= f.submit 'Editar MeesBet' if edit %>
   </div>
 <% end %>

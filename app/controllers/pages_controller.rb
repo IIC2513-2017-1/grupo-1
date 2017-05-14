@@ -7,7 +7,7 @@ class PagesController < ApplicationController
 
   # eliminar mis apuestas de aqui
   def bet_list
-    @bets = UserBet.includes(:user)
+    @bets = UserBet.where.not(user_id: current_user.id).includes(:user)
   end
 
   def search_mees_bet
@@ -37,21 +37,18 @@ class PagesController < ApplicationController
   def accept_a_bet
     user = current_user
     bet = UserBet.find(params[:bet_id])
-    if bet.gambler_amount > user.money || bet.bet_limit <= 0
-      redirect_to bet_list_path,
-                  flash: { alert: 'No se pudo ejecutar la apuesta' }
-      return
-    else
+    UserBet.transaction do
       user.money -= bet.gambler_amount
       bet.bet_limit -= 1
-      unless user.save && bet.save
-        redirect_to bet_list_path,
-                    flash: { alert: 'No se pudo ejecutar la apuesta' }
-      end
-      user.accepted_bets << bet
-      redirect_to bet_list_path,
-                  flash: { success: 'Apuesta realizada correctamente' }
+      user.save!
+      bet.save!
     end
+  rescue => invalid
+    redirect_to bet_list_path, flash: { alert: invalid }
+  else
+    user.accepted_bets << bet
+    redirect_to bet_list_path,
+                flash: { success: 'Apuesta realizada correctamente' }
   end
 
   def follow_list

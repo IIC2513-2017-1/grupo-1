@@ -85,4 +85,9 @@ class UserTest < ActiveSupport::TestCase
     @user.lastname = 'A' + 'a' * 50
     assert_not @user.valid?
   end
+
+  test 'dinerin positivo' do
+    @user.money = -1
+    assert_not @user.valid?
+  end
 end

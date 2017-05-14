@@ -21,17 +21,17 @@
 
   <div class="form-group">
     <%= f.label :nombre %>
-    <%= f.text_field :name, required: true, minlength: 2, maxlength: 50 %>
+    <%= f.text_field :name, required: !edit, minlength: 2, maxlength: 50 %>
   </div>
 
   <div class="form-group">
     <%= f.label :apellido %>
-    <%= f.text_field :lastname, required: true, minlength: 2, maxlength: 50 %>
+    <%= f.text_field :lastname, required: !edit, minlength: 2, maxlength: 50 %>
   </div>
 
   <div class="form-group">
     <%= f.label :nombre_de_usuario %>
-    <%= f.text_field :username, required: true, minlength: 6, maxlength: 50 %>
+    <%= f.text_field :username, required: !edit, minlength: 6, maxlength: 50 %>
   </div>
 
   <div class="form-group">
@@ -47,27 +47,28 @@
 
   <div class="form-group">
     <%= f.label :mail %>
-    <%= f.email_field :email, required: true, minlength: 6, maxlength: 254 %>
+    <%= f.email_field :email, required: !edit, minlength: 6, maxlength: 254 %>
   </div>
 
   <div class="form-group">
     <%= f.label :confirmacion_de_mail %>
-    <%= f.email_field :email_confirmation, required: true,
+    <%= f.email_field :email_confirmation, required: !edit,
                                            minlength: 6,
                                            maxlength: 254 %>
   </div>
 
   <div class="form-group">
     <%= f.label :contraseña %>
-    <%= f.password_field :password, required: true %>
+    <%= f.password_field :password, required: !edit %>
   </div>
 
   <div class="form-group">
     <%= f.label :confirmacion_de_contraseña %>
-    <%= f.password_field :password_confirmation, required: true, maxlength: 72 %>
+    <%= f.password_field :password_confirmation, required: !edit, maxlength: 72 %>
   </div>
 
   <div class="form-group">
-    <%= f.submit 'Crear usuario' %>
+    <%= f.submit 'Crear usuario'  if !edit %>
+    <%= f.submit 'Editar usuario' if edit %>
   </div>
 <% end %>

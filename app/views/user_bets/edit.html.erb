@@ -1,6 +1,6 @@
 <%= provide(:title, 'Editar MrMeesBet') %>
 <%= provide(:header, 'Editar MrMeesBet') %>
 
-<%= render 'form', user_bet: @user_bet, users: nil %>
+<%= render 'form', user_bet: @user_bet, edit: true %>
 
 <%= link_to 'Volver atras', user_user_bet_path(@user, @user_bet) %>

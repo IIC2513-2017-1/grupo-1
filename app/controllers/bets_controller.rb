@@ -1,8 +1,9 @@
 class BetsController < ApplicationController
   include Secured
 
-  before_action :set_bet, only: [:show, :edit, :update, :destroy]
-  before_action :logged_in?, only: %i[edit update destroy new make_up_grand create_grand]
+  before_action :set_bet, only: %i[show edit update destroy]
+  before_action :logged_in?, only: %i[edit update destroy
+                                      new make_up_grand create_grand]
 
   def index
     @bets = Bet.includes(:competitors)
@@ -33,32 +34,28 @@ class BetsController < ApplicationController
     unless number?(params[:amount])
       return redirect_to root_path, flash: { alert: 'Ingrese un monto' }
     end
-    grand = Grand.new(amount: params[:amount].to_i, user_id: current_user.id)
-    user = current_user
-    unless grand.save && grand.amount <= user.money
-      flash[:alert] = 'Grand no fue creado'
-      redirect_to root_path
-      return
-    end
     bets_id = params.select { |c, v| !v.blank? && c.match?(/\A\d+\z/) }.map { |i| i[0] }
     if bets_id.empty?
       return redirect_to root_path, flash: { alert: 'Ingrese alguna seleccion' }
+    end
+    grand = Grand.new(amount: params[:amount].to_i, user_id: current_user.id)
+    user = current_user
+    Bet.transaction do
+      grand.save!
+      user.money -= grand.amount
+      user.save!
     end
     bets_id.each do |bet_id|
       MakeUp.create!(grand_id: grand.id,
                      bet_id: bet_id.to_i,
                      selection: params[bet_id.to_s])
     end
-    final_date = DateTime.current - 1.years
-    grand.bets.each do |bet|
-      final_date = bet.start_date if final_date < bet.start_date
-    end
-    grand.end_date = final_date
+  rescue => invalid
+    redirect_to bet_list_path, flash: { alert: invalid }
+  else
+    grand.end_date = grand.bets.maximum('start_date')
     grand.save
-    flash[:success] = 'Grand fue creado con exito'
-    user.money -= grand.amount
-    user.save
-    redirect_to root_path
+    redirect_to root_path, flash: { success: 'Grand fue creado con exito' }
   end
 
   def create

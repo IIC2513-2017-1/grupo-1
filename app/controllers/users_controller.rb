@@ -44,7 +44,8 @@ class UsersController < ApplicationController
 
   def update
     respond_to do |format|
-      if @user.update(user_params)
+      new_user_params = user_params.reject { |_, v| v.blank? }
+      if @user.update(new_user_params)
         format.html do
           redirect_to @user, notice: 'User was successfully updated.'
         end

@@ -2,6 +2,8 @@
 <%= provide(:header, 'Apuestas') %>
 
 <div class="bets-search">
+
+  <h3> Buscador: </h3>
   <%= form_tag search_path, method: 'get' do %>
 
     <div class="form-group">
@@ -30,38 +32,41 @@
   <% end %>
 </div>
 
-<%= form_tag('/make_up') do %>
+<div class="bets-form">
+  <%= form_tag('/make_up') do %>
 
-  <div class="bets-index">
-    <table class="bets-table">
-      <thead>
-        <tr>
-          <th class="text-center"> Deporte </th>
-          <th class="text-center"> Torneo </th>
-          <th class="text-center"> Fecha de inicio </th>
-          <th class="text-center"> Pais </th>
-          <th class="text-center"> Selección </th>
-        </tr>
-      </thead>
-      <tbody class="table-hover">
-        <% @bets.each do |bet| %>
+    <div class="bets-index">
+      <table class="bets-table">
+        <thead>
           <tr>
-            <td class="text-left"><%= bet.sport %></td>
-            <td class="text-left"><%= bet.tournament %></td>
-            <td class="text-left"><%= bet.start_date %></td>
-            <td class="text-left"><%= bet.country %></td>
-            <td class="text-center">
-              <%= select_tag "#{bet.id}",
-                options_from_collection_for_select(bet.competitors, "id", "name"),
-                include_blank: true %>
-            </td>
+            <th class="text-center"> Deporte </th>
+            <th class="text-center"> Torneo </th>
+            <th class="text-center"> Fecha de inicio </th>
+            <th class="text-center"> Pais </th>
+            <th class="text-center"> Selección </th>
           </tr>
-        <% end %>
-      </tbody>
-    </table>
-  </div>
+        </thead>
+        <tbody class="table-hover">
+          <% @bets.each do |bet| %>
+            <tr>
+              <td class="text-left"><%= bet.sport %></td>
+              <td class="text-left"><%= bet.tournament %></td>
+              <td class="text-left"><%= bet.start_date %></td>
+              <td class="text-left"><%= bet.country %></td>
+              <td class="text-center">
+                <%= select_tag "#{bet.id}",
+                  options_from_collection_for_select(bet.competitors, "id", "name"),
+                  include_blank: true %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
 
-  <div class="bets-status">
-    monto: <%= number_field_tag :amount %> <%= submit_tag 'Confirmar seleccion' %>
-  </div>
-<% end %>
+    <div class="bets-status">
+      monto: <%= number_field_tag :amount, '',required: true %> <%= submit_tag 'Confirmar seleccion' %>
+    </div>
+  <% end %>
+
+</div>

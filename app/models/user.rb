@@ -56,6 +56,7 @@ class User < ApplicationRecord
                     uniqueness: true,
                     length: { minimum: 6, maximum: 254 }
   validates :role, presence: true, inclusion: %w[admin gambler]
+  validates :money, numericality: { greater_than_or_equal_to: 0 }
   has_secure_password
 
   def admin?

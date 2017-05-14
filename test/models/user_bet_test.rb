@@ -35,6 +35,11 @@ class UserBetTest < ActiveSupport::TestCase
     end
   end
 
+  test "bet limit siempre mayor a cero" do
+    @user_bet.bet_limit = -1
+    assert_not @user_bet.valid?
+  end
+
   test 'nombre de apuesta invalido' do
     lista_nombres_invalidos = [nil, '', 'partid', 'corto']
     lista_nombres_invalidos.each do |invalid_name|

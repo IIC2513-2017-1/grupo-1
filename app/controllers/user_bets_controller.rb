@@ -37,7 +37,7 @@ class UserBetsController < ApplicationController
     render :new
   else
     redirect_to user_user_bet_path(current_user, @user_bet),
-                notice: 'User bet was successfully created.'
+                flash: { success: 'User bet was successfully created.' }
   end
 
   def update
@@ -45,7 +45,7 @@ class UserBetsController < ApplicationController
       if @user_bet.update(user_bet_params)
         format.html do
           redirect_to user_user_bet_path(current_user, @user_bet),
-                      notice: 'User bet was successfully updated.'
+                      flash: { success: 'User bet was successfully updated.' }
         end
       else
         format.html { render :edit }
@@ -57,8 +57,8 @@ class UserBetsController < ApplicationController
     @user_bet.destroy
     respond_to do |format|
       format.html do
-        redirect_to user_user_bets_path(current_user), notice: 'User bet was
-                                                       successfully destroyed.'
+        redirect_to user_user_bets_path(current_user),
+                    flash: { success: 'User bet was successfully destroyed.' }
       end
     end
   end
@@ -67,11 +67,10 @@ class UserBetsController < ApplicationController
 
   def save_money(user_bet)
     user = user_bet.user
-    if user.money > user_bet.bet_limit * user_bet.challenger_amount
-      user.money -= user_bet.bet_limit * user_bet.challenger_amount
-    else
+    if user.money < user_bet.bet_limit * user_bet.challenger_amount
       raise 'No posee el dinerin suficiente'
     end
+    user.money -= user_bet.bet_limit * user_bet.challenger_amount
     user.save
   end
 
