@@ -14,9 +14,14 @@
         <li><%= link_to 'Aceptar una MeesBet',bet_list_path %></li>
         <li><%= link_to 'Meesbets de amigos',friends_bet_list_path %></li>
       </ul>
-      <ul class="pull-right header-link">
-        <li><%= link_to 'Perfil', user_path(current_user) %></li>
-        <li><%= link_to 'Log out', logout_path, method: :delete %></li>
+      <ul class="pull-right">
+        <li>
+          <a class="dropbtn"><%= current_user.username %>&#9660;</a>
+          <ul class="header-link dropdown-content" id="myDropdown">
+            <li><%= link_to 'Perfil', user_path(current_user) %></li>
+            <li><%= link_to 'Log out', logout_path, method: :delete %></li>
+          </ul>
+        </li>
       </ul>
     <% else %>
       <ul class="pull-right">
