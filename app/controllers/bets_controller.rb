@@ -5,7 +5,11 @@ class BetsController < ApplicationController
   before_action :logged_in?, only: %i[edit update destroy new make_up_grand create_grand]
 
   def index
-    @bets = Bet.includes(:competitors)
+    betss = Bet.includes(:competitors)
+    @bets = []
+    betss.each do |bet|
+      @bets << bet if bet.start_date > DateTime.current
+    end
   end
 
   def show; end
@@ -45,9 +49,14 @@ class BetsController < ApplicationController
       return redirect_to root_path, flash: { alert: 'Ingrese alguna seleccion' }
     end
     bets_id.each do |bet_id|
-      MakeUp.create!(grand_id: grand.id,
+      makeup = MakeUp.new(grand_id: grand.id,
                      bet_id: bet_id.to_i,
                      selection: params[bet_id.to_s])
+      unless makeup.save
+        flash[:alert] = "Grand no fue creado, problemas en bet #{bet_id}"
+        grand.destroy
+        return redirect_to root_path
+      end
     end
     final_date = DateTime.current - 1.years
     grand.bets.each do |bet|
@@ -62,7 +71,7 @@ class BetsController < ApplicationController
   end
 
   def create
-    @bet = Bet.new(bet_params)
+    @bet = Bet.new(bet_params.merge(finish: false))
     respond_to do |format|
       if @bet.save
         format.html do
@@ -95,14 +104,11 @@ class BetsController < ApplicationController
     end
   end
 
-  private
-
-  def set_bet
-    @bet = Bet.find(params[:id])
-  end
-
-  def bet_params
-    params.require(:bet).permit(:sport, :start_date, :country, :pay_per_tie)
+  def ganada?(grand)
+    grand.bets_per_grand.each do |bet|
+      return false if bet.bet.result != bet.selection
+    end
+    true
   end
 
   def get_multiplicator(grand)
@@ -114,6 +120,16 @@ class BetsController < ApplicationController
       multiplier *= mul
     end
     multiplier
+  end
+
+  private
+
+  def set_bet
+    @bet = Bet.find(params[:id])
+  end
+
+  def bet_params
+    params.require(:bet).permit(:sport, :start_date, :country, :pay_per_tie)
   end
 
   def get_bets_width(tournament, team, sport, country)

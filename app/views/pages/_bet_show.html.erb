@@ -1,4 +1,4 @@
-<% if bet.bet_limit > 0%>
+<% if bet.bet_limit > 0 && DateTime.current < bet.start_date %>
   <div class="meesbets-content">
     <h4>Apuesta numero: <%=bet.id %></h4>
     <table>
@@ -28,6 +28,15 @@
         <th><%= bet.gambler_amount %></th>
       </tr>
 
+      <tr>
+        <th>Fecha límite de apuesta:</th>
+        <th><%= bet.start_date %></th>
+      </tr>
+
+      <tr>
+        <th>Fecha fin del evento:</th>
+        <th><%= bet.end_date %></th>
+      </tr>
     </table>
 
     <%= form_tag(return_path, method: "POST") do %>

@@ -7,7 +7,11 @@ class PagesController < ApplicationController
 
   # eliminar mis apuestas de aqui
   def bet_list
-    @bets = UserBet.includes(:user)
+    betss = UserBet.includes(:user)
+    @bets = []
+    betss.each do |bet|
+      @bets << bet if bet.start_date > DateTime.current
+    end
   end
 
   def search_mees_bet
@@ -23,18 +27,23 @@ class PagesController < ApplicationController
   end
 
   def friends_bet_list
-    @bets = UserBet.joins(:user).joins(
+    betss = UserBet.joins(:user).joins(
       "INNER JOIN relationships
        ON users.id = followed_id
        WHERE follower_id = #{current_user.id}"
     ).includes(:user)
+    @bets = []
+    betss.each do |bet|
+      @bets << bet if bet.start_date > DateTime.current
+    end
   end
 
   # Esto no debiera estar, aqui. Para la entrega 3 lo movemos
   def accept_a_bet
     user = current_user
     bet = UserBet.find(params[:bet_id])
-    if bet.gambler_amount > user.money || bet.bet_limit <= 0
+    if bet.gambler_amount > user.money || bet.bet_limit <= 0 || bet.start_date \
+        < DateTime.current
       redirect_to bet_list_path,
                   flash: { alert: 'No se pudo ejecutar la apuesta' }
       return
