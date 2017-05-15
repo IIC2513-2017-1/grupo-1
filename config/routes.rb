@@ -62,6 +62,7 @@ Rails.application.routes.draw do
   get '/bet_list/search', to: 'pages#search_mees_bet'
   get '/friends_bet_list', to: 'pages#friends_bet_list'
   get '/follow', to: 'pages#follow_list'
+  get '/assignations', to: 'pages#assignations'
   post '/follow', to: 'users#new_follow_relation'
   post '/accept_follow', to: 'users#accept_friend'
   post '/bet_list', to: 'pages#accept_a_bet'

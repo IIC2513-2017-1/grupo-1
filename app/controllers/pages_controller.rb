@@ -41,7 +41,11 @@ class PagesController < ApplicationController
     end
   end
 
-  # Esto no debiera estar, aqui. Para la entrega 3 lo movemos
+  def assignations
+    @assignations = current_user.bet_assignations
+  end
+
+  # Esto no debiera estar, aqui. Para la entrega 4 lo movemos
   def accept_a_bet
     user = current_user
     bet = UserBet.find(params[:bet_id])
