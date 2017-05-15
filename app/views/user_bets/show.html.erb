@@ -41,7 +41,7 @@
   <%= link_to 'Lista de MeesBets', bet_list_path %>
 <% end %>
 <% if @user == current_user %>
-  <%= link_to 'Editar', edit_user_user_bet_path(@user, @user_bet) %> |
+  | <%= link_to 'Editar', edit_user_user_bet_path(@user, @user_bet) %>
 <% end %>
 
 <% unless current_user.admin? %>

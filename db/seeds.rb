@@ -15,19 +15,19 @@ grands_amount = 10
 user_bets_amount = 50
 bet_per_grand = 3
 
-User.create(
-username: Faker::Internet.unique.user_name(6..40),
-name: Faker::Name.first_name,
-role: 'admin',
-money: 1000,
-email: 'j123@uc.cl',
-lastname: Faker::Name.last_name,
-password: '12345678',
-password_confirmation: '12345678'
+user = User.create(
+  username: Faker::Internet.unique.user_name(6..40),
+  name: Faker::Name.first_name,
+  role: 'admin',
+  money: 1000,
+  email: 'j123@uc.cl',
+  lastname: Faker::Name.last_name,
+  password: '12345678',
+  password_confirmation: '12345678'
 )
 
 user_amount.times do
-  User.create!(
+  user2 = User.create!(
     username: Faker::Internet.unique.user_name(6..40),
     name: Faker::Name.first_name,
     role: 'gambler',
@@ -36,7 +36,12 @@ user_amount.times do
     lastname: Faker::Name.last_name,
     password_digest: Faker::Internet.password
   )
+  if Random.rand(1..2) == 2
+    user.following << user2
+    user2.following << user
+  end
 end
+
 competitor_amount.times do
   Competitor.create!(
     country: Faker::Address.country,
