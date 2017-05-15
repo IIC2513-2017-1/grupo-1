@@ -33,12 +33,15 @@ competitor_amount.times do
   )
 end
 bet_amount.times do
+  time = DateTime.current + Random.rand(1..10).days
   bet = Bet.new(
     sport: 'football',
     country: Faker::Address.country,
     tournament: Faker::Company.name,
-    start_date: DateTime.current + Random.rand(1..10).days,
-    pay_per_tie: 2
+    start_date: time,
+    pay_per_tie: 2,
+    finish: false,
+    end_date: time + 2.hours
   )
   next unless bet.save
   id1 = Competitor.order('RANDOM()').first.id
@@ -57,7 +60,8 @@ end
 grands_amount.times do
   grand = Grand.create(
     amount: Random.rand(1..1000),
-    user_id: User.order('RANDOM()').first.id
+    user_id: User.order('RANDOM()').first.id,
+    checked: false
   )
   bet_per_grand.times do
     bet = Bet.order('RANDOM()').first

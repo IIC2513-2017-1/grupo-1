@@ -85,7 +85,7 @@ class UsersController < ApplicationController
       redirect_to accept_follow_path
     end
     user = User.find(params[:user_id])
-    current_user.pending_relationships.find_by(follower_id: params[:user_id]).destroy
+    current_user.pending_relationships.find_by(followed_id: params[:user_id]).destroy
     if params[:accepted]
       current_user.following << user
       user.following << current_user
@@ -94,6 +94,10 @@ class UsersController < ApplicationController
       flash[:success] = 'Solicitud de amistad rechazada'
     end
     redirect_to accept_follow_path
+  end
+
+  def historial
+    @grands = current_user.grands.where(checked: true)
   end
 
   def destroy
