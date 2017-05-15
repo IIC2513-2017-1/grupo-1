@@ -101,13 +101,11 @@ class BetsController < ApplicationController
     end
   end
 
-
   def ganada?(grand)
     grand.bets_per_grand.each do |bet|
       return false if bet.bet.result != bet.selection
     end
     true
-
   end
 
   def get_multiplicator(grand)

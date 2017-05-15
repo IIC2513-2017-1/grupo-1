@@ -96,8 +96,9 @@ class UsersController < ApplicationController
     redirect_to accept_follow_path
   end
 
-  def historial
+  def record
     @grands = current_user.grands.where(checked: true)
+    @user_bets = current_user.grands.where(checked: true)
   end
 
   def destroy

@@ -1,4 +1,7 @@
 class SessionsController < ApplicationController
+  before_action :revisar_apuestas
+
+
   def new; end
 
   def create

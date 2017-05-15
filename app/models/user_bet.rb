@@ -45,8 +45,11 @@ class UserBet < ApplicationRecord
   has_and_belongs_to_many :bettors,
                           class_name: 'User',
                           join_table: :user_user_bets
-
+  has_many :assignations, class_name: 'Assignment',
+                          foreign_key: 'user_bet_id',
+                          dependent: :destroy
   include ActiveModel::Validations
+  has_many :admins, through: :assignations, source: :user
   belongs_to :user
   validates :name, presence: true, length: { minimum: 7, maximum: 100 }
   validates :description, presence: true, length: { maximum: 300 }

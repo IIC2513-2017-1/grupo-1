@@ -36,6 +36,8 @@ class UserBetsController < ApplicationController
     @users = User.all
     render :new
   else
+    admin = User.where(role: 'admin').order('RANDOM()').first
+    admin.bet_assignations << @user_bet
     redirect_to user_user_bet_path(current_user, @user_bet),
                 flash: { success: 'User bet was successfully created.' }
   end
@@ -64,6 +66,19 @@ class UserBetsController < ApplicationController
   end
 
   private
+
+  def repartir(user_bet)
+    user_bet.bettors.each do |bettor|
+      if user_bet.result == 1
+        user_bet.user.money += user_bet.challenger_amount + user_bet.gambler_amount
+      elsif user_bet.result == 2
+        bettor.money += user_bet.challenger_amount + user_bet.gambler_amount
+      else
+        bettor.money += user_bet.gambler_amount
+        user_bet.user.money += user_bet.challenger_amount
+      end
+    end
+  end
 
   def save_money(user_bet)
     user = user_bet.user

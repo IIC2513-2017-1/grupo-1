@@ -1,13 +1,14 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
-  before_action :revisar_apuestas
 
-  helper_method :current_user
+  helper_method :current_user, :revisar_apuestas
+
 
   protected
 
   def revisar_apuestas
     bets = Bet.all
+    revisar_meesbets
     bets.each do |bet|
       unless bet.finish
         if bet.end_date < DateTime.current
@@ -23,6 +24,18 @@ class ApplicationController < ActionController::Base
               end
             end
           end
+        end
+      end
+    end
+  end
+
+  def revisar_meesbets
+    meesbets = UserBet.all
+    meesbets.each do |bet|
+      unless bet.checked
+        if bet.end_date < DateTime.current
+          admin = User.where(role: 'admin').order('RANDOM()').first
+          admin.bet_assignations << bet
         end
       end
     end
