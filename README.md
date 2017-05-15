@@ -2,15 +2,15 @@
 
 Primero que todo nuestra ~~super~~ app está en mrmeesbet.herokuapp.com 
 
-
 Esteticamente corre bien en safari con un pc de 15 pulgadas  :sweat_smile:.
 
+Hay seeds en el archivo seeds de la carpeta db, se corren con rails db:seed. En estas esta el usuario admin con mail j123@uc.cl y password 12345678 para ingresar a la aplicacíon, ademas cuenta con amigos y historial de apuestas.
 
-Hay seeds en el archivo seeds de la carpeta db, se corren con rails db:seed. Lamentablemente falla en un 10% de las ejecuciones por problemas en las keys.
+Para el termino de apuestas se revisan la fecha de inicio, pudiendo acceder y apostar solo las que aun no comienzan. Para las apuestas de la pagina actualmente se genera un resultado aleatorio, actualizandose para cada usuario si es que gano o no. Por otro lado, para las apuestas de los usuarios, implementamos que tuviera un atributo resultado, y que le lleguen las notificaciones a los admin, pero no alcanzamos a implementar que los admin decidan el ganador aún.
 
-Las validaciones de frontend están realizadas mediante el form de rails, las de backend en los modelos y las de base de datos en las migraciones.
+Por ultimo, se nos olvido sacar las acciones y rutas de new, edit, y update del controlador de bets (apuestas de pagina), ya que no seran nesesarias porque las bets se implementaran via API. Actualmente se puede entrar poniendo los path en el buscador del browser.
 
-Hicimos 3 scaffolds, users, user_bets y bets, en los 3 casos requeriamos de vistas controladores y modelos, por esto optamos hcaer scaffold en vez de otra cosa, aunque las vistas fueron cambiadas.
+
 
 
 
