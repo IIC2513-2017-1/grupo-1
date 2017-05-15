@@ -40,6 +40,12 @@
 Rails.application.routes.draw do
   resources :bets
   resources :users do
+    collection do
+      get 'search'
+    end
+    member do
+      get 'record'
+    end
     resources :user_bets
   end
 
@@ -50,7 +56,6 @@ Rails.application.routes.draw do
   delete '/logout', to: 'sessions#destroy'
 
   root 'bets#index'
-
   get '/search', to: 'bets#search'
   get '/accept_follow', to: 'pages#accept_friends'
   get '/bet_list', to: 'pages#bet_list'

@@ -5,7 +5,11 @@
 
       <tr>
         <th>Nombre:</th>
-        <th><%= bet.name %></th>
+        <% if current_user.admin? %>
+          <th><%= link_to bet.name, user_user_bet_path(bet.user, bet) %></th>
+        <% else %>
+          <th><%= bet.name %></th>
+        <% end %>
       </tr>
 
       <tr>

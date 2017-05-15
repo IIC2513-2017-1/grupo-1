@@ -1,24 +1,37 @@
 <%= provide(:title, 'Usuarios') %>
 <%= provide(:header, 'Usuarios') %>
 
-<table>
-  <thead>
-    <tr>
-      <th>Username</th>
-      <th>Role</th>
-      <th>Email</th>
-      <th colspan="1"></th>
-    </tr>
-  </thead>
+<div class="user-search">
+  <%= form_tag search_users_path, method: 'get' do %>
+    <div class="form-group">
+      <%= label_tag 'Nombre de usuario' %>
+      <%= text_field_tag :user, @user %>
+    </div>
+    <div class="form-group">
+      <%= submit_tag 'Buscar usuario' %>
+    </div>
+  <% end %>
+</div>
 
-  <tbody>
-    <% @users.each do |user| %>
+<% @users.each do |user| %>
+  <table class="user-index-table">
+    <tbody>
       <tr>
-        <td><%= link_to user.username, user %></td>
-        <td><%= user.role %></td>
-        <td><%= user.email %></td>
-        <td><%= link_to 'Eliminar', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td> Nombre: </td>
+        <td><%= link_to full_name(user), user %></td>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+      <tr>
+        <td> Usuario: </td>
+        <td><%= user.username %></td>
+      </tr>
+      <tr>
+        <td> Role: </td>
+        <td><%= user.role %></td>
+      </tr>
+      <tr>
+        <td> Mail: </td>
+        <td><%= user.email %></td>
+      </tr>
+    </tbody>
+  </table>
+<% end %>

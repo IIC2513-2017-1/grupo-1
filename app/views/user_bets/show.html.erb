@@ -35,8 +35,15 @@
   <strong>End date:</strong>
   <%= @user_bet.end_date %>
 </p>
-
+<% if current_user.admin? %>
+  <%= link_to 'Eliminar', user_user_bet_path(@user, @user_bet ), method: :delete, data: { confirm: 'Are you sure?' } %> |
+  <%= link_to 'Ir al usuario', @user %> |
+  <%= link_to 'Lista de MeesBets', bet_list_path %>
+<% end %>
 <% if @user == current_user %>
   <%= link_to 'Editar', edit_user_user_bet_path(@user, @user_bet) %> |
 <% end %>
-<%= link_to 'Volver atras', user_user_bets_path(@user) %>
+
+<% unless current_user.admin? %>
+  <%= link_to 'Volver atras', user_user_bets_path(@user) %>
+<% end %>

@@ -1,10 +1,30 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
-  before_action :revisar_apuestas
+  #before_action :revisar_apuestas
 
   helper_method :current_user
+  helper_method :ganada?
+  helper_method :get_multiplicator
 
   protected
+
+  def ganada?(grand)
+    grand.bets_per_grand.each do |bet|
+      return false if bet.bet.result != bet.selection
+    end
+    true
+  end
+
+  def get_multiplicator(grand)
+    multiplier = 1
+    grand.bets_per_grand do |bet|
+      selection = bet.selection
+      mul = bet.bet.competitors_per_bet.find_by(competitor_id:
+       selection).multiplicator
+      multiplier *= mul
+    end
+    multiplier
+  end
 
   def revisar_apuestas
     bets = Bet.all

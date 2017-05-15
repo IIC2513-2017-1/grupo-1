@@ -7,12 +7,24 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 #
 
+
 user_amount = 10
 competitor_amount = 100
 bet_amount = 30
 grands_amount = 10
 user_bets_amount = 50
 bet_per_grand = 3
+
+User.create(
+username: Faker::Internet.unique.user_name(6..40),
+name: Faker::Name.first_name,
+role: 'admin',
+money: 1000,
+email: 'j123@uc.cl',
+lastname: Faker::Name.last_name,
+password: '12345678',
+password_confirmation: '12345678'
+)
 
 user_amount.times do
   User.create!(
@@ -56,6 +68,8 @@ bet_amount.times do
       competitor_id: id1
     )
   end
+  bet.result = id1
+  bet.save!
 end
 grands_amount.times do
   grand = Grand.create(
@@ -91,4 +105,27 @@ user_bets_amount.times do
     gambler_amount: Random.rand(20..2000),
     bet_limit: Random.rand(1..7)
   )
+end
+
+grands_amount.times do
+  grand = Grand.create(
+    amount: Random.rand(1..1000),
+    user_id: User.where(email: 'j123@uc.cl').order('RANDOM()').first.id,
+    checked: true
+  )
+  bet_per_grand.times do
+    bet = Bet.order('RANDOM()').first
+    MakeUp.create(
+      grand_id: grand.id,
+      bet_id: bet.id,
+      selection: bet.competitors.order('RANDOM()').first.id
+    )
+  end
+  final_date = DateTime.current - 1.years
+  grand.bets.each do |bet|
+    next unless final_date < bet.start_date
+    final_date = bet.start_date
+  end
+  grand.end_date = final_date
+  grand.save
 end

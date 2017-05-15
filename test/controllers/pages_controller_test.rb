@@ -59,5 +59,4 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
       post bet_list_url, params: { user_id: @user.id, bet_id: bet.id }
     end
   end
-
 end

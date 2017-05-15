@@ -8,12 +8,17 @@
 #  updated_at :datetime         not null
 #  end_date   :datetime
 #  user_id    :integer
+#  checked    :boolean
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
   amount: 1
+  checked: false
+  end_date: <%= DateTime.current + 3.months %>
 
 two:
   amount: 1
+  checked: false
+  end_date: <%= DateTime.current + 3.months %>

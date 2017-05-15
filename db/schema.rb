@@ -22,10 +22,10 @@ ActiveRecord::Schema.define(version: 20170514213101) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.float    "pay_per_tie"
+    t.string   "tournament"
     t.boolean  "finish"
     t.integer  "result"
     t.datetime "end_date"
-    t.string   "tournament"
   end
 
   create_table "bets_competitors", id: false, force: :cascade do |t|

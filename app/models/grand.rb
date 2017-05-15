@@ -8,6 +8,7 @@
 #  updated_at :datetime         not null
 #  end_date   :datetime
 #  user_id    :integer
+#  checked    :boolean
 #
 
 class Grand < ApplicationRecord

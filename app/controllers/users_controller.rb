@@ -7,7 +7,7 @@ class UsersController < ApplicationController
 
   def index
     unless current_user.admin?
-      return redirect_to root_path, flash: { alert: 'Access denied' }
+      return redirect_to root_path, flash: { alert: 'Acceso denegado' }
     end
     @users = User.all
   end
@@ -18,14 +18,14 @@ class UsersController < ApplicationController
 
   def new
     if current_user
-      return redirect_to root_path, flash: { alert: 'Access denied' }
+      return redirect_to root_path, flash: { alert: 'Acceso denegado' }
     end
     @user = User.new
   end
 
   def edit
     return if @user == current_user
-    redirect_to user_path(@user), flash: { alert: 'Access denied' }
+    redirect_to user_path(@user), flash: { alert: 'Acceso denegado' }
   end
 
   def create
@@ -34,7 +34,9 @@ class UsersController < ApplicationController
       if @user.save
         format.html do
           redirect_to login_path,
-                      notice: "Se ha creado el usuario #{@user.username}"
+                      flash: {
+                        success: "Se ha creado el usuario #{@user.username}"
+                      }
         end
       else
         format.html { render :new }
@@ -47,12 +49,22 @@ class UsersController < ApplicationController
       new_user_params = user_params.reject { |_, v| v.blank? }
       if @user.update(new_user_params)
         format.html do
-          redirect_to @user, notice: 'User was successfully updated.'
+          redirect_to @user, flash: {
+            success: 'Usuario fue editado correctamente'
+          }
         end
       else
         format.html { render :edit }
       end
     end
+  end
+
+  def search
+    @users = User.where("username LIKE '%#{params[:user]}%'")
+    if @users.empty?
+      return redirect_to users_path, flash: { notice: 'No hubo resultados' }
+    end
+    render 'index'
   end
 
   # Falta testear permisos
@@ -96,15 +108,20 @@ class UsersController < ApplicationController
     redirect_to accept_follow_path
   end
 
-  def historial
-    @grands = current_user.grands.where(checked: true)
+  def record
+    @grands = current_user.grands.where(
+      checked: true
+    ).includes(bets: :competitors)
   end
 
   def destroy
+    username = @user.username
     @user.destroy
     respond_to do |format|
       format.html do
-        redirect_to users_url, notice: 'User was successfully destroyed.'
+        redirect_to users_url, flash: {
+          success: "Usuario #{username} fue eliminado correctamente"
+        }
       end
     end
   end
@@ -116,7 +133,7 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:username, :role, :email, :email_confirmation,
+    params.require(:user).permit(:username, :email, :email_confirmation,
                                  :password, :password_confirmation, :avatar,
                                  :name, :lastname, :description, :birthday)
   end

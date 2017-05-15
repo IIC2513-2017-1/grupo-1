@@ -42,7 +42,7 @@ class BetsController < ApplicationController
     if bets_id.empty?
       return redirect_to root_path, flash: { alert: 'Ingrese alguna seleccion' }
     end
-    grand = Grand.new(amount: params[:amount].to_i, user_id: current_user.id)
+    grand = Grand.new(amount: params[:amount].to_i, user_id: current_user.id, checked: false)
     user = current_user
     Bet.transaction do
       grand.save!
@@ -99,26 +99,6 @@ class BetsController < ApplicationController
         redirect_to bets_url, notice: 'Bet was successfully destroyed.'
       end
     end
-  end
-
-
-  def ganada?(grand)
-    grand.bets_per_grand.each do |bet|
-      return false if bet.bet.result != bet.selection
-    end
-    true
-
-  end
-
-  def get_multiplicator(grand)
-    multiplier = 1
-    grand.bets_per_grand do |bet|
-      selection = bet.selection
-      mul = bet.bet.competitors_per_bet.find_by(competitor_id:
-       selection).multiplicator
-      multiplier *= mul
-    end
-    multiplier
   end
 
   private

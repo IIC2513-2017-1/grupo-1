@@ -9,6 +9,10 @@
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  pay_per_tie :float
+#  tournament  :string
+#  finish      :boolean
+#  result      :integer
+#  end_date    :datetime
 #
 
 require 'test_helper'

@@ -33,10 +33,13 @@
   <strong>Description:</strong>
   <%= @user.description %>
 </p>
+<% if current_user.admin? %>
+  <%= link_to 'Eliminar', @user, method: :delete, data: { confirm: 'Are you sure?' } %> |
+<% end %>
 <% if @user == current_user %>
   <%= link_to 'Editar', edit_user_path(@user) %> |
 <% end %>
-<%= link_to 'MeesBets', user_user_bets_path(@user) %>
+<%= link_to 'Ver MeesBets', user_user_bets_path(@user) %>
 
 <p>
   <% unless @bets.empty? %>
