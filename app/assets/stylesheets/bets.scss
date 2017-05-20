@@ -57,8 +57,10 @@
   width: 70%;
 
   .bets-status {
-    width: 20%;
-    float: left;
+    position: fixed;
+    width: 10%;
+    right: 0;
+    margin-right: 10%;
 
     input {
       width: 80%;
