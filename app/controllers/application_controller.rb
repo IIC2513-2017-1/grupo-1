@@ -29,21 +29,17 @@ class ApplicationController < ActionController::Base
     bets = Bet.all
     revisar_meesbets
     bets.each do |bet|
-      unless bet.finish
-        if bet.end_date < DateTime.current
-          bet.finish = true
-          bet.result = bet.competitors.order('RANDOM()').first.id
-          bet.save!
-          bet.grands.each do |grand|
-            if grand.end_date < DateTime.current_user
-              unless grand.finish
-                grand.finish = true
-                grand.save!
-                add_money(grand) if ganada?(grand)
-              end
-            end
-          end
-        end
+      next if bet.finish
+      next unless bet.end_date < DateTime.current
+      bet.finish = true
+      bet.result = bet.competitors.order('RANDOM()').first.id
+      bet.save!
+      bet.grands.each do |grand|
+        next unless grand.end_date < DateTime.current_user
+        next if grand.finish
+        grand.finish = true
+        grand.save!
+        add_money(grand) if ganada?(grand)
       end
     end
   end
@@ -51,12 +47,10 @@ class ApplicationController < ActionController::Base
   def revisar_meesbets
     meesbets = UserBet.all
     meesbets.each do |bet|
-      unless bet.checked
-        if bet.end_date < DateTime.current
-          admin = User.where(role: 'admin').order('RANDOM()').first
-          admin.bet_assignations << bet
-        end
-      end
+      next if bet.checked
+      next unless bet.end_date < DateTime.current
+      admin = User.where(role: 'admin').order('RANDOM()').first
+      admin.bet_assignations << bet
     end
   end
 

@@ -6,6 +6,9 @@ class UserBetsController < ApplicationController
 
   def index
     @user = User.find(params[:user_id])
+    if current_user != @user
+      redirect_to root_path, flash: { alert: 'Acceso no autorizado' }
+    end
     @user_bets = @user.user_bets
   end
 

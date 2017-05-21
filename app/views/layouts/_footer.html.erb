@@ -1,5 +1,8 @@
 <footer>
   <% if current_user %>
+    <div class="footer-nav-left">
+      <%= link_to 'Mis meesbets', user_user_bets_path(current_user) %>
+    </div>
     <div class="footer-nav">
       <%= link_to 'Relaciones de amistad', follow_path %>
       <%= link_to 'Solicitudes de amistad', accept_follow_path %>

@@ -42,7 +42,9 @@ class BetsController < ApplicationController
     if bets_id.empty?
       return redirect_to root_path, flash: { alert: 'Ingrese alguna seleccion' }
     end
-    grand = Grand.new(amount: params[:amount].to_i, user_id: current_user.id, checked: false)
+    grand = Grand.new(amount: params[:amount].to_i,
+                      user_id: current_user.id,
+                      checked: false)
     user = current_user
     Bet.transaction do
       grand.save!
@@ -51,13 +53,12 @@ class BetsController < ApplicationController
     end
     bets_id.each do |bet_id|
       makeup = MakeUp.new(grand_id: grand.id,
-                     bet_id: bet_id.to_i,
-                     selection: params[bet_id.to_s])
-      unless makeup.save
-        flash[:alert] = "Grand no fue creado, problemas en bet #{bet_id}"
-        grand.destroy
-        return redirect_to root_path
-      end
+                          bet_id: bet_id.to_i,
+                          selection: params[bet_id.to_s])
+      next if makeup.save
+      flash[:alert] = "Grand no fue creado, problemas en bet #{bet_id}"
+      grand.destroy
+      return redirect_to root_path
     end
   rescue => invalid
     redirect_to bet_list_path, flash: { alert: invalid }

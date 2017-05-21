@@ -1,11 +1,9 @@
 <%= provide(:title, 'Editar usuario') %>
 <%= provide(:header, 'Editar usuario') %>
+<div class="pull-right">
+  <%= link_to 'Volver atras', user_path(@user), class: 'btn-primary' %>
+</div>
 
-<p>
-  Deja vacio donde no quieras editar
-</p>
-
-<%= render 'form', user: @user, edit: true %>
-
-<%= link_to 'Mostrar', @user %> |
-<%= link_to 'Volver atras', user_path(@user) %>
+<div class="edit-profile">
+  <%= render 'form', user: @user, edit: true %>
+</div>

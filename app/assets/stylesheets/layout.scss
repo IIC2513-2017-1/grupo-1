@@ -129,16 +129,6 @@ header {
   padding: 20px 0px 100px;
 }
 
-.container {
-  a {
-    text-decoration: none;
-    color: blue;
-  }
-
-  a:hover {
-    text-decoration: underline;
-  }
-}
 
 .form-group {
   margin: 10px 0px;
@@ -167,6 +157,21 @@ footer {
   padding: 1rem;
   background-color: $header_color;
   text-align: center;
+
+  .footer-nav-left {
+    float: left;
+    padding-right: 20px;
+
+    a {
+    color: #fff;
+    text-decoration: none;
+    padding: 0px 10px;
+    }
+    a:hover {
+        background-color: none;
+        color: #9A9290;
+    }
+  }
 
   .footer-nav {
     float: right;

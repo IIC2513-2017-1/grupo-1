@@ -1,55 +1,50 @@
 <%= provide(:title, 'Usuario') %>
 <%= provide(:header, "#{@user.username}") %>
 
+<div class="pull-right">
+  <% if @user == current_user %>
+    <%= link_to 'Editar', edit_user_path(@user), class: 'btn-primary' %>
+  <% end %>
+  <% if current_user.admin? %>
+    <%= link_to 'Eliminar', @user, method: :delete, class: 'btn-primary', data: { confirm: 'Are you sure?' } %>
+  <% end %>
+</div>
 
-<%= image_tag @user.avatar.url(:thumb) %>
+<div class="user-profile-info">
+  <%= image_tag @user.avatar.url(:thumb) %>
+  <p>
+    <strong>Nombre:</strong>
+    <%= @user.name + " " + @user.lastname %>
+  </p>
+  <p>
+    <strong>Rol:</strong>
+    <%= @user.role %>
+  </p>
+  <p>
+    <strong>Fecha de nacimiento:</strong>
+    <%= @user.birthday %>
+  </p>
+  <% if current_user == @user %>
+  <p>
+    <strong>dinerin:</strong>
+    <%= @user.money %>
+  </p>
+  <% end %>
+  <p>
+    <strong>Descripcion:</strong>
+    <%= @user.description %>
+  </p>
+</div>
 
-<p>
-  <strong>Username:</strong>
-  <%= @user.username %>
-</p>
-
-<p>
-  <strong>Role:</strong>
-  <%= @user.role %>
-</p>
-
-<p>
-  <strong>Name:</strong>
-  <%= @user.name + " " + @user.lastname %>
-</p>
-
-<p>
-  <strong>Birthday:</strong>
-  <%= @user.birthday %>
-</p>
-
-<p>
-  <strong>Money:</strong>
-  <%= @user.money %>
-</p>
-
-<p>
-  <strong>Description:</strong>
-  <%= @user.description %>
-</p>
-<% if current_user.admin? %>
-  <%= link_to 'Eliminar', @user, method: :delete, data: { confirm: 'Are you sure?' } %> |
-<% end %>
-<% if @user == current_user %>
-  <%= link_to 'Editar', edit_user_path(@user) %> |
-<% end %>
-<%= link_to 'Ver MeesBets', user_user_bets_path(@user) %>
-
-<p>
+<div class="user-profile-bets">
   <% unless @bets.empty? %>
     <strong> Bets: </strong>
     <% @bets.each do |bet| %>
       <div class="bets">
-        <p> name: <%= bet.name %></p>
-        <p> oponnent: <%= bet.user.name %></p>
-        <p> amount: <%= bet.gambler_amount %></p>
+        <p> nombre: <%= bet.name %></p>
+        <p> oponente: <%= bet.user.name %></p>
+        <p> monto apostado: <%= bet.gambler_amount %></p>
       </div>
     <% end %>
   <% end %>
-</p>
+</div>
