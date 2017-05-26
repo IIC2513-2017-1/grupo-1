@@ -11,29 +11,55 @@
 </div>
 
 <div class="user-profile-info">
-  <%= image_tag @user.avatar.url(:thumb) %>
-  <p>
-    <strong>Nombre:</strong>
-    <%= @user.name + " " + @user.lastname %>
-  </p>
-  <p>
-    <strong>Rol:</strong>
-    <%= @user.role %>
-  </p>
-  <p>
-    <strong>Fecha de nacimiento:</strong>
-    <%= @user.birthday %>
-  </p>
-  <% if current_user == @user %>
-  <p>
-    <strong>dinerin:</strong>
-    <%= @user.money %>
-  </p>
-  <% end %>
-  <p>
-    <strong>Descripcion:</strong>
-    <%= @user.description %>
-  </p>
+  <table>
+    <tr>
+      <td colspan="2">
+        <%= image_tag @user.avatar.url(:thumb) %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <strong>Nombre:</strong>
+      </td>
+      <td>
+        <%= @user.name + " " + @user.lastname %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <strong>Rol:</strong>
+      </td>
+      <td>
+        <%= @user.role %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <strong>Fecha de nacimiento:</strong>
+      </td>
+      <td>
+        <%= @user.birthday %>
+      </td>
+    </tr>
+    <% if current_user == @user %>
+    <tr>
+      <td>
+        <strong>dinerin:</strong>
+      </td>
+      <td>
+        <%= @user.money %>
+      </td>
+    </tr>
+    <% end %>
+    <tr>
+      <td>
+        <strong>Descripcion:</strong>
+      </td>
+      <td>
+        <%= @user.description %>
+      </td>
+    </tr>
+  </table>
 </div>
 
 <div class="user-profile-bets">

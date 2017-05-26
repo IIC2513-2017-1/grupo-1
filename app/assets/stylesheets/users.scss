@@ -12,6 +12,17 @@ $users_index_width: 40%;
 .user-profile-info {
   width: 50%;
   margin: 0 auto;
+
+  table {
+    tr {
+      padding: 5px 0px;
+      margin: 5px;
+      border-bottom: 1px solid black;
+      td {
+        padding-right: 100px;
+      }
+    }
+  }
 }
 
 .bets {
