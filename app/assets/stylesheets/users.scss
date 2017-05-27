@@ -4,6 +4,9 @@
 
 $users_index_width: 40%;
 
+.btn-group {
+  margin: 0% 0% 0% 5%;
+}
 .edit-profile {
   width: 40%;
   margin: 0 auto;
@@ -19,7 +22,7 @@ $users_index_width: 40%;
       margin: 5px;
       border-bottom: 1px solid black;
       td {
-        padding-right: 100px;
+        padding: 10px 100px 0px 0px;
       }
     }
   }
@@ -74,6 +77,15 @@ $users_index_width: 40%;
       text-align: right;
     }
   }
+}
+
+.btn-group {
+  padding: 10px 0px;
+}
+
+.grand-id {
+  width: 90%;
+  margin: 10px auto;
 }
 
 .bets-table {

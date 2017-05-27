@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="http://www.w3.org/TR/REC-html40">
+  <Worksheet ss:Name="Sheet1">
+    <Table>
+      <% @grands.each do |grand| %>
+        <Row>
+          <Cell><Data ss:Type="String">Deporte</Data></Cell>
+          <Cell><Data ss:Type="String">Torneo</Data></Cell>
+          <Cell><Data ss:Type="String">Fecha de inicio</Data></Cell>
+          <Cell><Data ss:Type="String">Pais</Data></Cell>
+          <Cell><Data ss:Type="String">Ganador</Data></Cell>
+          <Cell><Data ss:Type="String">Seleccion</Data></Cell>
+          <Cell><Data ss:Type="String">Plata ganada</Data></Cell>
+        </Row>
+        <% grand.bets_per_grand.each do |bet| %>
+          <Row>
+            <Cell class="text-left"><Data ss:Type="String"><%= bet.bet.sport %></Data></Cell>
+            <Cell class="text-left"><Data ss:Type="String"><%= bet.bet.tournament %></Data></Cell>
+            <Cell class="text-left"><Data ss:Type="String"><%= bet.bet.start_date %></Data></Cell>
+            <Cell class="text-left"><Data ss:Type="String"><%= bet.bet.country %></Data></Cell>
+            <Cell class="text-center"><Data ss:Type="String"><%= bet.bet.competitors.find(bet.bet.result).name %></Data></Cell>
+            <Cell class="text-center"><Data ss:Type="String"><%= bet.bet.competitors.find(bet.selection).name %></Data></Cell>
+            <% plata = 0 %>
+            <% if ganada?(grand) %>
+              <% plata = get_multiplicator(grand) * grand.amount %>
+            <% end %>
+            <Cell class='text-center'><Data ss:Type="String"><%= "$#{ plata }" %></Data></Cell>
+          </Row>
+        <% end %>
+        <Row></Row>
+      <% end %>
+    </Table>
+  </Worksheet>
+</Workbook>

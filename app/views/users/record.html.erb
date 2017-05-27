@@ -1,36 +1,43 @@
 <%= provide(:title, 'Mi historial') %>
 <%= provide(:header, "Historial de apuestas") %>
 
-<% @grands.each do |grand| %>
-  <table class="bets-table">
-    <thead>
-      <tr>
-        <th class="text-center"> Deporte </th>
-        <th class="text-center"> Torneo </th>
-        <th class="text-center"> Fecha de inicio </th>
-        <th class="text-center"> Pais </th>
-        <th class="text-center"> Ganador </th>
-        <th class="text-center"> Selección </th>
-        <th class="text-center"> Plata ganada </th>
-      </tr>
-    </thead>
-    <tbody class="table-hover">
-      <% grand.bets_per_grand.each do |bet| %>
+<div class="btn-group">
+  <%= link_to 'Download', record_user_path(@user, format: 'xls'), class: 'btn-primary' %>
+</div>
+
+<div>
+  <% @grands.each do |grand| %>
+    <h5 class="grand-id"> Grand ID <%= grand.id %></h5>
+    <table class="bets-table">
+      <thead>
         <tr>
-          <td class="text-left"><%= bet.bet.sport %></td>
-          <td class="text-left"><%= bet.bet.tournament %></td>
-          <td class="text-left"><%= bet.bet.start_date %></td>
-          <td class="text-left"><%= bet.bet.country %></td>
-          <% p bet.bet %>
-          <td class="text-center"><%= bet.bet.result %></td>
-          <td class="text-center"><%= bet.bet.competitors.find(bet.selection).name %></td>
-          <% plata = 0 %>
-          <% if ganada?(grand) %>
-            <% plata = get_multiplicator(grand) * grand.amount %>
-          <% end %>
-          <td class='text-center'> <%= "$#{ plata }" %> </td>
+          <th class="text-center"> Deporte </th>
+          <th class="text-center"> Torneo </th>
+          <th class="text-center"> Fecha de inicio </th>
+          <th class="text-center"> Pais </th>
+          <th class="text-center"> Ganador </th>
+          <th class="text-center"> Selección </th>
+          <th class="text-center"> Plata ganada </th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
-<% end %>
+      </thead>
+      <tbody class="table-hover">
+        <% grand.bets_per_grand.each do |bet| %>
+          <tr>
+            <td class="text-left"><%= bet.bet.sport %></td>
+            <td class="text-left"><%= bet.bet.tournament %></td>
+            <td class="text-left"><%= bet.bet.start_date %></td>
+            <td class="text-left"><%= bet.bet.country %></td>
+            <% p bet.bet %>
+            <td class="text-center"><%= bet.bet.result %></td>
+            <td class="text-center"><%= bet.bet.competitors.find(bet.selection).name %></td>
+            <% plata = 0 %>
+            <% if ganada?(grand) %>
+              <% plata = get_multiplicator(grand) * grand.amount %>
+            <% end %>
+            <td class='text-center'> <%= "$#{ plata }" %> </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+</div>

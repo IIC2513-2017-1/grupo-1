@@ -20,7 +20,10 @@ user = User.create(
   name: Faker::Name.first_name,
   role: 'admin',
   money: 1000,
+  birthday: rand(80.year.ago..18.year.ago),
+  description: Faker::Lorem.paragraph,
   email: 'j123@uc.cl',
+  avatar: Faker::Avatar.image,
   lastname: Faker::Name.last_name,
   password: '12345678',
   password_confirmation: '12345678'
@@ -32,6 +35,9 @@ user_amount.times do
     name: Faker::Name.first_name,
     role: 'gambler',
     money: 1000,
+    birthday: rand(80.year.ago..18.year.ago),
+    avatar: Faker::Avatar.image,
+    description: Faker::Lorem.paragraph,
     email: Faker::Internet.unique.email,
     lastname: Faker::Name.last_name,
     password_digest: Faker::Internet.password

@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   include Secured
 
-  before_action :set_user, only: %i[show edit update destroy]
+  before_action :set_user, only: %i[show edit update destroy record]
   before_action :logged_in?, only: %i[show edit update destroy index
                                       new_follow_relation accept_friend]
 
@@ -109,9 +109,16 @@ class UsersController < ApplicationController
   end
 
   def record
-    @grands = current_user.grands.where(
+    unless current_user == @user
+      redirect_to root_path, flash: { alert: 'Acceso no autorizado' }
+    end
+    @grands = @user.grands.where(
       checked: true
     ).includes(bets: :competitors)
+    respond_to do |format|
+      format.html
+      format.xls
+    end
   end
 
   def destroy
