@@ -30,32 +30,51 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params.merge(money: 100, role: 'gambler'))
-    respond_to do |format|
-      if @user.save
-        format.html do
-          redirect_to login_path,
-                      flash: {
-                        success: "Se ha creado el usuario #{@user.username}"
-                      }
-        end
-      else
-        format.html { render :new }
-      end
+    User.transaction do
+      @user.save
+      UserMailer.welcome_email(@user).deliver_now
     end
+  rescue => invalid
+    flash[:notice] = invalid
+    @user = User.new
+    render :new
+  else
+    redirect_to login_path, flash: {
+      success: "Se ha creado el usuario #{@user.username}"
+    }
   end
 
   def update
-    respond_to do |format|
-      new_user_params = user_params.reject { |_, v| v.blank? }
-      if @user.update(new_user_params)
-        format.html do
-          redirect_to @user, flash: {
-            success: 'Usuario fue editado correctamente'
-          }
-        end
-      else
-        format.html { render :edit }
+    actual_password = params[:user][:actual_password]
+    unless @user.authenticate(actual_password)
+      return redirect_to edit_user_path,
+                         flash: { alert: 'Ingrese contraseña actual' }
+    end
+
+    # Considerar solo inputs no vacios
+    new_params = user_params.reject { |_, v| v.blank? }
+
+    # Si ingresa un mail nuevo, debe ser junto con la confirmacion
+    unless new_params.key?('email') && new_params['email'] == @user.email
+      if new_params.key?('email') ^ new_params.key?('email_confirmation')
+        return redirect_to edit_user_path, flash: {
+          alert: 'Debe ingresar email junto con la confirmacion'
+        }
       end
+    end
+
+    # Password nueva debe ir con confirmacion
+    if new_params.key?('password') ^ new_params.key?('password_confirmation')
+      return redirect_to edit_user_path, flash: {
+        alert: 'Debe ingresar contraseña junto con la confirmacion'
+      }
+    end
+    if @user.update(new_params)
+      redirect_to @user, flash: {
+        success: 'Usuario fue editado correctamente'
+      }
+    else
+      redirect_to edit_user_path
     end
   end
 

@@ -132,15 +132,20 @@ header {
 
 .form-group {
   margin: 10px 0px;
+  width: 100%;
+  margin: 0px auto;
   label {
-    float: left;
-    width: 200px;
+    display: inline-block;
+    width: 45%;
     text-align: left;
+    vertical-align: top;
     margin: 2px 0px;
   }
-  input {
+  input, textarea {
+    width: 45%;
+  }
+  input, select {
     margin-bottom: 10px;
-    width: 200px;
   }
 }
 

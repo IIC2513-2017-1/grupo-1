@@ -67,6 +67,13 @@
     <%= f.password_field :password_confirmation, required: !edit, maxlength: 72 %>
   </div>
 
+  <% if edit %>
+    <div class="form-group">
+      <%= f.label :contraseña_actual %>
+      <%= f.password_field :actual_password, required: !edit %>
+    </div>
+  <% end %>
+
   <div class="form-group">
     <%= f.submit 'Crear usuario'  if !edit %>
     <%= f.submit 'Editar usuario' if edit %>
