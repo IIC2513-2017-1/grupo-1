@@ -1,7 +1,8 @@
 class UsersController < ApplicationController
   include Secured
 
-  before_action :set_user, only: %i[show edit update destroy record]
+  before_action :set_user, only: %i[show edit update destroy
+                                    record notifications]
   before_action :logged_in?, only: %i[show edit update destroy index
                                       new_follow_relation accept_friend]
 
@@ -32,7 +33,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params.merge(money: 100, role: 'gambler'))
     User.transaction do
       @user.save
-      UserMailer.welcome_email(@user).deliver_now
+      UserMailer.registration_confirmation(@user).deliver_now
     end
   rescue => invalid
     flash[:notice] = invalid
@@ -40,7 +41,7 @@ class UsersController < ApplicationController
     render :new
   else
     redirect_to login_path, flash: {
-      success: "Se ha creado el usuario #{@user.username}"
+      success: 'Porfavor confirme su email antes de continuar'
     }
   end
 
@@ -70,6 +71,7 @@ class UsersController < ApplicationController
       }
     end
     if @user.update(new_params)
+      UserMailer.account_edited_email(@user).deliver_now
       redirect_to @user, flash: {
         success: 'Usuario fue editado correctamente'
       }
@@ -137,6 +139,26 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.html
       format.xls
+    end
+  end
+
+  def notifications
+    unless current_user == @user
+      return redirect_to root_path, flash: { alert: 'Access denied' }
+    end
+    @notifications = @user.notifications
+  end
+
+  def confirm_email
+    user = User.find_by_confirm_token(params[:id])
+    if user
+      user.email_activate
+      flash[:success] = 'Bienvenido a MrMeesBet, tu email fue confirmado,
+                        por favor ingresa a la aplicacion para continuar.'
+      redirect_to login_path
+    else
+      flash[:error] = 'Perdon, usuario no existe.'
+      redirect_to root_url
     end
   end
 

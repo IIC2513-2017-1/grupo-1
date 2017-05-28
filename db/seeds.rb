@@ -14,7 +14,7 @@ grands_amount = 10
 user_bets_amount = 20
 bet_per_grand = 3
 
-user = User.create(
+user = User.create!(
   username: Faker::Internet.unique.user_name(6..40),
   name: Faker::Name.first_name,
   role: 'admin',
@@ -24,9 +24,11 @@ user = User.create(
   email: 'j123@uc.cl',
   avatar: Faker::Avatar.image,
   lastname: Faker::Name.last_name,
+  email_confirmed: true,
   password: '12345678',
   password_confirmation: '12345678'
 )
+user.confirmation_token
 
 user_amount.times do
   User.create(
@@ -52,9 +54,11 @@ user_amount.times do
     # avatar: Faker::Avatar.image,
     description: Faker::Lorem.paragraph,
     email: Faker::Internet.unique.email,
+    email_confirmed: true,
     lastname: Faker::Name.last_name,
     password_digest: Faker::Internet.password
   )
+  user2.confirmation_token
   if Random.rand(1..2) == 2
     user.following << user2
     user2.following << user

@@ -2,7 +2,7 @@ class UserBetsController < ApplicationController
   include Secured
 
   before_action :set_user_bet, only: %i[show edit update destroy
-                                        obtener_resultado]
+                                        obtener_resultado invite]
   before_action :logged_in?
 
   def index
@@ -27,6 +27,24 @@ class UserBetsController < ApplicationController
     return if @user == current_user
     redirect_to user_user_bet_path(@user, @user_bet),
                 flash: { alert: 'Access denied' }
+  end
+
+  def invite
+    friend = User.find(params[:friend])
+    unless friend
+      return redirect_to user_user_bet_path(@user, @user_bet), flash: {
+        alert: 'No se ha podido realizar la invitación'
+      }
+    end
+    if friend.notifications.find_by(id: @user_bet.id)
+      return redirect_to user_user_bet_path(@user, @user_bet), flash: {
+        alert: 'Ya ha enviado una notificación a este usuario'
+      }
+    end
+    friend.notifications << @user_bet
+    redirect_to user_user_bet_path(@user, @user_bet), flash: {
+      success: "Se ha invitado correctamente al usuario #{friend.username}"
+    }
   end
 
   def create

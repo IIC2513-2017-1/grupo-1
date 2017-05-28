@@ -42,6 +42,7 @@ class MyValidator1 < ActiveModel::Validator
 end
 
 class UserBet < ApplicationRecord
+  has_and_belongs_to_many :invites, class_name: 'User'
   has_and_belongs_to_many :bettors,
                           class_name: 'User',
                           join_table: :user_user_bets

@@ -5,13 +5,13 @@
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
   </head>
   <body>
-    <h2>Bienvenido a, <%= @user.name %></h2>
+    <h2>Bienvenido <%= @user.name %>,</h2>
     <p>
       Te has registrado exitosamente en nuestra pagina web,
-      tu usuario es: <%= @user.username %>.<br>
+      ahora debes confirmar ingresando al siguiente link:
     </p>
     <p>
-      Para ingresar a la aplicación, sigue este link: <%= @url %>.
+      <%= confirm_email_user_url(@user.confirm_token) %>
     </p>
     <p>Gracias por unirte a nosotros!</p>
   </body>

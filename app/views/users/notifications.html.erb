@@ -1,0 +1,8 @@
+<%= provide(:title, 'Notificaciones') %>
+<%= provide(:header, 'Notificaciones') %>
+
+<div class="meesbets">
+  <% @notifications.each do |bet| %>
+    <%= render 'shared/bet_show', bet: bet, return_path: '/bet_list', button_name: 'Aceptar apuesta'%>
+  <% end %>
+</div>
