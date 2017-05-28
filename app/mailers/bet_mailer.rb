@@ -1,0 +1,2 @@
+class BetMailer < ApplicationMailer
+end

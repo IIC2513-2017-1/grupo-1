@@ -24,15 +24,17 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   test 'should create user' do
     assert_difference('User.count') do
-      post users_url, params: { user: { email: 'usuarionoexistente@gmail.com',
-                                        role: 'admin',
-                                        username: 'usuarionoexistente',
-                                        name: 'Usuario',
-                                        lastname: 'Noexistente',
-                                        description: 'descripcion',
-                                        birthday: Date.today,
-                                        password: 'foobar',
-                                        password_confirmation: 'foobar' } }
+      post users_url, params: { user: {
+        email: 'usuarionoexistente@gmail.com',
+        email_confirmation: 'usuarionoexistente@gmail.com',
+        username: 'usuarionoexistente',
+        name: 'Usuario',
+        lastname: 'Noexistente',
+        description: 'descripcion',
+        birthday: '2017-5-27',
+        password: 'foobar',
+        password_confirmation: 'foobar'
+      } }
     end
 
     assert_redirected_to login_url
@@ -57,12 +59,14 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   test 'should update user only when logged in' do
     patch user_url(@user), params: { user: { email: @user.email,
                                              role: @user.role,
-                                             username: @user.username } }
+                                             username: @user.username,
+                                             actual_password: @password } }
     assert_redirected_to login_path
     log_in(@user, @password)
     patch user_url(@user), params: { user: { email: @user.email,
                                              role: @user.role,
-                                             username: @user.username } }
+                                             username: @user.username,
+                                             actual_password: @password } }
     assert_redirected_to user_url(@user)
   end
 
