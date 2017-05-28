@@ -7,12 +7,11 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 #
 
-
-user_amount = 10
+user_amount = 5
 competitor_amount = 100
 bet_amount = 30
 grands_amount = 10
-user_bets_amount = 50
+user_bets_amount = 20
 bet_per_grand = 3
 
 user = User.create(
@@ -30,13 +29,27 @@ user = User.create(
 )
 
 user_amount.times do
-  user2 = User.create!(
+  User.create(
+    username: Faker::Internet.unique.user_name(6..40),
+    name: Faker::Name.first_name,
+    role: 'admin',
+    money: 1000,
+    birthday: rand(80.year.ago..18.year.ago),
+    # avatar: Faker::Avatar.image,
+    description: Faker::Lorem.paragraph,
+    email: Faker::Internet.unique.email,
+    lastname: Faker::Name.last_name,
+    password_digest: Faker::Internet.password
+  )
+end
+user_amount.times do
+  user2 = User.create(
     username: Faker::Internet.unique.user_name(6..40),
     name: Faker::Name.first_name,
     role: 'gambler',
     money: 1000,
     birthday: rand(80.year.ago..18.year.ago),
-    avatar: Faker::Avatar.image,
+    # avatar: Faker::Avatar.image,
     description: Faker::Lorem.paragraph,
     email: Faker::Internet.unique.email,
     lastname: Faker::Name.last_name,
@@ -105,8 +118,10 @@ grands_amount.times do
   grand.save
 end
 user_bets_amount.times do
+  checked = true
+  checked = nil if Random.rand(1..2) == 1
   aleatorea = Random.rand(1..50)
-  UserBet.create(
+  user_bet = UserBet.new(
     end_date: DateTime.current + (aleatorea + 2).days,
     start_date: DateTime.current + aleatorea.days,
     name: Faker::Internet.unique.user_name(7..99),
@@ -114,8 +129,13 @@ user_bets_amount.times do
     user_id: User.order('RANDOM()').first.id,
     challenger_amount: Random.rand(20..500),
     gambler_amount: Random.rand(20..2000),
-    bet_limit: Random.rand(1..7)
+    bet_limit: Random.rand(1..7),
+    checked: checked
   )
+  if user_bet.save
+    admin = User.where(role: 'admin').order('RANDOM()').first
+    Assignment.create(user_id: admin.id, user_bet_id: user_bet.id)
+  end
 end
 
 grands_amount.times do

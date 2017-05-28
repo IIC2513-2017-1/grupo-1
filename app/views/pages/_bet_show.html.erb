@@ -1,6 +1,6 @@
 <% if bet.bet_limit > 0 && DateTime.current < bet.start_date %>
   <div class="meesbets-content">
-    <h4>Apuesta numero: <%=bet.id %></h4>
+    <h4>Apuesta numero: <%= bet.id %></h4>
     <table>
 
       <tr>
@@ -42,10 +42,26 @@
         <th><%= bet.end_date %></th>
       </tr>
     </table>
-
-    <%= form_tag(return_path, method: "POST") do %>
-      <%= hidden_field_tag :bet_id, bet.id %>
-      <%= submit_tag button_name %>
+    <% if assignation == 1 %>
+      <table>
+        <tr>
+          <th><%= button_to 'Aceptar', aceptar_rechazar_path, params: { aceptar: true, bet_id: bet.id }%></th>
+          <th><%= button_to 'Rechazar', aceptar_rechazar_path, params: { aceptar: false, bet_id: bet.id }%></th>
+        </tr>
+      </table>
+    <% elsif assignation == 2 %>
+      <table>
+        <tr>
+          <th><%= button_to 'Gana creador', obtener_resultado_path, params: { result: 1, bet_id: bet.id }%></th>
+          <th><%= button_to 'Gana apostador', obtener_resultado_path, params: { result: 2, bet_id: bet.id }%></th>
+          <th><%= button_to 'Empate', obtener_resultado_path, params: { result: 3, bet_id: bet.id }%></th>
+        </tr>
+      </table>
+    <% else %>
+      <%= form_tag(return_path, method: "POST") do %>
+        <%= hidden_field_tag :bet_id, bet.id %>
+        <%= submit_tag button_name %>
+      <% end %>
     <% end %>
   </div>
 <% end %>

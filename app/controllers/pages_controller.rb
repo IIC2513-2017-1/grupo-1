@@ -10,7 +10,7 @@ class PagesController < ApplicationController
     bets = UserBet.where.not(user_id: current_user.id).includes(:user)
     @bets = []
     bets.each do |bet|
-      @bets << bet if bet.start_date > DateTime.current
+      @bets << bet if bet.start_date > DateTime.current && bet.checked
     end
   end
 
@@ -37,21 +37,28 @@ class PagesController < ApplicationController
     ).includes(:user)
     @bets = []
     betss.each do |bet|
-      @bets << bet if bet.start_date > DateTime.current
+      @bets << bet if bet.start_date > DateTime.current && bet.checked
     end
   end
 
   def assignations
-    @assignations = current_user.bet_assignations
+    @pending_assignations = current_user.bet_assignations.where(checked: nil)
+    result_assignations = current_user.bet_assignations
+                                      .where(result: nil).where(checked: true)
+    @result_assignations = []
+    result_assignations.each do |assignation|
+      @result_assignations << assignation if assignation.end_date <
+                                             DateTime.current
+    end
   end
 
-  # Esto no debiera estar, aqui. Para la entrega 4 lo movemos
+  # Esto no debiera estar, aqui. Para la entrega 4 lo movemos xd
   def accept_a_bet
     user = current_user
     bet = UserBet.find(params[:bet_id])
     UserBet.transaction do
-      if bet.gambler_amount > user.money || bet.bet_limit <= 0 || bet.start_date \
-          < DateTime.current
+      if bet.gambler_amount > user.money || bet.bet_limit <= 0 \
+            || bet.start_date < DateTime.current
         redirect_to bet_list_path,
                     flash: { alert: 'No se pudo ejecutar la apuesta' }
         return

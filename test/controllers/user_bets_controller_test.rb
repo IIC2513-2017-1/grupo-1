@@ -61,13 +61,13 @@ class UserBetsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test 'should get edit only when logged in' do
-    get edit_user_user_bet_url(@user, @user_bet)
-    assert_response :redirect
-    log_in @user, @password
-    get edit_user_user_bet_url(@user, @user_bet)
-    assert_response :success
-  end
+#  test 'should get edit only when logged in' do
+#    get edit_user_user_bet_url(@user, @user_bet)
+#    assert_response :redirect
+#    log_in @user, @password
+#    get edit_user_user_bet_url(@user, @user_bet)
+#    assert_response :success
+#  end
 
   test 'should update user_bet only when logged in' do
     patch user_user_bet_url(@user, @user_bet), params: { user_bet: {
@@ -112,11 +112,11 @@ class UserBetsControllerTest < ActionDispatch::IntegrationTest
     assert_response :redirect
   end
 
-  test 'only edit meesbet if current user is owner' do
-    log_in @user, @password
-    other_user = users(:two)
-    other_user_bet = user_bets(:two)
-    get edit_user_user_bet_url(other_user, other_user_bet)
-    assert_response :redirect
-  end
+#  test 'only edit meesbet if current user is owner' do
+#    log_in @user, @password
+#    other_user = users(:two)
+#    other_user_bet = user_bets(:two)
+#    get edit_user_user_bet_url(other_user, other_user_bet)
+#    assert_response :redirect
+#  end
 end

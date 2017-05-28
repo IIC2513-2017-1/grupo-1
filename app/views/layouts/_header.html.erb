@@ -21,6 +21,7 @@
             <li><%= link_to 'Mi historial', record_user_path(current_user) %></li>
             <% if current_user.admin? %>
               <li><%= link_to 'Mis asignaciones', assignations_path %></li>
+              <li><%= link_to 'Actualizar resultados', results_path %></li>
             <% end %>
             <li><%= link_to 'Log out', logout_path, method: :delete %></li>
           </ul>

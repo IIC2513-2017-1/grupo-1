@@ -28,7 +28,7 @@
             <td class="text-left"><%= bet.bet.start_date %></td>
             <td class="text-left"><%= bet.bet.country %></td>
             <% p bet.bet %>
-            <td class="text-center"><%= bet.bet.result %></td>
+            <td class="text-center"><%= Competitor.find(bet.bet.result).name %></td>
             <td class="text-center"><%= bet.bet.competitors.find(bet.selection).name %></td>
             <% plata = 0 %>
             <% if ganada?(grand) %>

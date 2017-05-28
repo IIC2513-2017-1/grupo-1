@@ -1,7 +1,8 @@
 class UserBetsController < ApplicationController
   include Secured
 
-  before_action :set_user_bet, only: [:show, :edit, :update, :destroy]
+  before_action :set_user_bet, only: %i[show edit update destroy
+                                        obtener_resultado]
   before_action :logged_in?
 
   def index
@@ -59,6 +60,13 @@ class UserBetsController < ApplicationController
   end
 
   def destroy
+    @user_bet.user.money += @user_bet.bet_limit * @user_bet.challenger_amount
+    @user_bet.bettors.each do |bettor|
+      @user_bet.user.money += @user_bet.challenger_amount
+      bettor.money += @user_bet.gambler_amount
+      bettor.save
+    end
+    @user_bet.user.save
     @user_bet.destroy
     respond_to do |format|
       format.html do
@@ -68,19 +76,45 @@ class UserBetsController < ApplicationController
     end
   end
 
+  def obtener_resultado
+    @user_bet.result = params[:result]
+    @user_bet.save
+    repartir @user_bet
+    # mandar mail aqui, avisar de alguna forma
+    redirect_to assignations_path
+  end
+
+  def aceptar_rechazar
+    bet = UserBet.find(params[:bet_id])
+    if params[:aceptar]
+      bet.checked = true
+      flash[:success] = "Apuesta #{bet.id} aceptada"
+    else
+      bet.checked = false
+      flash[:success] = "Apuesta #{bet.id} rechazada"
+    end
+    bet.save
+    redirect_to assignations_path
+  end
+
   private
 
   def repartir(user_bet)
+    user_bet.user.money += user_bet.bet_limit * user_bet.challenger_amount
     user_bet.bettors.each do |bettor|
       if user_bet.result == 1
-        user_bet.user.money += user_bet.challenger_amount + user_bet.gambler_amount
+        user_bet.user.money += user_bet.challenger_amount +
+                               user_bet.gambler_amount
       elsif user_bet.result == 2
         bettor.money += user_bet.challenger_amount + user_bet.gambler_amount
+        bettor.save
       else
         bettor.money += user_bet.gambler_amount
         user_bet.user.money += user_bet.challenger_amount
+        bettor.save
       end
     end
+    user_bet.user.save
   end
 
   def save_money(user_bet)

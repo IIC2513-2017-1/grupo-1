@@ -27,11 +27,6 @@ class BetsControllerTest < ActionDispatch::IntegrationTest
     #assert_redirected_to bet_url(Bet.last)
   end
 
-  test "should show bet" do
-    get bet_url(@bet)
-    assert_response :success
-  end
-
   # test "should get edit" do
   #   get edit_bet_url(@bet)
   #   assert_response :success

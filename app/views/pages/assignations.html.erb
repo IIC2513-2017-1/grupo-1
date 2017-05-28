@@ -2,7 +2,12 @@
 <%= provide(:header, 'Mis Asignaciones') %>
 
 <div class="meesbets">
-  <% @assignations.each do |bet| %>
-    <%= render 'bet_show', bet: bet, return_path: '/assignations', button_name: 'Decidir ganador'%>
+  <h3> Apuestas esperando resultado</h3>
+  <% @result_assignations.each do |bet| %>
+    <%= render 'bet_show', bet: bet, return_path: '/assignations', button_name: 'Decidir ganador', assignation: 2%>
+  <% end %>
+  <h3> Apuestas esperando ser aprobadas</h3>
+  <% @pending_assignations.each do |bet| %>
+    <%= render 'bet_show', bet: bet, return_path: '/assignations', button_name: 'Decidir ganador', assignation: 1%>
   <% end %>
 </div>

@@ -32,6 +32,6 @@
 
 <div class="meesbets">
   <% @bets.each do |bet| %>
-    <%= render 'bet_show', bet: bet, return_path: '/bet_list',  button_name: 'Aceptar apuesta'%>
+    <%= render 'bet_show', bet: bet, return_path: '/bet_list',  button_name: 'Aceptar apuesta', assignation: 3%>
   <% end %>
 </div>

@@ -12,25 +12,40 @@
     <thead>
       <tr>
         <th>Nombre</th>
-        <th>Apostador</th>
         <th>Descripción</th>
         <th>Monto apostador</th>
         <th>Monto desafiante</th>
         <th>Start date</th>
         <th>End date</th>
+        <th>Estado</th>
       </tr>
     </thead>
 
     <tbody>
       <% @user_bets.each do |user_bet| %>
+      <% if user_bet.checked.nil?
+        estado = 'Esperando respuesta'
+      elsif user_bet.checked == false
+        estado = 'Apuesta rechazada'
+      elsif user_bet.end_date < DateTime.current && user_bet.result.nil?
+        estado = 'Esperando resultado'
+      elsif user_bet.end_date > DateTime.current
+        estado = 'Apuesta en progreso'
+      elsif user_bet.result == 1
+        estado = 'Apuesta ganada'
+      elsif user_bet.result == 2
+        estado = 'Apuesta perdida'
+      else
+        estado = 'Apuesta empatada'
+      end %>
         <tr>
           <td><%= link_to user_bet.name, user_user_bet_path(@user, user_bet) %></td>
-          <td><%= user_bet.user_id %></td>
           <td><%= user_bet.description %></td>
           <td><%= user_bet.challenger_amount %></td>
           <td><%= user_bet.gambler_amount %></td>
           <td><%= user_bet.start_date %></td>
           <td><%= user_bet.end_date %></td>
+          <td><%= estado %></td>
         </tr>
       <% end %>
     </tbody>

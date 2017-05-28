@@ -133,6 +133,10 @@ class UsersController < ApplicationController
     end
   end
 
+  def aceptar_rechazar
+    
+  end
+
   private
 
   def set_user

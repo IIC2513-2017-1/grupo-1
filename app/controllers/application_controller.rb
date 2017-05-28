@@ -5,6 +5,25 @@ class ApplicationController < ActionController::Base
   helper_method :get_multiplicator
   helper_method :revisar_apuestas
 
+  def revisar_apuestas
+    bets = Bet.all
+    bets.each do |bet|
+      next if bet.finish
+      next unless bet.end_date < DateTime.current
+      bet.finish = true
+      bet.result = bet.competitors.order('RANDOM()').first.id
+      bet.save!
+      bet.grands.each do |grand|
+        next unless grand.end_date < DateTime.current_user
+        next if grand.finish
+        grand.finish = true
+        grand.save!
+        add_money(grand) if ganada?(grand)
+      end
+    end
+    redirect_to root_path, flash: { success: 'Apuestas actualizadas' }
+  end
+
   protected
 
   def ganada?(grand)
@@ -23,35 +42,6 @@ class ApplicationController < ActionController::Base
       multiplier *= mul
     end
     multiplier
-  end
-
-  def revisar_apuestas
-    bets = Bet.all
-    revisar_meesbets
-    bets.each do |bet|
-      next if bet.finish
-      next unless bet.end_date < DateTime.current
-      bet.finish = true
-      bet.result = bet.competitors.order('RANDOM()').first.id
-      bet.save!
-      bet.grands.each do |grand|
-        next unless grand.end_date < DateTime.current_user
-        next if grand.finish
-        grand.finish = true
-        grand.save!
-        add_money(grand) if ganada?(grand)
-      end
-    end
-  end
-
-  def revisar_meesbets
-    meesbets = UserBet.all
-    meesbets.each do |bet|
-      next if bet.checked
-      next unless bet.end_date < DateTime.current
-      admin = User.where(role: 'admin').order('RANDOM()').first
-      admin.bet_assignations << bet
-    end
   end
 
   def add_money(grand)
