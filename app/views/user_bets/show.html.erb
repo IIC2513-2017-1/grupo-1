@@ -4,18 +4,13 @@
 <div class="pull-right">
   <% if @user == current_user %>
     <%= link_to 'Editar', edit_user_user_bet_path(@user, @user_bet), class: 'btn-primary' %>
-    <%= link_to "Mis MeesBets", bet_list_path, class: 'btn-primary' %>
+    <%= link_to "Mis MeesBets", user_user_bets_path(@user), class: 'btn-primary' %>
     <%= link_to 'Eliminar', user_user_bet_path(@user, @user_bet ), method: :delete, class: 'btn-primary danger', data: { confirm: 'Are you sure?' } %>
   <% elsif current_user.admin? %>
     <%= link_to 'Eliminar', user_user_bet_path(@user, @user_bet ), method: :delete, class: 'btn-primary danger', data: { confirm: 'Are you sure?' } %>
     <%= link_to "MeesBets de #{@user.username}", user_user_bets_path(@user), class: 'btn-primary' %>
   <% end %>
 </div>
-
-<p>
-  <strong>User_id:</strong>
-  <%= @user_bet.user_id %>
-</p>
 
 <p>
   <strong>Description:</strong>
@@ -46,3 +41,12 @@
   <strong>End date:</strong>
   <%= @user_bet.end_date %>
 </p>
+
+<% if current_user == @user %>
+  <div>
+    <%= form_tag invite_user_user_bet_path(@user, @user_bet) do %>
+      <%= select_tag :friend, options_from_collection_for_select(current_user.following, :id, :username) %>
+      <%= submit_tag 'invitar' %>
+    <% end %>
+  </div>
+<% end %>

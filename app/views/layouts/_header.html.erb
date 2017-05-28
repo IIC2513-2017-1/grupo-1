@@ -19,6 +19,7 @@
           <ul class="header-link dropdown-content" id="myDropdown">
             <li><%= link_to 'Perfil', user_path(current_user) %></li>
             <li><%= link_to 'Mi historial', record_user_path(current_user) %></li>
+            <li><%= link_to 'Notificaciones', notifications_user_path(current_user) %></li>
             <% if current_user.admin? %>
               <li><%= link_to 'Mis asignaciones', assignations_path %></li>
             <% end %>

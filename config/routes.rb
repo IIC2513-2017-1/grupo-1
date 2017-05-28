@@ -44,9 +44,15 @@ Rails.application.routes.draw do
       get 'search'
     end
     member do
+      get 'notifications'
       get 'record'
+      get 'confirm_email'
     end
-    resources :user_bets
+    resources :user_bets do
+      member do
+        post 'invite'
+      end
+    end
   end
 
   # resource :sessions, only: %i[new create destroy]

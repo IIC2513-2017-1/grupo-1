@@ -1,5 +1,5 @@
 class UserMailer < ApplicationMailer
-  def welcome_email(user)
+  def registration_confirmation(user)
     @user = user
     @url  = root_url
     mail(to: @user.email, subject: 'Bienvenido a MrMeesBet')
@@ -7,7 +7,7 @@ class UserMailer < ApplicationMailer
 
   def account_edited_email(user)
     @user = user
-    @url  = user_path(@user)
+    @url  = user_url(@user)
     mail(to: @user.email, subject: 'Your account has been edited')
   end
 end

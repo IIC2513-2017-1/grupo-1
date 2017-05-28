@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170515022525) do
+ActiveRecord::Schema.define(version: 20170528204604) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -127,6 +127,14 @@ ActiveRecord::Schema.define(version: 20170515022525) do
     t.index ["user_id"], name: "index_user_bets_on_user_id", using: :btree
   end
 
+  create_table "user_bets_users", id: false, force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "user_bet_id"
+    t.index ["user_bet_id"], name: "index_user_bets_users_on_user_bet_id", using: :btree
+    t.index ["user_id", "user_bet_id"], name: "index_user_bets_users_on_user_id_and_user_bet_id", unique: true, using: :btree
+    t.index ["user_id"], name: "index_user_bets_users_on_user_id", using: :btree
+  end
+
   create_table "user_user_bets", id: false, force: :cascade do |t|
     t.integer "user_id"
     t.integer "user_bet_id"
@@ -150,11 +158,15 @@ ActiveRecord::Schema.define(version: 20170515022525) do
     t.string   "avatar_content_type"
     t.integer  "avatar_file_size"
     t.datetime "avatar_updated_at"
+    t.boolean  "email_confirmed"
+    t.string   "confirm_token"
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["username"], name: "index_users_on_username", unique: true, using: :btree
   end
 
   add_foreign_key "grands", "users"
+  add_foreign_key "user_bets_users", "user_bets"
+  add_foreign_key "user_bets_users", "users"
   add_foreign_key "user_user_bets", "user_bets"
   add_foreign_key "user_user_bets", "users"
 end

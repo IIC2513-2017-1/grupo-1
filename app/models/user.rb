@@ -21,6 +21,7 @@
 #
 
 class User < ApplicationRecord
+  before_create :confirmation_token
   has_attached_file :avatar, styles: { medium: '300x300>', thumb: '100x100>' },
                              default_url: '/images/:style/missing.png'
   validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\z/
@@ -33,14 +34,14 @@ class User < ApplicationRecord
   has_many :pending_relationships, foreign_key: 'follower_id',
                                    dependent: :destroy
   has_many :assignations, class_name: 'Assignment',
-                                    foreign_key: 'user_id',
-                                    dependent: :destroy
-
+                          foreign_key: 'user_id',
+                          dependent: :destroy
   has_many :demands, through: :pending_relationships, source: :followed
   has_many :grands, dependent: :destroy
   has_many :following, through: :active_relationships, source: :followed
   has_many :followeds, through: :passive_relationships, source: :follower
   has_many :bet_assignations, through: :assignations, source: :user_bet
+  has_and_belongs_to_many :notifications, class_name: 'UserBet'
   has_and_belongs_to_many :accepted_bets, class_name: 'UserBet',
                                           join_table: :user_user_bets
   has_many :user_bets, dependent: :destroy
@@ -80,5 +81,16 @@ class User < ApplicationRecord
              BCrypt::Engine.cost
            end
     BCrypt::Password.create(string, cost: cost)
+  end
+
+  def confirmation_token
+    return unless confirm_token.blank?
+    self.confirm_token = SecureRandom.urlsafe_base64.to_s
+  end
+
+  def email_activate
+    self.email_confirmed = true
+    self.confirm_token = nil
+    save!(validate: false)
   end
 end
