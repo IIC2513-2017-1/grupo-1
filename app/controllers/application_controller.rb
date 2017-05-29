@@ -18,6 +18,7 @@ class ApplicationController < ActionController::Base
         next if grand.finish
         grand.finish = true
         grand.save!
+        BetMailer.grand_finished_email(grand.user, grand).deliver_now
         add_money(grand) if ganada?(grand)
       end
     end

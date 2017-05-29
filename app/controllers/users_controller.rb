@@ -136,6 +136,16 @@ class UsersController < ApplicationController
     @grands = @user.grands.where(
       checked: true
     ).includes(bets: :competitors)
+    user_bets = @user.user_bets
+    accepted_user_bets = @user.accepted_bets.includes(:user)
+    @user_bets = []
+    user_bets.each do |user_bet|
+      @user_bets << user_bet unless user_bet.result.nil?
+    end
+    @accepted_user_bets = []
+    accepted_user_bets.each do |user_bet|
+      @accepted_user_bets << user_bet unless user_bet.result.nil?
+    end
     respond_to do |format|
       format.html
       format.xls
@@ -174,9 +184,6 @@ class UsersController < ApplicationController
     end
   end
 
-  def aceptar_rechazar
-    
-  end
 
   private
 

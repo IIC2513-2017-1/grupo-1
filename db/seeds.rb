@@ -7,8 +7,9 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 #
 
-user_amount = 5
-competitor_amount = 100
+user_amount = 10
+admin_amount = 3
+competitor_amount = 50
 bet_amount = 30
 grands_amount = 10
 user_bets_amount = 20
@@ -18,7 +19,7 @@ user = User.create!(
   username: Faker::Internet.unique.user_name(6..40),
   name: Faker::Name.first_name,
   role: 'admin',
-  money: 1000,
+  money: 10000,
   birthday: rand(80.year.ago..18.year.ago),
   description: Faker::Lorem.paragraph,
   email: 'j123@uc.cl',
@@ -30,7 +31,7 @@ user = User.create!(
 )
 user.confirmation_token
 
-user_amount.times do
+admin_amount.times do
   User.create(
     username: Faker::Internet.unique.user_name(6..40),
     name: Faker::Name.first_name,
@@ -49,7 +50,7 @@ user_amount.times do
     username: Faker::Internet.unique.user_name(6..40),
     name: Faker::Name.first_name,
     role: 'gambler',
-    money: 1000,
+    money: 5000,
     birthday: rand(80.year.ago..18.year.ago),
     # avatar: Faker::Avatar.image,
     description: Faker::Lorem.paragraph,
@@ -137,6 +138,64 @@ user_bets_amount.times do
     checked: checked
   )
   if user_bet.save
+    admin = User.where(role: 'admin').order('RANDOM()').first
+    Assignment.create(user_id: admin.id, user_bet_id: user_bet.id)
+  end
+end
+
+user_bets_amount.times do
+  checked = true
+  checked = false if Random.rand(1..4) == 1
+  user_bet = UserBet.new(
+    end_date: DateTime.current + 4.hours,
+    start_date: DateTime.current + 3.hours,
+    name: Faker::Internet.unique.user_name(7..99),
+    description: Faker::Name.name,
+    user_id: User.order('RANDOM()').first.id,
+    challenger_amount: Random.rand(20..500),
+    gambler_amount: Random.rand(20..2000),
+    bet_limit: Random.rand(1..7),
+    checked: checked
+  )
+  if user_bet.save
+    admin = User.where(role: 'admin').order('RANDOM()').first
+    Assignment.create(user_id: admin.id, user_bet_id: user_bet.id)
+  end
+end
+
+user_bets_amount.times do
+  user_bet = UserBet.new(
+    end_date: DateTime.current - 1.hours,
+    start_date: DateTime.current - 10.hours,
+    name: Faker::Internet.unique.user_name(7..99),
+    description: Faker::Name.name,
+    user_id: User.order('RANDOM()').first.id,
+    challenger_amount: Random.rand(20..500),
+    gambler_amount: Random.rand(20..2000),
+    bet_limit: Random.rand(1..7),
+    checked: true,
+    result: nil
+  )
+  if user_bet.save(validate: false)
+    admin = User.where(role: 'admin').order('RANDOM()').first
+    Assignment.create(user_id: admin.id, user_bet_id: user_bet.id)
+  end
+end
+
+user_bets_amount.times do
+  user_bet = UserBet.new(
+    end_date: DateTime.current - 1.hours,
+    start_date: DateTime.current - 10.hours,
+    name: Faker::Internet.unique.user_name(7..99),
+    description: Faker::Name.name,
+    user_id: User.order('RANDOM()').first.id,
+    challenger_amount: Random.rand(20..500),
+    gambler_amount: Random.rand(20..2000),
+    bet_limit: Random.rand(1..7),
+    checked: true,
+    result: Random.rand(1..3)
+  )
+  if user_bet.save(validate: false)
     admin = User.where(role: 'admin').order('RANDOM()').first
     Assignment.create(user_id: admin.id, user_bet_id: user_bet.id)
   end

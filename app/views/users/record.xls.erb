@@ -4,7 +4,7 @@
   xmlns:x="urn:schemas-microsoft-com:office:excel"
   xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
   xmlns:html="http://www.w3.org/TR/REC-html40">
-  <Worksheet ss:Name="Sheet1">
+  <Worksheet ss:Name="Bets">
     <Table>
       <% @grands.each do |grand| %>
         <Row>
@@ -33,6 +33,82 @@
         <% end %>
         <Row></Row>
       <% end %>
+    </Table>
+  </Worksheet>
+  <Worksheet ss:Name="Tus MeesBets">
+    <Table>
+        <Row>
+          <Cell><Data ss:Type="String">Nombre</Data></Cell>
+          <Cell><Data ss:Type="String">Veces aceptada</Data></Cell>
+          <Cell><Data ss:Type="String">Fecha de inicio</Data></Cell>
+          <Cell><Data ss:Type="String">Fecha de término</Data></Cell>
+          <Cell><Data ss:Type="String">Resultado</Data></Cell>
+          <Cell><Data ss:Type="String">Plata ganada</Data></Cell>
+        </Row>
+        <% @user_bets.each do |user_bet|%>
+          <Row>
+            <Cell class="text-left"><Data ss:Type="String"><%= user_bet.name %></Data></Cell>
+            <Cell class="text-left"><Data ss:Type="String"><%= user_bet.bettors.count %></Data></Cell>
+            <Cell class="text-left"><Data ss:Type="String"><%= user_bet.start_date %></Data></Cell>
+            <Cell class="text-left"><Data ss:Type="String"><%= user_bet.end_date %></Data></Cell>
+            <% if user_bet.result == 1
+                resultado = 'Ganada'
+              elsif user_bet.result == 2
+                resultado = 'Perdida'
+              else
+                resultado = 'Empate'
+              end
+              ganancia = 0
+              if user_bet.result == 1
+                ganancia = user_bet.bettors.count *
+                            (user_bet.challenger_amount + user_bet.gambler_amount)
+              elsif user_bet.result == 3
+                ganancia = user_bet.bettors.count * user_bet.challenger_amount
+              end
+              %>
+            <Cell class='text-center'><Data ss:Type="String"><%= resultado%></Data></Cell>
+            <Cell class='text-center'><Data ss:Type="String"><%= ganancia%></Data></Cell>
+          </Row>
+        <% end %>
+        <Row></Row>
+    </Table>
+  </Worksheet>
+  <Worksheet ss:Name="MeesBets Aceptadas">
+    <Table>
+        <Row>
+          <Cell><Data ss:Type="String">Nombre</Data></Cell>
+          <Cell><Data ss:Type="String">Challenger</Data></Cell>
+          <Cell><Data ss:Type="String">Fecha de inicio</Data></Cell>
+          <Cell><Data ss:Type="String">Fecha de término</Data></Cell>
+          <Cell><Data ss:Type="String">Resultado</Data></Cell>
+          <Cell><Data ss:Type="String">Plata ganada</Data></Cell>
+        </Row>
+        <% @accepted_user_bets.each do |user_bet| %>
+          <Row>
+            <Cell class="text-left"><Data ss:Type="String"><%= user_bet.name %></Data></Cell>
+            <Cell class="text-left"><Data ss:Type="String"><%= user_bet.user.name %></Data></Cell>
+            <Cell class="text-left"><Data ss:Type="String"><%= user_bet.start_date %></Data></Cell>
+            <Cell class="text-left"><Data ss:Type="String"><%= user_bet.end_date %></Data></Cell>
+            <% if user_bet.result == 2
+                resultado = 'Ganada'
+              elsif user_bet.result == 1
+                resultado = 'Perdida'
+              else
+                resultado = 'Empate'
+              end
+              ganancia = 0
+              if user_bet.result == 2
+                ganancia = user_bet.bettors.count *
+                            (user_bet.challenger_amount + user_bet.gambler_amount)
+              elsif user_bet.result == 3
+                ganancia = user_bet.bettors.count * user_bet.challenger_amount
+              end
+              %>
+            <Cell class='text-center'><Data ss:Type="String"><%= resultado%></Data></Cell>
+            <Cell class='text-center'><Data ss:Type="String"><%= ganancia%></Data></Cell>
+          </Row>
+        <% end %>
+        <Row></Row>
     </Table>
   </Worksheet>
 </Workbook>

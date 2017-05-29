@@ -6,6 +6,7 @@
 </div>
 
 <div>
+  <h3>Grands</h3>
   <% @grands.each do |grand| %>
     <h5 class="grand-id"> Grand ID <%= grand.id %></h5>
     <table class="bets-table">
@@ -21,23 +22,94 @@
         </tr>
       </thead>
       <tbody class="table-hover">
+        <% plata = 0 %>
+        <% if ganada?(grand) %>
+          <% plata = get_multiplicator(grand) * grand.amount %>
+        <% end %>
         <% grand.bets_per_grand.each do |bet| %>
           <tr>
             <td class="text-left"><%= bet.bet.sport %></td>
             <td class="text-left"><%= bet.bet.tournament %></td>
             <td class="text-left"><%= bet.bet.start_date %></td>
             <td class="text-left"><%= bet.bet.country %></td>
-            <% p bet.bet %>
             <td class="text-center"><%= Competitor.find(bet.bet.result).name %></td>
             <td class="text-center"><%= bet.bet.competitors.find(bet.selection).name %></td>
-            <% plata = 0 %>
-            <% if ganada?(grand) %>
-              <% plata = get_multiplicator(grand) * grand.amount %>
-            <% end %>
             <td class='text-center'> <%= "$#{ plata }" %> </td>
           </tr>
         <% end %>
       </tbody>
     </table>
   <% end %>
+  <h3>Tus Meesbets</h3>
+  <table class="bets-table">
+    <thead>
+      <tr>
+        <th class="text-center"> Nombre </th>
+        <th class="text-center"> Veces aceptada </th>
+        <th class="text-center"> Fecha de inicio </th>
+        <th class="text-center"> Fecha de termino </th>
+        <th class="text-center"> Resultado </th>
+        <th class="text-center"> Plata ganada </th>
+      </tr>
+    </thead>
+  <% @user_bets.each do |user_bet| %>
+    <td class="text-left"><%= user_bet.name %></td>
+    <td class="text-left"><%= user_bet.bettors.count %></td>
+    <td class="text-left"><%= user_bet.start_date %></td>
+    <td class="text-left"><%= user_bet.end_date %></td>
+    <% if user_bet.result == 1
+        resultado = 'Ganada'
+      elsif user_bet.result == 2
+        resultado = 'Perdida'
+      else
+        resultado = 'Empate'
+      end
+      ganancia = 0
+      if user_bet.result == 1
+        ganancia = user_bet.bettors.count *
+                    (user_bet.challenger_amount + user_bet.gambler_amount)
+      elsif user_bet.result == 3
+        ganancia = user_bet.bettors.count * user_bet.challenger_amount
+      end
+      %>
+    <td class="text-center"><%= resultado %></td>
+    <td class="text-center"><%= ganancia %></td>
+  <% end %>
+</table>
+  <h3>Meesbets aceptadas</h3>
+  <table class="bets-table">
+    <thead>
+      <tr>
+        <th class="text-center"> Nombre </th>
+        <th class="text-center"> Challenger </th>
+        <th class="text-center"> Fecha de inicio </th>
+        <th class="text-center"> Fecha de termino </th>
+        <th class="text-center"> Resultado </th>
+        <th class="text-center"> Plata ganada </th>
+      </tr>
+    </thead>
+  <% @accepted_user_bets.each do |user_bet| %>
+    <td class="text-left"><%= user_bet.name %></td>
+    <td class="text-left"><%= user_bet.user.name %></td>
+    <td class="text-left"><%= user_bet.start_date %></td>
+    <td class="text-left"><%= user_bet.end_date %></td>
+    <% if user_bet.result == 1
+        resultado = 'Perdida'
+      elsif user_bet.result == 2
+        resultado = 'Ganada'
+      else
+        resultado = 'Empate'
+      end
+      ganancia = 0
+      if user_bet.result == 2
+        ganancia = user_bet.bettors.count *
+                    (user_bet.challenger_amount + user_bet.gambler_amount)
+      elsif user_bet.result == 3
+        ganancia = user_bet.bettors.count * user_bet.challenger_amount
+      end
+      %>
+    <td class="text-center"><%= resultado %></td>
+    <td class="text-center"><%= ganancia %></td>
+  <% end %>
+</table>
 </div>

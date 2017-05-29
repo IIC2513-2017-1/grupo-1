@@ -98,13 +98,16 @@ class UserBetsController < ApplicationController
     @user_bet.result = params[:result]
     @user_bet.save
     repartir @user_bet
-    # mandar mail aqui, avisar de alguna forma
+    UserBetMailer.finished_user_bet_email(@user, @user_bet).deliver_now
+    @user_bet.bettors.each do |bettor|
+      UserBetMailer.finished_user_bet_email(bettor, @user_bet).deliver_now
+    end
     redirect_to assignations_path
   end
 
   def aceptar_rechazar
     bet = UserBet.find(params[:bet_id])
-    if params[:aceptar]
+    if params[:aceptar] == 'true'
       bet.checked = true
       flash[:success] = "Apuesta #{bet.id} aceptada"
     else

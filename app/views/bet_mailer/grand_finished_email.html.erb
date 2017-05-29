@@ -7,12 +7,22 @@
     <h1><%= @user.name %> aposto al grand <%= @grand.id correctamente %>.</h1>
     <p>
       sus apuestas fueron por:
+      <ul>
+        <% @bets.each do |bet| %>
+          <li><%= Competitor.find(bet.selection).name %></li>
+        <% end %>
+      </ul>
     </p>
     <p>
       los ganadores fueron:
+      <ul>
+        <% @bets.each do |bet| %>
+          <li><%= Competitor.find(bet.bet.result).name %></li>
+        <% end %>
+      </ul>
     </p>
     <p>
-      El monto apostado fue de <%= @grand.amount %> y gano:
+      El monto apostado fue de <%= @grand.amount %> y gano: @plata
     </p>
     <p>Saludos, contacto MrMeesBet.</p>
   </body>
