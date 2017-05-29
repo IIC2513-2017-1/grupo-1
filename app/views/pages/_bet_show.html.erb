@@ -57,6 +57,13 @@
           <th><%= button_to 'Empate', obtener_resultado_path, params: { result: 3, bet_id: bet.id }%></th>
         </tr>
       </table>
+    <% elsif assignation == 3 %>
+      <table>
+        <tr>
+          <th><%= button_to 'Aceptar', notifications_accept_deny_user_path(@user), params: { aceptar: true, bet_id: bet.id }%></th>
+          <th><%= button_to 'Rechazar', notifications_accept_deny_user_path(@user), params: { aceptar: false, bet_id: bet.id }%></th>
+        </tr>
+      </table>
     <% else %>
       <%= form_tag(return_path, method: "POST") do %>
         <%= hidden_field_tag :bet_id, bet.id %>

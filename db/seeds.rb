@@ -38,7 +38,7 @@ admin_amount.times do
     role: 'admin',
     money: 1000,
     birthday: rand(80.year.ago..18.year.ago),
-    # avatar: Faker::Avatar.image,
+    avatar: Faker::Avatar.image,
     description: Faker::Lorem.paragraph,
     email: Faker::Internet.unique.email,
     lastname: Faker::Name.last_name,

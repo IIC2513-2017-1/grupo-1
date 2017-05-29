@@ -36,6 +36,7 @@ class PagesController < ApplicationController
        WHERE follower_id = #{current_user.id}"
     ).includes(:user)
     @bets = []
+    @user = current_user
     betss.each do |bet|
       @bets << bet if bet.start_date > DateTime.current && bet.checked
     end
@@ -52,29 +53,11 @@ class PagesController < ApplicationController
     end
   end
 
-  # Esto no debiera estar, aqui. Para la entrega 4 lo movemos xd
+  # Esto no debiera estar, aqui. Para la entrega 5 lo movemos xd
   def accept_a_bet
     user = current_user
     bet = UserBet.find(params[:bet_id])
-    UserBet.transaction do
-      if bet.gambler_amount > user.money || bet.bet_limit <= 0 \
-            || bet.start_date < DateTime.current
-        redirect_to bet_list_path,
-                    flash: { alert: 'No se pudo ejecutar la apuesta' }
-        return
-      else
-        user.money -= bet.gambler_amount
-        bet.bet_limit -= 1
-        user.save!
-        bet.save!
-      end
-    end
-  rescue => invalid
-    redirect_to bet_list_path, flash: { alert: invalid }
-  else
-    user.accepted_bets << bet
-    redirect_to bet_list_path,
-                flash: { success: 'Apuesta realizada correctamente' }
+    return accept_user_bet(user, bet)
   end
 
   def follow_list

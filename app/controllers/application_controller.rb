@@ -60,4 +60,25 @@ class ApplicationController < ActionController::Base
   rescue
     false
   end
+
+  def accept_user_bet(user, bet)
+    UserBet.transaction do
+      if bet.gambler_amount > user.money || bet.bet_limit <= 0 \
+            || bet.start_date < DateTime.current
+        return redirect_to bet_list_path,
+                    flash: { alert: 'No se pudo ejecutar la apuesta' }
+      else
+        user.money -= bet.gambler_amount
+        bet.bet_limit -= 1
+        user.save!
+        bet.save!
+      end
+    end
+  rescue => invalid
+    return redirect_to bet_list_path, flash: { alert: invalid }
+  else
+    user.accepted_bets << bet
+    return redirect_to bet_list_path,
+                flash: { success: 'Apuesta realizada correctamente' }
+  end
 end

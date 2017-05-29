@@ -45,6 +45,7 @@ Rails.application.routes.draw do
     end
     member do
       get 'notifications'
+      post 'notifications/accept_deny', action: 'accept_deny_notifications'
       get 'record'
       get 'confirm_email'
     end

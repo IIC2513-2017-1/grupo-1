@@ -29,6 +29,15 @@ class UsersController < ApplicationController
     redirect_to user_path(@user), flash: { alert: 'Acceso denegado' }
   end
 
+  def accept_deny_notifications
+    bet = UserBet.find(params[:bet_id])
+    if params[:aceptar] == 'true' && bet
+      return accept_user_bet(current_user, bet)
+    end
+    current_user.notifications.delete(bet) if bet
+    redirect_to notifications_user_path(current_user)
+  end
+
   def create
     @user = User.new(user_params.merge(money: 100, role: 'gambler'))
     User.transaction do
@@ -183,7 +192,6 @@ class UsersController < ApplicationController
       end
     end
   end
-
 
   private
 

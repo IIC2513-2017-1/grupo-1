@@ -3,6 +3,6 @@
 
 <div class="meesbets">
   <% @notifications.each do |bet| %>
-    <%= render 'shared/bet_show', bet: bet, return_path: '/bet_list', button_name: 'Aceptar apuesta'%>
+    <%= render 'pages/bet_show', bet: bet, return_path: '/bet_list', button_name: 'Aceptar apuesta', assignation: 3 %>
   <% end %>
 </div>
