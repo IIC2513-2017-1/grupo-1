@@ -52,7 +52,7 @@ user_amount.times do
     role: 'gambler',
     money: 5000,
     birthday: rand(80.year.ago..18.year.ago),
-    # avatar: Faker::Avatar.image,
+    avatar: Faker::Avatar.image,
     description: Faker::Lorem.paragraph,
     email: Faker::Internet.unique.email,
     email_confirmed: true,
