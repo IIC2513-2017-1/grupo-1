@@ -28,4 +28,6 @@ class Bet < ApplicationRecord
                                 message: 'País debe estar compuesto solo
                                          por letras, espacios, guiones y
                                          apostrofes.' }
+
+  scope :active_bets, (-> { where(finish: false) })
 end

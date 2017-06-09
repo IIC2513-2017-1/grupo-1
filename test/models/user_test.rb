@@ -18,6 +18,8 @@
 #  avatar_content_type :string
 #  avatar_file_size    :integer
 #  avatar_updated_at   :datetime
+#  email_confirmed     :boolean
+#  confirm_token       :string
 #
 
 require 'test_helper'

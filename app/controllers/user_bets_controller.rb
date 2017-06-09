@@ -109,10 +109,10 @@ class UserBetsController < ApplicationController
     bet = UserBet.find(params[:bet_id])
     if params[:aceptar] == 'true'
       bet.checked = true
-      flash[:success] = "Apuesta #{bet.id} aceptada"
+      flash.now[:success] = "Apuesta #{bet.id} aceptada"
     else
       bet.checked = false
-      flash[:success] = "Apuesta #{bet.id} rechazada"
+      flash.now[:success] = "Apuesta #{bet.id} rechazada"
     end
     bet.save
     redirect_to assignations_path
@@ -156,10 +156,5 @@ class UserBetsController < ApplicationController
     params.require(:user_bet).permit(:name, :description, :challenger_amount,
                                      :gambler_amount, :bet_limit, :start_date,
                                      :end_date)
-  end
-
-  def return_flash_and_redirect(type, message, path)
-    flash[type] = message
-    redirect_to path
   end
 end

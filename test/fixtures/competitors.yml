@@ -18,6 +18,6 @@ one:
   sport: MyString
 
 two:
-  name: MyString
-  country: MyString
-  sport: MyString
+  name: MyString2
+  country: MyString2
+  sport: MyString2

@@ -27,24 +27,6 @@ class BetsControllerTest < ActionDispatch::IntegrationTest
     #assert_redirected_to bet_url(Bet.last)
   end
 
-  # test "should get edit" do
-  #   get edit_bet_url(@bet)
-  #   assert_response :success
-  # end
-
-  # test "should update bet" do
-  #   patch bet_url(@bet), params: { bet: { country: @bet.country, sport: @bet.sport, start_date: @bet.start_date } }
-  #   assert_redirected_to bet_url(@bet)
-  # end
-
-  # test "should destroy bet" do
-  #   assert_difference('Bet.count', -1) do
-  #     delete bet_url(@bet)
-  #   end
-  #
-  #   assert_redirected_to bets_url
-  # end
-
   test 'should create make_up' do
     Part.create(
       bet_id: @bet.id,

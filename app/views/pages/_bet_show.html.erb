@@ -1,5 +1,5 @@
 <% if bet.bet_limit > 0 && DateTime.current < bet.start_date %>
-  <div class="meesbets-content">
+  <div class="meesbets-content <%= "meesbet#{bet.id}" %>">
     <h4>Apuesta numero: <%= bet.id %></h4>
     <table>
 
@@ -65,10 +65,7 @@
         </tr>
       </table>
     <% else %>
-      <%= form_tag(return_path, method: "POST") do %>
-        <%= hidden_field_tag :bet_id, bet.id %>
-        <%= submit_tag button_name %>
-      <% end %>
+      <%= link_to 'Aceptar MeesBet', bet_list_path(bet_id: bet.id), method: 'post', remote: true, data: { type: 'json' } %>
     <% end %>
   </div>
 <% end %>

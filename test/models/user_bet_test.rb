@@ -13,6 +13,8 @@
 #  end_date          :datetime
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
+#  checked           :boolean
+#  result            :integer
 #
 
 require 'test_helper'

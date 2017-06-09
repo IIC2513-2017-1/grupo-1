@@ -65,8 +65,7 @@ class ApplicationController < ActionController::Base
     UserBet.transaction do
       if bet.gambler_amount > user.money || bet.bet_limit <= 0 \
             || bet.start_date < DateTime.current
-        return redirect_to bet_list_path,
-                    flash: { alert: 'No se pudo ejecutar la apuesta' }
+        return :alert, 'No se pudo ejecutar la apuesta'
       else
         user.money -= bet.gambler_amount
         bet.bet_limit -= 1
@@ -75,10 +74,9 @@ class ApplicationController < ActionController::Base
       end
     end
   rescue => invalid
-    return redirect_to bet_list_path, flash: { alert: invalid }
+    return :alert, invalid
   else
     user.accepted_bets << bet
-    return redirect_to bet_list_path,
-                flash: { success: 'Apuesta realizada correctamente' }
+    return :success, 'Apuesta realizada correctamente'
   end
 end

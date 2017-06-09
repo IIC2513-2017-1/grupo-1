@@ -32,7 +32,8 @@ class UsersController < ApplicationController
   def accept_deny_notifications
     bet = UserBet.find(params[:bet_id])
     if params[:aceptar] == 'true' && bet
-      return accept_user_bet(current_user, bet)
+      flash_type, flash_msg = accept_user_bet(current_user, bet)
+      return redirect_to bet_list_path, flash: { flash_type => flash_msg }
     end
     current_user.notifications.delete(bet) if bet
     redirect_to notifications_user_path(current_user)

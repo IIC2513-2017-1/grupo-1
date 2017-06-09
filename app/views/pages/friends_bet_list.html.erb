@@ -8,7 +8,7 @@
 
     <div class="form-group">
       <%= label_tag 'Usuario' %>
-      <%= text_field_tag :user, @user %>
+      <%= text_field_tag :user, @searched_user %>
     </div>
 
     <div class="form-group">
@@ -32,6 +32,6 @@
 
 <div class="meesbets">
   <% @bets.each do |bet| %>
-    <%= render 'bet_show', bet: bet, return_path: '/bet_list',  button_name: 'Aceptar apuesta', assignation: 3%>
+    <%= render 'bet_show', bet: bet, return_path: '/bet_list',  button_name: 'Aceptar apuesta', assignation: 4 %>
   <% end %>
 </div>

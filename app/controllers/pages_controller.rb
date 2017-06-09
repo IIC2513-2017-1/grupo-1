@@ -16,13 +16,16 @@ class PagesController < ApplicationController
 
   def search_mees_bet
     # Parametros que vuelven como placeholder al form
-    @user = params[:user]
+    @searched_user = params[:user]
     @min_gambler_amount = params[:min_gambler_amount]
     @max_gambler_amount = params[:max_gambler_amount]
     @min_challenger_amount = params[:min_challenger_amount]
     @max_challenger_amount = params[:max_challenger_amount]
-    @bets = get_user_bets_with(@user, @min_gambler_amount, @max_gambler_amount,
-                               @min_challenger_amount, @max_challenger_amount)
+    @bets = get_user_bets_with(@searched_user,
+                               @min_gambler_amount,
+                               @max_gambler_amount,
+                               @min_challenger_amount,
+                               @max_challenger_amount)
     if @bets.empty?
       return redirect_to bet_list_path, flash: { notice: 'No hubo resultados' }
     end
@@ -53,15 +56,20 @@ class PagesController < ApplicationController
     end
   end
 
-  # Esto no debiera estar, aqui. Para la entrega 5 lo movemos xd
   def accept_a_bet
     user = current_user
-    bet = UserBet.find(params[:bet_id])
-    return accept_user_bet(user, bet)
+    @bet = UserBet.find(params[:bet_id])
+    @result, msg = accept_user_bet(user, @bet)
+    respond_to do |format|
+      format.html do
+        redirect_to bet_list_path, flash: { @result => msg }
+      end
+      format.json
+    end
   end
 
   def follow_list
-    @users = User.where('username != ?', current_user.username)
+    @users = User.where.not(username: current_user.username)
   end
 
   private

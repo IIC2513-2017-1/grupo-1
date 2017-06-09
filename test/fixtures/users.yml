@@ -18,6 +18,8 @@
 #  avatar_content_type :string
 #  avatar_file_size    :integer
 #  avatar_updated_at   :datetime
+#  email_confirmed     :boolean
+#  confirm_token       :string
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
@@ -31,6 +33,7 @@ one:
   description: descripcion descriptiva
   money: 3000
   birthday: <%= Date.today - 21.years %>
+  email_confirmed: true
   password_digest: <%= User.digest('password1') %>
 
 two:
@@ -42,4 +45,5 @@ two:
   description: descripcion
   money: 5000
   birthday: <% Date.today - 40.years - 100.days %>
+  email_confirmed: true
   password_digest: <%= User.digest('password2') %>
