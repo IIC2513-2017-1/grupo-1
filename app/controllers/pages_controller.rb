@@ -25,26 +25,14 @@ class PagesController < ApplicationController
     @max_gambler_amount = params[:max_gambler_amount]
     @min_challenger_amount = params[:min_challenger_amount]
     @max_challenger_amount = params[:max_challenger_amount]
+    @friends = params[:friends]
     @bets = get_user_bets_with(@searched_user, @min_gambler_amount,
                                @max_gambler_amount, @min_challenger_amount,
-                               @max_challenger_amount)
+                               @max_challenger_amount, @friends)
     if @bets.empty?
       return redirect_to bet_list_path, flash: { notice: 'No hubo resultados' }
     end
     render 'bet_list'
-  end
-
-  def friends_bet_list
-    betss = UserBet.joins(:user).joins(
-      "INNER JOIN relationships
-       ON users.id = followed_id
-       WHERE follower_id = #{current_user.id}"
-    ).includes(:user)
-    @bets = []
-    @user = current_user
-    betss.each do |bet|
-      @bets << bet if bet.start_date > DateTime.current && bet.checked
-    end
   end
 
   def assignations
@@ -77,16 +65,23 @@ class PagesController < ApplicationController
   private
 
   def get_user_bets_with(user_username, min_gambler, max_gambler,
-                         min_challenger, max_challenger)
-    initial_bets = []
+                         min_challenger, max_challenger, friends)
     bets = []
-    initial_bets += if !user_username.blank?
-                      UserBet.joins(:user).where(
-                        "username LIKE '%#{user_username}%'"
-                      )
-                    else
-                      UserBet.all.includes(:user)
-                    end
+    initial_bets = if friends
+                     UserBet.joins(:user).joins(
+                       "INNER JOIN relationships
+                        ON users.id = followed_id
+                        WHERE follower_id = #{current_user.id}"
+                     )
+                   else
+                     UserBet.all
+                   end
+    unless user_username.blank?
+      initial_bets = UserBet.joins(:user).where(
+        "username LIKE '%#{user_username}%'"
+      ).where(id: initial_bets)
+    end
+    initial_bets = initial_bets.includes(:user)
     initial_bets.each do |bet|
       next if number?(min_gambler) && bet.gambler_amount < min_gambler.to_i
       next if number?(max_gambler) && bet.gambler_amount > max_gambler.to_i
@@ -96,7 +91,7 @@ class PagesController < ApplicationController
       if number?(max_challenger) && bet.challenger_amount > max_challenger.to_i
         next
       end
-      bets << bet
+      bets << bet if bet.start_date > DateTime.current && bet.checked
     end
     bets
   end

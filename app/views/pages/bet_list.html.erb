@@ -23,6 +23,11 @@
     </div>
 
     <div class="form-group">
+      <%= label_tag 'Apuestas de amigos' %>
+      <%= check_box_tag :friends, "1", @friends %>
+    </div>
+
+    <div class="form-group">
       <%= submit_tag 'Buscar' %>
     </div>
 
