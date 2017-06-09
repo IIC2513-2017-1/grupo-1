@@ -34,6 +34,20 @@ class BetsController < ApplicationController
     render 'index'
   end
 
+  def add_bet
+    @bet = Bet.find_by_id(params[:bet_id])
+    @delete = false
+    unless params[:competitor].blank?
+      @competitor = @bet.competitors_per_bet.find_by_competitor_id(
+        params[:competitor].to_i
+      ).competitor.name
+    else
+      @competitor = nil
+      @delete = true
+    end
+    respond_to :json
+  end
+
   def create_grand
     unless number?(params[:amount])
       return redirect_to root_path, flash: { alert: 'Ingrese un monto' }

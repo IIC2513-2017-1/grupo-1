@@ -54,13 +54,14 @@
 .bets-form {
   margin: 10px 0px;
   float: left;
-  width: 70%;
+  width: 75%;
 
   .bets-status {
-    position: fixed;
-    width: 10%;
-    right: 0;
-    margin-right: 10%;
+    border: 2px solid black;
+    padding: 10px;
+    box-sizing: border-box;
+    width: 20%;
+    float:right;
 
     input {
       width: 80%;
