@@ -65,7 +65,7 @@
         </tr>
       </table>
     <% else %>
-      <%= link_to 'Aceptar MeesBet', bet_list_path(bet_id: bet.id), method: 'post', remote: true, data: { type: 'json' } %>
+      <%= button_to 'Aceptar MeesBet', return_path, remote: true, form: { "data-type" => "json" }, params: { bet_id: bet.id } %>
     <% end %>
   </div>
 <% end %>

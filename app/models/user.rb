@@ -23,7 +23,6 @@
 #
 
 class User < ApplicationRecord
-  scope :other_users, -> { where.not(name: 'hola') }
   before_create :confirmation_token
   has_attached_file :avatar, styles: { medium: '300x300>', thumb: '100x100>' },
                              default_url: '/images/:style/missing.png'

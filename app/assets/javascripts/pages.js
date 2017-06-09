@@ -1,4 +1,4 @@
-
+// Ajax on bet_list
 $(document).on('turbolinks:load', function () {
    var $bets;
    if (($bets = $('.meesbets-content')).length) {

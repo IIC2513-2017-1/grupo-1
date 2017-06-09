@@ -7,7 +7,11 @@ class PagesController < ApplicationController
 
   # eliminar mis apuestas de aqui
   def bet_list
-    bets = UserBet.where.not(user_id: current_user.id).includes(:user)
+    bets = UserBet.where.not(
+      user_id: current_user.id
+    ).where.not(
+      id: User.find_by_email('j123@uc.cl').accepted_bets.select(:id)
+    ).includes(:user)
     @bets = []
     bets.each do |bet|
       @bets << bet if bet.start_date > DateTime.current && bet.checked
@@ -21,10 +25,8 @@ class PagesController < ApplicationController
     @max_gambler_amount = params[:max_gambler_amount]
     @min_challenger_amount = params[:min_challenger_amount]
     @max_challenger_amount = params[:max_challenger_amount]
-    @bets = get_user_bets_with(@searched_user,
-                               @min_gambler_amount,
-                               @max_gambler_amount,
-                               @min_challenger_amount,
+    @bets = get_user_bets_with(@searched_user, @min_gambler_amount,
+                               @max_gambler_amount, @min_challenger_amount,
                                @max_challenger_amount)
     if @bets.empty?
       return redirect_to bet_list_path, flash: { notice: 'No hubo resultados' }
