@@ -1,17 +1,48 @@
 <% provide(:title, 'Solicitudes de amistad') %>
 <% provide(:header, 'Lista de solicitudes') %>
 
-<table>
-  <tr>
-    <td><strong> Nombre de usuario </strong></td>
-    <td></td>
-    <td></td>
-  </tr>
-  <% current_user.demands.each do |cd| %>
+<div class="tab">
+  <button class="tablinks active" data-tab="friend-requests">Solicitudes</button>
+  <button class="tablinks" data-tab="friends-index">Amigos</button>
+</div>
+
+<div class='friend-requests tab-content'>
+  <table>
     <tr>
-      <td> <%= cd.username %> </td>
-      <td> <%= button_to 'Aceptar', accept_follow_path, params: { user_id: cd.id, accepted: false } %> </td>
-      <td> <%= button_to 'Rechazar', accept_follow_path, params: { user_id: cd.id, accepted: false } %> </td>
+      <td><strong> Nombre de usuario </strong></td>
+      <td></td>
+      <td></td>
     </tr>
+    <% @requests.each do |cd| %>
+      <tr>
+        <td> <%= cd.username %> </td>
+        <td> <%= button_to 'Aceptar', accept_follow_path, params: { user_id: cd.id, accepted: false } %> </td>
+        <td> <%= button_to 'Rechazar', accept_follow_path, params: { user_id: cd.id, accepted: false } %> </td>
+      </tr>
+    <% end %>
+  </table>
+</div>
+
+<div class="friends-index tab-content">
+  <%= form_tag(follow_path, method: "POST") do %>
+      <%= select_tag :followed_id, options_from_collection_for_select(@users, "id", "username")  %>
+      <%= submit_tag("Enviar solicitud") %>
   <% end %>
-</table>
+
+  <% unless current_user.following.empty? %>
+    <% current_user.following.each do |followed|%>
+      <div class="follow-table">
+        <table>
+          <tr>
+            <th>Seguidor: </th>
+            <td><%= current_user.username %></td>
+          </tr>
+          <tr>
+            <th>Seguido: </th>
+            <td><%= followed.username %></td>
+          </tr>
+        </table>
+      </div>
+    <% end %>
+  <% end %>
+</div>

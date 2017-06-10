@@ -16,6 +16,11 @@ class PagesController < ApplicationController
     end
   end
 
+  def accept_friends
+    @users = User.where.not(username: current_user.username)
+    @requests = current_user.demands
+  end
+
   def search_mees_bet
     # Parametros que vuelven como placeholder al form
     @searched_user = params[:user]

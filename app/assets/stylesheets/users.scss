@@ -1,40 +1,9 @@
-// Place all the styles related to the Users controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
-
-$users_index_width: 40%;
-
-// tabs
-div.tab {
-    overflow: hidden;
-    border: 1px solid #ccc;
-    background-color: #f1f1f1;
-
-    button {
-        background-color: inherit;
-        float: left;
-        border: none;
-        outline: none;
-        cursor: pointer;
-        padding: 14px 16px;
-        transition: 0.3s;
-        margin: 0;
-    }
-
-    button:hover {
-        background-color: #ddd;
-    }
-
-    button.active {
-        background-color: #ccc;
-    }
-}
+$users_index_width: 70%;
 
 // table
 
 .rounded-corner-table
 {
-	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
 	font-size: 12px;
 	margin: 0 auto;
 	width: 100%;
@@ -102,15 +71,27 @@ div.user-profile-bets {
 .user-search {
   width: $users_index_width;
   margin: 30px auto 0px;
+
   .form-group {
     display: inline;
 
     label {
-        width: 150px;
+      width: 150px;
     }
 
     input {
       margin: 0px 10px;
+      width: 50%;
+    }
+
+    input[type="submit"] {
+      width: 20%;
+    }
+
+    input[type="submit"]:hover {
+      border: inherit;
+      border-radius: 2px;
+      background-color: #ccc;
     }
 
   }
@@ -125,18 +106,12 @@ div.user-profile-bets {
   }
 
   tr {
-    display: block;
     padding: 5px;
     border-bottom: 1px solid black;
+  }
 
-    td {
-      width: 45%;
-      display: inline-block;
-    }
-
-    td:nth-child(even) {
-      text-align: right;
-    }
+  tr:nth-child(even) td {
+    background-color: #eee;
   }
 }
 

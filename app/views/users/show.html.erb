@@ -1,10 +1,12 @@
 <%= provide(:title, 'Usuario') %>
 <%= provide(:header, "#{@user.username}") %>
 
-<div class="tab">
-  <button class="tablinks active" data-tab="user-profile-info">Información</button>
-  <button class="tablinks" data-tab="user-profile-bets">Apuestas aceptadas</button>
-</div>
+<% if @user == current_user %>
+  <div class="tab">
+    <button class="tablinks active" data-tab="user-profile-info">Información</button>
+    <button class="tablinks" data-tab="user-profile-bets">Apuestas aceptadas</button>
+  </div>
+<% end %>
 
 <div class="user-profile-info tab-content">
   <table>
@@ -71,25 +73,27 @@
   </table>
 </div>
 
-<div class="user-profile-bets tab-content">
-  <% unless @bets.empty? %>
-    <table class="rounded-corner-table" summary="2007 Major IT Companies' Profit">
-        <thead>
-        	<tr>
-            	<th scope="col" class="rounded-company">Nombre:</th>
-                <th scope="col" class="rounded-q1">Oponente</th>
-                <th scope="col" class="rounded-q2">Monto Apostado</th>
-            </tr>
-        </thead>
-        <tbody>
-          <% @bets.each do |bet| %>
+<% if current_user == @user %>
+  <div class="user-profile-bets tab-content">
+    <% unless @bets.empty? %>
+      <table class="rounded-corner-table" summary="2007 Major IT Companies' Profit">
+          <thead>
           	<tr>
-            	<td><%= bet.name %></td>
-              <td><%= bet.user.name %></td>
-              <td><%= bet.gambler_amount %></td>
-            </tr>
-          <% end %>
-        </tbody>
-    </table>
-  <% end %>
-</div>
+              	<th scope="col" class="rounded-company">Nombre:</th>
+                  <th scope="col" class="rounded-q1">Oponente</th>
+                  <th scope="col" class="rounded-q2">Monto Apostado</th>
+              </tr>
+          </thead>
+          <tbody>
+            <% @bets.each do |bet| %>
+            	<tr>
+              	<td><%= bet.name %></td>
+                <td><%= bet.user.name %></td>
+                <td><%= bet.gambler_amount %></td>
+              </tr>
+            <% end %>
+          </tbody>
+      </table>
+    <% end %>
+  </div>
+<% end %>

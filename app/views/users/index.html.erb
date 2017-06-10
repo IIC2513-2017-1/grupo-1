@@ -8,30 +8,35 @@
       <%= text_field_tag :user, @user %>
     </div>
     <div class="form-group">
-      <%= submit_tag 'Buscar usuario' %>
+      <%= submit_tag 'Buscar' %>
     </div>
   <% end %>
 </div>
 
-<% @users.each do |user| %>
-  <table class="user-index-table">
-    <tbody>
+<table class="rounded-corner-table user-index-table">
+  <thead>
+    <tr>
+      <th>
+      </th>
+      <th>
+        Nombre
+      </th>
+      <th>
+        Usuario
+      </th>
+      <th>
+        Mail
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @users.each do |user| %>
       <tr>
-        <td> Nombre: </td>
+        <td><%= image_tag user.avatar.url(:thumb) %></td>
         <td><%= link_to full_name(user), user %></td>
-      </tr>
-      <tr>
-        <td> Usuario: </td>
         <td><%= user.username %></td>
-      </tr>
-      <tr>
-        <td> Role: </td>
-        <td><%= user.role %></td>
-      </tr>
-      <tr>
-        <td> Mail: </td>
         <td><%= user.email %></td>
       </tr>
-    </tbody>
-  </table>
-<% end %>
+    <% end %>
+  </tbody>
+</table>

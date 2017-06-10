@@ -4,6 +4,7 @@ $(document).on('turbolinks:load', function () {
    if (($bets = $('.meesbets-content')).length) {
      $bets.on('ajax:success', function (e, data) {
        var $button;
+       $(".alert").remove();
        if (data.bet_id && (data.result == 'success')) {
          $(".meesbet" + data.bet_id).remove();
        } else {
