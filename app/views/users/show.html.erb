@@ -1,6 +1,11 @@
 <%= provide(:title, 'Usuario') %>
 <%= provide(:header, "#{@user.username}") %>
 
+<div class="tab">
+  <button class="tablinks active" data-tab="user-profile-info">Información</button>
+  <button class="tablinks" data-tab="user-profile-bets">Apuestas aceptadas</button>
+</div>
+
 <div class="pull-right">
   <% if @user == current_user %>
     <%= link_to 'Editar', edit_user_path(@user), class: 'btn-primary' %>
@@ -10,7 +15,7 @@
   <% end %>
 </div>
 
-<div class="user-profile-info">
+<div class="user-profile-info tab-content">
   <table>
     <tr>
       <td colspan="2">
@@ -67,7 +72,7 @@
   </table>
 </div>
 
-<div class="user-profile-bets">
+<div class="user-profile-bets tab-content">
   <% unless @bets.empty? %>
     <strong> Bets: </strong>
     <% @bets.each do |bet| %>
