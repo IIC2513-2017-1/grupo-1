@@ -6,20 +6,19 @@
   <button class="tablinks" data-tab="user-profile-bets">Apuestas aceptadas</button>
 </div>
 
-<div class="pull-right">
-  <% if @user == current_user %>
-    <%= link_to 'Editar', edit_user_path(@user), class: 'btn-primary' %>
-  <% end %>
-  <% if current_user.admin? %>
-    <%= link_to 'Eliminar', @user, method: :delete, class: 'btn-primary', data: { confirm: 'Are you sure?' } %>
-  <% end %>
-</div>
-
 <div class="user-profile-info tab-content">
   <table>
     <tr>
-      <td colspan="2">
+      <td>
         <%= image_tag @user.avatar.url(:thumb) %>
+      </td>
+      <td>
+        <% if @user == current_user %>
+          <%= link_to 'Editar', edit_user_path(@user), class: 'btn-primary' %>
+        <% end %>
+        <% if current_user.admin? %>
+          <%= link_to 'Eliminar', @user, method: :delete, class: 'btn-primary', data: { confirm: 'Are you sure?' } %>
+        <% end %>
       </td>
     </tr>
     <tr>
@@ -74,13 +73,23 @@
 
 <div class="user-profile-bets tab-content">
   <% unless @bets.empty? %>
-    <strong> Bets: </strong>
-    <% @bets.each do |bet| %>
-      <div class="bets">
-        <p> nombre: <%= bet.name %></p>
-        <p> oponente: <%= bet.user.name %></p>
-        <p> monto apostado: <%= bet.gambler_amount %></p>
-      </div>
-    <% end %>
+    <table class="rounded-corner-table" summary="2007 Major IT Companies' Profit">
+        <thead>
+        	<tr>
+            	<th scope="col" class="rounded-company">Nombre:</th>
+                <th scope="col" class="rounded-q1">Oponente</th>
+                <th scope="col" class="rounded-q2">Monto Apostado</th>
+            </tr>
+        </thead>
+        <tbody>
+          <% @bets.each do |bet| %>
+          	<tr>
+            	<td><%= bet.name %></td>
+              <td><%= bet.user.name %></td>
+              <td><%= bet.gambler_amount %></td>
+            </tr>
+          <% end %>
+        </tbody>
+    </table>
   <% end %>
 </div>

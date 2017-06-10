@@ -4,26 +4,61 @@
 
 $users_index_width: 40%;
 
-div.tab button {
-    background-color: inherit;
-    float: left;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    padding: 14px 16px;
-    transition: 0.3s;
+// tabs
+div.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+
+    button {
+        background-color: inherit;
+        float: left;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        transition: 0.3s;
+        margin: 0;
+    }
+
+    button:hover {
+        background-color: #ddd;
+    }
+
+    button.active {
+        background-color: #ccc;
+    }
 }
 
-/* Change background color of buttons on hover */
-div.tab button:hover {
-    background-color: #ddd;
-}
+// table
 
-/* Create an active/current tablink class */
-div.tab button.active {
-    background-color: #ccc;
-}
+.rounded-corner-table
+{
+	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+	font-size: 12px;
+	margin: 0 auto;
+	width: 100%;
+	text-align: left;
+	border-collapse: collapse;
 
+  th
+  {
+  	padding: 8px;
+  	font-weight: normal;
+  	font-size: 13px;
+  	background: #bbb;
+  }
+  td
+  {
+  	padding: 8px;
+  	background: #f1f1f1;
+  	border-top: 1px solid #fff;
+  }
+  tbody tr:hover td
+  {
+  	background: #ccc;
+  }
+}
 
 .btn-group {
   margin: 0% 0% 0% 5%;
@@ -33,7 +68,7 @@ div.tab button.active {
   margin: 0 auto;
 }
 
-.user-profile-info {
+div.user-profile-info {
   width: 50%;
   margin: 0 auto;
 
@@ -49,14 +84,19 @@ div.tab button.active {
   }
 }
 
-.bets {
-    border: 1px solid black;
-    margin: 0px 0px 10px;
+div.user-profile-bets {
+  display: none;
+  margin-top: 50px;
 
-    p {
-      padding: 0.5em;
-      margin: 0;
-    }
+  .bets {
+      border: 1px solid black;
+      margin: 0px 0px 10px;
+
+      p {
+        padding: 0.5em;
+        margin: 0;
+      }
+  }
 }
 
 .user-search {
