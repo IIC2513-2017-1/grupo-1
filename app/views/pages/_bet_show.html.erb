@@ -49,13 +49,11 @@
       </tr>
     </table>
   <% elsif assignation == 2 %>
-    <table>
-      <tr>
-        <th><%= button_to 'Gana creador', obtener_resultado_path, params: { result: 1, bet_id: bet.id }%></th>
-        <th><%= button_to 'Gana apostador', obtener_resultado_path, params: { result: 2, bet_id: bet.id }%></th>
-        <th><%= button_to 'Empate', obtener_resultado_path, params: { result: 3, bet_id: bet.id }%></th>
-      </tr>
-    </table>
+    <%= form_tag obtener_resultado_path do %>
+      <%= select_tag :result, options_for_select({'Gana creador' => 1, 'Gana apostador' => 2, 'Empate' => 3}), include_blank: true, required: true %>
+      <%= hidden_field_tag :bet_id, bet.id %>
+      <%= submit_tag 'Definir' %>
+    <% end %>
   <% elsif assignation == 3 %>
     <table>
       <tr>

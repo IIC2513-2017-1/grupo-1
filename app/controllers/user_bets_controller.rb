@@ -1,8 +1,7 @@
 class UserBetsController < ApplicationController
   include Secured
 
-  before_action :set_user_bet, only: %i[obtener_resultado show
-                                        edit update destroy invite]
+  before_action :set_user_bet, only: %i[show edit update destroy invite]
   before_action :logged_in?
   before_action :authenticate_user, only: %i[show edit update
                                              destroy invite index]
@@ -97,12 +96,19 @@ class UserBetsController < ApplicationController
   end
 
   def obtener_resultado
-    @user_bet.result = params[:result]
-    @user_bet.save
-    repartir @user_bet
-    UserBetMailer.finished_user_bet_email(@user, @user_bet).deliver_now
-    @user_bet.bettors.each do |bettor|
-      UserBetMailer.finished_user_bet_email(bettor, @user_bet).deliver_now
+    @user_bet = UserBet.find(params[:bet_id])
+    @user = @user_bet.user
+    @user_bet.result = params[:result].to_i
+    p @user_bet.valid?
+    p @user_bet.errors.full_messages
+    if @user_bet.save
+      repartir @user_bet
+      UserBetMailer.finished_user_bet_email(@user, @user_bet).deliver_now
+      @user_bet.bettors.each do |bettor|
+        UserBetMailer.finished_user_bet_email(bettor, @user_bet).deliver_now
+      end
+    else
+      flash[:alert] = 'Ocurrió un error inesperado'
     end
     redirect_to assignations_path
   end
