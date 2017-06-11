@@ -3,8 +3,8 @@
 /******************************************************************************/
 
 $header_color: rgb(18, 18, 18);
-$header_height: 100px;
-$header_div_height: 60px;
+$header_height: 80px;
+$header_div_height: 50px;
 $header_nav_height: $header-height - $header_div_height;
 
 $alert_color: #f44336;
@@ -66,7 +66,7 @@ header {
     list-style-type: none;
     padding: 0;
     margin: 0;
-    margin-left: 10%;
+    margin-left: 12%;
 
     li {
         float: left;
@@ -148,7 +148,7 @@ div.tab {
 
 .title-header {
   width: 60%;
-  padding-top: 140px;
+  padding-top: 110px;
   margin: auto;
 }
 
@@ -162,7 +162,7 @@ div.tab {
 
 .form-group {
   margin: 10px 0px;
-  width: 100%;
+  width: 90%;
   margin: 0px auto;
   label {
     display: inline-block;

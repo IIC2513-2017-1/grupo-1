@@ -6,7 +6,7 @@ th {
   width: 200px;
 }
 
-/* Follow relations index -------------------------------------------------- */
+/* Follow relations index --------------------------------------------------- */
 
 .follow-table {
   border: 2px solid black;
@@ -128,4 +128,28 @@ th {
       	text-shadow:0px 1px 0px #ffffff;
       }
     }
+}
+
+/* Asignations index -------------------------------------------------------- */
+
+.assignation-index {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.left-bets {
+  float: left;
+}
+
+.right-bets {
+  float: right;
+}
+
+.left-bets, .right-bets {
+  width: 45%;
+  text-align: center;
+
+  .meesbets-content {
+    width: 80%;
+  }
 }
