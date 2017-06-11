@@ -44,12 +44,12 @@ class UsersController < ApplicationController
     money_in = params[:money_in].to_i
     money_out = params[:money_out].to_i
     @user.money += money_in - money_out
-    if @user.save
-      flash[:success] = 'Dinerín actualizado correctamente'
-    else
-      flash[:alert] = 'No se pudo realizar el movimiento de dinerín'
-    end
-    redirect_to @user
+    @money = if @user.save
+               @user.money
+             else
+               -1
+             end
+    respond_to :json
   end
 
   def create

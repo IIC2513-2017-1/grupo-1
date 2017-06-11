@@ -6,7 +6,6 @@ class ApplicationController < ActionController::Base
   helper_method :revisar_apuestas
 
   def revisar_apuestas
-    bets = Bet.all
     bets.each do |bet|
       next if bet.finish
       next unless bet.end_date < DateTime.current
