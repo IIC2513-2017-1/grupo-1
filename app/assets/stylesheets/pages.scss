@@ -15,16 +15,13 @@ th {
   width: 300px;
 }
 
-.friends {
+div.friends {
   margin: 20px auto;
   width: 60%;
 }
 
-.friend-requests {
-  display: none;
-}
-
-.friends-index {
+div.friends-index.tab-content {
+  display: block;
 }
 
 /* MeesBets index ---------------------------------------------------------- */

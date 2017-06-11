@@ -2,7 +2,38 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.meesbet-index {
+div.meesbet-index {
   width: 90%;
-  margin: 10px auto;
+  margin: 50px auto;
+}
+
+div.meesbet-show {
+  width: 50%;
+  margin: 50px auto;
+}
+
+div.pull-right {
+  form {
+    display: inline-block;
+    border: 1px solid #999;
+    margin: 0px 10px;
+
+    input[type="submit"] {
+      padding: 5px;
+      background-color: #ccc;
+      border: none;
+      border: 1px solid black;
+      border-radius: 2px;
+      font-size: 1em;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #bbb;
+    }
+
+    input[type="submit"]:active {
+      background-color: #999;
+      color: inherit;
+    }
+  }
 }

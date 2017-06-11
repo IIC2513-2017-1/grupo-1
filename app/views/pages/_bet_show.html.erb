@@ -1,71 +1,69 @@
-<% if bet.bet_limit > 0 && DateTime.current < bet.start_date %>
-  <div class="meesbets-content <%= "meesbet#{bet.id}" %>">
-    <h4>Apuesta numero: <%= bet.id %></h4>
+<div class="meesbets-content <%= "meesbet#{bet.id}" %>">
+  <h4>Apuesta numero: <%= bet.id %></h4>
+  <table>
+
+    <tr>
+      <th>Nombre:</th>
+      <% if current_user.admin? %>
+        <th><%= link_to bet.name, user_user_bet_path(bet.user, bet) %></th>
+      <% else %>
+        <th><%= bet.name %></th>
+      <% end %>
+    </tr>
+
+    <tr>
+      <th>Usuario:</th>
+      <th><%= bet.user.username %></th>
+    </tr>
+
+    <tr>
+      <th>Descripcion:</th>
+      <th><%= bet.description %></th>
+    </tr>
+
+    <tr>
+      <th>Apuesta de challenger:</th>
+      <th><%= bet.challenger_amount %></th>
+    </tr>
+
+    <tr>
+      <th>Apuesta de retador:</th>
+      <th><%= bet.gambler_amount %></th>
+    </tr>
+
+    <tr>
+      <th>Fecha límite de apuesta:</th>
+      <th><%= bet.start_date %></th>
+    </tr>
+
+    <tr>
+      <th>Fecha fin del evento:</th>
+      <th><%= bet.end_date %></th>
+    </tr>
+  </table>
+  <% if assignation == 1 %>
     <table>
-
       <tr>
-        <th>Nombre:</th>
-        <% if current_user.admin? %>
-          <th><%= link_to bet.name, user_user_bet_path(bet.user, bet) %></th>
-        <% else %>
-          <th><%= bet.name %></th>
-        <% end %>
-      </tr>
-
-      <tr>
-        <th>Usuario:</th>
-        <th><%= bet.user.username %></th>
-      </tr>
-
-      <tr>
-        <th>Descripcion:</th>
-        <th><%= bet.description %></th>
-      </tr>
-
-      <tr>
-        <th>Apuesta de challenger:</th>
-        <th><%= bet.challenger_amount %></th>
-      </tr>
-
-      <tr>
-        <th>Apuesta de retador:</th>
-        <th><%= bet.gambler_amount %></th>
-      </tr>
-
-      <tr>
-        <th>Fecha límite de apuesta:</th>
-        <th><%= bet.start_date %></th>
-      </tr>
-
-      <tr>
-        <th>Fecha fin del evento:</th>
-        <th><%= bet.end_date %></th>
+        <th><%= button_to 'Aceptar', aceptar_rechazar_path, params: { aceptar: true, bet_id: bet.id }%></th>
+        <th><%= button_to 'Rechazar', aceptar_rechazar_path, params: { aceptar: false, bet_id: bet.id }%></th>
       </tr>
     </table>
-    <% if assignation == 1 %>
-      <table>
-        <tr>
-          <th><%= button_to 'Aceptar', aceptar_rechazar_path, params: { aceptar: true, bet_id: bet.id }%></th>
-          <th><%= button_to 'Rechazar', aceptar_rechazar_path, params: { aceptar: false, bet_id: bet.id }%></th>
-        </tr>
-      </table>
-    <% elsif assignation == 2 %>
-      <table>
-        <tr>
-          <th><%= button_to 'Gana creador', obtener_resultado_path, params: { result: 1, bet_id: bet.id }%></th>
-          <th><%= button_to 'Gana apostador', obtener_resultado_path, params: { result: 2, bet_id: bet.id }%></th>
-          <th><%= button_to 'Empate', obtener_resultado_path, params: { result: 3, bet_id: bet.id }%></th>
-        </tr>
-      </table>
-    <% elsif assignation == 3 %>
-      <table>
-        <tr>
-          <th><%= button_to 'Aceptar', notifications_accept_deny_user_path(@user), params: { aceptar: true, bet_id: bet.id }%></th>
-          <th><%= button_to 'Rechazar', notifications_accept_deny_user_path(@user), params: { aceptar: false, bet_id: bet.id }%></th>
-        </tr>
-      </table>
-    <% else %>
-      <%= button_to 'Aceptar MeesBet', return_path, remote: true, form: { "data-type" => "json" }, params: { bet_id: bet.id } %>
-    <% end %>
-  </div>
-<% end %>
+  <% elsif assignation == 2 %>
+    <table>
+      <tr>
+        <th><%= button_to 'Gana creador', obtener_resultado_path, params: { result: 1, bet_id: bet.id }%></th>
+        <th><%= button_to 'Gana apostador', obtener_resultado_path, params: { result: 2, bet_id: bet.id }%></th>
+        <th><%= button_to 'Empate', obtener_resultado_path, params: { result: 3, bet_id: bet.id }%></th>
+      </tr>
+    </table>
+  <% elsif assignation == 3 %>
+    <table>
+      <tr>
+        <th><%= button_to 'Aceptar', notifications_accept_deny_user_path(@user), params: { aceptar: true, bet_id: bet.id }%></th>
+        <th><%= button_to 'Rechazar', notifications_accept_deny_user_path(@user), params: { aceptar: false, bet_id: bet.id }%></th>
+      </tr>
+    </table>
+  <% else %>
+    <%= button_to 'Aceptar MeesBet', return_path, remote: true, form: { "data-type" => "json" }, params: { bet_id: bet.id } %>
+  <% end %>
+</div>

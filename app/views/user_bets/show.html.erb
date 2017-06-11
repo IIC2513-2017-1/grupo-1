@@ -3,6 +3,10 @@
 
 <div class="pull-right">
   <% if @user == current_user %>
+    <%= form_tag invite_user_user_bet_path(@user, @user_bet) do %>
+      <%= select_tag :friend, options_from_collection_for_select(current_user.following, :id, :username) %>
+      <%= submit_tag 'invitar' %>
+    <% end %>
     <%= link_to "Mis MeesBets", user_user_bets_path(@user), class: 'btn-primary' %>
     <%= link_to 'Eliminar', user_user_bet_path(@user, @user_bet ), method: :delete, class: 'btn-primary danger', data: { confirm: 'Are you sure?' } %>
   <% elsif current_user.admin? %>
@@ -11,41 +15,6 @@
   <% end %>
 </div>
 
-<p>
-  <strong>Description:</strong>
-  <%= @user_bet.description %>
-</p>
-
-<p>
-  <strong>Challenger amount:</strong>
-  <%= @user_bet.challenger_amount %>
-</p>
-
-<p>
-  <strong>Gambler amount:</strong>
-  <%= @user_bet.gambler_amount %>
-</p>
-
-<p>
-  <strong>Bet limit:</strong>
-  <%= @user_bet.bet_limit %>
-</p>
-
-<p>
-  <strong>Start date:</strong>
-  <%= @user_bet.start_date %>
-</p>
-
-<p>
-  <strong>End date:</strong>
-  <%= @user_bet.end_date %>
-</p>
-
-<% if current_user == @user %>
-  <div>
-    <%= form_tag invite_user_user_bet_path(@user, @user_bet) do %>
-      <%= select_tag :friend, options_from_collection_for_select(current_user.following, :id, :username) %>
-      <%= submit_tag 'invitar' %>
-    <% end %>
-  </div>
-<% end %>
+<div class="meesbet-show">
+  <%= render 'pages/bet_show', bet: @user_bet, return_path: '/bet_list', button_name: 'Aceptar apuesta', assignation: 4 %>
+</div>

@@ -3,6 +3,8 @@
 
 <div class="meesbets">
   <% @notifications.each do |bet| %>
-    <%= render 'pages/bet_show', bet: bet, return_path: '/bet_list', button_name: 'Aceptar apuesta', assignation: 3 %>
+    <% if bet.bet_limit > 0 && DateTime.current < bet.start_date %>
+      <%= render 'pages/bet_show', bet: bet, return_path: '/bet_list', button_name: 'Aceptar apuesta', assignation: 3 %>
+    <% end %>
   <% end %>
 </div>

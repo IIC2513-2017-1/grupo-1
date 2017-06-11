@@ -1,9 +1,11 @@
 class UserBetsController < ApplicationController
   include Secured
 
-  before_action :set_user_bet, only: %i[show edit update destroy
-                                        obtener_resultado invite]
+  before_action :set_user_bet, only: %i[obtener_resultado show
+                                        edit update destroy invite]
   before_action :logged_in?
+  before_action :authenticate_user, only: %i[show edit update
+                                             destroy invite index]
 
   def index
     @user = User.find(params[:user_id])
@@ -119,6 +121,12 @@ class UserBetsController < ApplicationController
   end
 
   private
+
+  def authenticate_user
+    @user = User.find(params[:user_id])
+    return if @user == current_user
+    redirect_to root_path, flash: { alert: 'acceso no autorizado' }
+  end
 
   def repartir(user_bet)
     user_bet.user.money += user_bet.bet_limit * user_bet.challenger_amount
