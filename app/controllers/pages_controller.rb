@@ -17,7 +17,7 @@ class PagesController < ApplicationController
   end
 
   def accept_friends
-    @users = User.where.not(username: current_user.username)
+    @users = User.where.not(username: current_user.username).where.not(username: current_user.following.select(:username))
     @requests = current_user.demands
   end
 
@@ -59,10 +59,6 @@ class PagesController < ApplicationController
       end
       format.json
     end
-  end
-
-  def follow_list
-    @users = User.where.not(username: current_user.username)
   end
 
   private

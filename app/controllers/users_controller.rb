@@ -118,7 +118,7 @@ class UsersController < ApplicationController
       followed.demands << follower
       flash[:success] = 'Solicitud enviada'
     end
-    redirect_to follow_path
+    redirect_to friends_path
   end
 
   # Falta testear permisos
@@ -136,7 +136,7 @@ class UsersController < ApplicationController
     else
       flash[:success] = 'Solicitud de amistad rechazada'
     end
-    redirect_to accept_follow_path
+    redirect_to friends_path
   end
 
   def record
