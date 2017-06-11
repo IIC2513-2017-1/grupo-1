@@ -55,6 +55,7 @@
               <td class="text-left"><%= bet.country %></td>
               <td class="text-center">
                 <%= select_tag "#{bet.id}",
+                  content_tag(:option,'Empate', value:"-1") +
                   options_from_collection_for_select(bet.competitors, "id", "name"),
                   include_blank: true,
                   class: "bet-selection" %>
@@ -67,7 +68,9 @@
 
     <div class="bets-status">
       <div class="bets-list"></div>
-      monto: <%= number_field_tag :amount, '',required: true %> <%= submit_tag 'Confirmar seleccion' %>
+      <p id="multiplicator">Multiplicador: 1</p>
+      <p id="wining">Ganancia: 0</p>
+      Monto: <%= number_field_tag :amount, '',required: true %> <%= submit_tag 'Confirmar seleccion' %>
     </div>
   <% end %>
 

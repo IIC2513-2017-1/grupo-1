@@ -34,17 +34,38 @@ class BetsController < ApplicationController
     render 'index'
   end
 
+  def set_amount
+    previo = params[:previous_mul].split(' ')[-1].to_f
+    amount = params[:amount].to_f
+    @wining = previo * amount
+    respond_to :json
+  end
+
   def add_bet
     @bet = Bet.find_by_id(params[:bet_id])
     @delete = false
-    unless params[:competitor].blank?
-      @competitor = @bet.competitors_per_bet.find_by_competitor_id(
-        params[:competitor].to_i
-      ).competitor.name
+    previo = params[:previous_mul].split(' ')[-1].to_f
+    amount = params[:amount].to_f
+    if params[:previous].blank?
+      @multiplicator = previo
+    elsif params[:previous].to_i == -1
+      @multiplicator = previo / @bet.pay_per_tie
     else
+      @multiplicator = previo / @bet.competitors_per_bet.find_by_competitor_id(
+        params[:previous].to_i).multiplicator
+    end
+    if params[:competitor].blank?
       @competitor = nil
       @delete = true
+    elsif params[:competitor].to_i == -1
+      @competitor = 'Empate'
+      @multiplicator = previo * @bet.pay_per_tie
+    else
+      @competitor = Competitor.find(params[:competitor].to_i).name
+      @multiplicator = previo * @bet.competitors_per_bet.find_by_competitor_id(
+        params[:competitor].to_i).multiplicator
     end
+    @wining = amount * @multiplicator
     respond_to :json
   end
 

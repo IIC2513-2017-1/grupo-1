@@ -16,7 +16,7 @@ class MyValidator2 < ActiveModel::Validator
     record.errors[:bet_id] << 'no existe' if apuesta.empty?
     competidores = apuesta.first.competitors
     competidores = competidores.where(id: record.selection)
-    record.errors[:selection] << 'no existe' if competidores.empty?
+    record.errors[:selection] << 'no existe' if competidores.empty? && record.selection != -1
     record.errors[:apuesta] << 'pasada' if apuesta.first.start_date < DateTime.current
   end
 end

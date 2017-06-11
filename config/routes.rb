@@ -25,6 +25,7 @@ Rails.application.routes.draw do
 
   root 'bets#index'
   get '/add_bet', to: 'bets#add_bet'
+  get '/set_amount', to: 'bets#set_amount'
   get '/results', to: 'application#revisar_apuestas'
   get '/search', to: 'bets#search'
   get '/accept_follow', to: 'pages#accept_friends'

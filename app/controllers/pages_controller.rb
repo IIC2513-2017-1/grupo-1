@@ -9,8 +9,6 @@ class PagesController < ApplicationController
   def bet_list
     bets = UserBet.where.not(
       user_id: current_user.id
-    ).where.not(
-      id: User.find_by_email('j123@uc.cl').accepted_bets.select(:id)
     ).includes(:user)
     @bets = []
     bets.each do |bet|
