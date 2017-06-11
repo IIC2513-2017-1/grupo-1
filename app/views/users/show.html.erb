@@ -2,9 +2,10 @@
 <%= provide(:header, "#{@user.username}") %>
 
 <% if @user == current_user %>
-  <div class="tab">
+  <div class="tab full-tab">
     <button class="tablinks active" data-tab="user-profile-info">Información</button>
     <button class="tablinks" data-tab="user-profile-bets">Apuestas aceptadas</button>
+    <button class="modal-trigger" data-modal="user-money-manage">Agregar dinerin</button>
   </div>
 <% end %>
 
@@ -95,5 +96,32 @@
           </tbody>
       </table>
     <% end %>
+  </div>
+<% end %>
+
+<% if current_user == @user %>
+  <div class="user-money-manage modal">
+    <div class="modal-sandbox"></div>
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="close-modal">&#10006;</div>
+        <h2> Dinerin: <%= @user.money %></h2>
+      </div>
+      <div class="modal-body">
+        <%= form_tag manage_money_user_path(@user) do %>
+          <div class="form-group">
+            <%= label_tag 'Dinero a ingresar' %>
+            <%= number_field_tag :money_in %>
+          </div>
+          <div class="form-group">
+            <%= label_tag 'Dinero a Retirar' %>
+            <%= number_field_tag :money_out %>
+          </div>
+          <div class="form-group">
+            <%= submit_tag 'Buscar' %>
+          </div>
+        <% end %>
+      </div>
+    </div>
   </div>
 <% end %>

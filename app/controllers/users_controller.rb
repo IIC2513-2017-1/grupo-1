@@ -39,6 +39,19 @@ class UsersController < ApplicationController
     redirect_to notifications_user_path(current_user)
   end
 
+  def manage_money
+    @user = current_user
+    money_in = params[:money_in].to_i
+    money_out = params[:money_out].to_i
+    @user.money += money_in - money_out
+    if @user.save
+      flash[:success] = 'Dinerín actualizado correctamente'
+    else
+      flash[:alert] = 'No se pudo realizar el movimiento de dinerín'
+    end
+    redirect_to @user
+  end
+
   def create
     @user = User.new(user_params.merge(money: 100, role: 'gambler'))
     User.transaction do

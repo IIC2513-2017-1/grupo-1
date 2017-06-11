@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       get 'notifications'
       post 'notifications/accept_deny', action: 'accept_deny_notifications'
       get 'record'
+      post 'manage_money'
       get 'confirm_email'
     end
     resources :user_bets, except: :edit do
