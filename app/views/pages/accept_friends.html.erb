@@ -30,14 +30,15 @@
   <% end %>
 
   <% unless current_user.following.empty? %>
-    <% current_user.following.each do |followed|%>
-      <div class="follow-table">
-        <table>
+    <div class="follow-table">
+      <table>
+        <% current_user.following.each do |followed|%>
           <tr>
+            <td><%= image_tag followed.avatar.url(:thumb) %></td>
             <td><%= followed.username %></td>
           </tr>
-        </table>
-      </div>
-    <% end %>
+        <% end %>
+      </table>
+    </div>
   <% end %>
 </div>

@@ -70,7 +70,7 @@
   <% if edit %>
     <div class="form-group">
       <%= f.label :contraseña_actual %>
-      <%= f.password_field :actual_password, required: !edit %>
+      <%= f.password_field :actual_password, required: edit %>
     </div>
   <% end %>
 
