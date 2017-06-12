@@ -19,6 +19,9 @@
 
 class MyValidator1 < ActiveModel::Validator
   def validate(record)
+    if record.exclusive.nil?
+      record.errors[:exclusive] << 'no puede ser nulo'
+    end
     if record.start_date > record.end_date
       record.errors[:end_date] << 'Ingrese fechas con sentido'
     end
@@ -65,5 +68,5 @@ class UserBet < ApplicationRecord
   validates :bet_limit, presence: true,
                         numericality: { only_integer: true, greater_than: -1 }
   validates_with MyValidator1, on: :create
-  validates :exclusive, presence: true
+
 end

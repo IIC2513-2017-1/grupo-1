@@ -19,11 +19,11 @@ user = User.create!(
   username: Faker::Internet.unique.user_name(6..40),
   name: Faker::Name.first_name,
   role: 'admin',
-  money: 10000,
+  money: 10_000,
   birthday: rand(80.year.ago..18.year.ago),
   description: Faker::Lorem.paragraph,
   email: 'j123@uc.cl',
-  avatar: Faker::Avatar.image,
+  # : Faker::.image,
   lastname: Faker::Name.last_name,
   email_confirmed: true,
   password: '12345678',
@@ -38,7 +38,7 @@ admin_amount.times do
     role: 'admin',
     money: 1000,
     birthday: rand(80.year.ago..18.year.ago),
-    avatar: Faker::Avatar.image,
+    # avatar: Faker::Avatar.image,
     description: Faker::Lorem.paragraph,
     email: Faker::Internet.unique.email,
     lastname: Faker::Name.last_name,
@@ -52,7 +52,7 @@ user_amount.times do
     role: 'gambler',
     money: 5000,
     birthday: rand(80.year.ago..18.year.ago),
-    avatar: Faker::Avatar.image,
+    # avatar: Faker::Avatar.image,
     description: Faker::Lorem.paragraph,
     email: Faker::Internet.unique.email,
     email_confirmed: true,
@@ -136,11 +136,13 @@ user_bets_amount.times do
     gambler_amount: Random.rand(20..2000),
     bet_limit: Random.rand(1..7),
     checked: checked,
-    exclusive: false
+    exclusive: true
   )
   if user_bet.save
     admin = User.where(role: 'admin').order('RANDOM()').first
     Assignment.create(user_id: admin.id, user_bet_id: user_bet.id)
+  else
+    p 'falle'
   end
 end
 
