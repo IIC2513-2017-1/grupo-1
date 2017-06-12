@@ -49,7 +49,10 @@ class UserBetsController < ApplicationController
 
   def create
     UserBet.transaction do
-      @user_bet = UserBet.new(user_bet_params.merge(user_id: current_user.id))
+      privado = false
+      privado = true if user_bet_params[:exclusive] == '1'
+      @user_bet = UserBet.new(user_bet_params.merge(user_id: current_user.id,
+                                                    exclusive: privado))
       @user_bet.save!
       save_money(@user_bet)
     end
@@ -155,6 +158,6 @@ class UserBetsController < ApplicationController
   def user_bet_params
     params.require(:user_bet).permit(:name, :description, :challenger_amount,
                                      :gambler_amount, :bet_limit, :start_date,
-                                     :end_date)
+                                     :end_date, :exclusive)
   end
 end

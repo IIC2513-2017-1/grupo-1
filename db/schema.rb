@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170528204604) do
+ActiveRecord::Schema.define(version: 20170611210235) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -124,6 +124,7 @@ ActiveRecord::Schema.define(version: 20170528204604) do
     t.datetime "updated_at",        null: false
     t.boolean  "checked"
     t.integer  "result"
+    t.boolean  "exclusive"
     t.index ["user_id"], name: "index_user_bets_on_user_id", using: :btree
   end
 

@@ -92,7 +92,7 @@ bet_amount.times do
     id1 = id2
     Part.create(
       local: i,
-      multiplicator: 1 + Random.rand(0..10) / 10,
+      multiplicator: 1 + Random.rand(0..10) / 10.0,
       bet_id: bet.id,
       competitor_id: id1
     )
@@ -135,7 +135,8 @@ user_bets_amount.times do
     challenger_amount: Random.rand(20..500),
     gambler_amount: Random.rand(20..2000),
     bet_limit: Random.rand(1..7),
-    checked: checked
+    checked: checked,
+    exclusive: false
   )
   if user_bet.save
     admin = User.where(role: 'admin').order('RANDOM()').first
@@ -155,7 +156,8 @@ user_bets_amount.times do
     challenger_amount: Random.rand(20..500),
     gambler_amount: Random.rand(20..2000),
     bet_limit: Random.rand(1..7),
-    checked: checked
+    checked: checked,
+    exclusive: false
   )
   if user_bet.save
     admin = User.where(role: 'admin').order('RANDOM()').first
@@ -174,7 +176,8 @@ user_bets_amount.times do
     gambler_amount: Random.rand(20..2000),
     bet_limit: Random.rand(1..7),
     checked: true,
-    result: nil
+    result: nil,
+    exclusive: false
   )
   if user_bet.save(validate: false)
     admin = User.where(role: 'admin').order('RANDOM()').first
@@ -193,7 +196,8 @@ user_bets_amount.times do
     gambler_amount: Random.rand(20..2000),
     bet_limit: Random.rand(1..7),
     checked: true,
-    result: Random.rand(1..3)
+    result: Random.rand(1..3),
+    exclusive: false
   )
   if user_bet.save(validate: false)
     admin = User.where(role: 'admin').order('RANDOM()').first
