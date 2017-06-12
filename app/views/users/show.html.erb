@@ -80,18 +80,22 @@
       <table class="rounded-corner-table" summary="2007 Major IT Companies' Profit">
           <thead>
           	<tr>
-              	<th scope="col" class="rounded-company">Nombre:</th>
-                  <th scope="col" class="rounded-q1">Oponente</th>
-                  <th scope="col" class="rounded-q2">Monto Apostado</th>
-              </tr>
+            	<th scope="col" class="rounded-company">Nombre:</th>
+              <th scope="col" class="rounded-q1">Oponente</th>
+              <th scope="col" class="rounded-q2">Monto Apostado</th>
+              <th scope="col" class="rounded-q3">Fecha de termino</th>
+            </tr>
           </thead>
           <tbody>
             <% @bets.each do |bet| %>
-            	<tr>
-              	<td><%= bet.name %></td>
-                <td><%= bet.user.name %></td>
-                <td><%= bet.gambler_amount %></td>
-              </tr>
+              <% if DateTime.current < bet.end_date%>
+              	<tr>
+                	<td><%= bet.name %></td>
+                  <td><%= bet.user.name %></td>
+                  <td><%= bet.gambler_amount %></td>
+                  <td><%= bet.end_date %></td>
+                </tr>
+              <% end %>
             <% end %>
           </tbody>
       </table>
