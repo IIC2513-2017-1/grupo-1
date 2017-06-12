@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   resources :bets, only: :index
-  resources :users do
+  resources :users, except: :new do
     collection do
       get 'search'
     end

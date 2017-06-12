@@ -16,6 +16,19 @@
     </div>
   <% end %>
   <p>
-    ¿No tienes cuenta aún? Registrate <%= link_to 'aqui', new_user_path %>.
+    ¿No tienes cuenta aún? Registrate <%= link_to "aqui", "#my-modal", class: "modal-trigger", "data-modal" => "registration-modal" %>.
   </p>
+</div>
+
+<div class="registration-modal modal">
+  <div class="modal-sandbox"></div>
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="close-modal">&#10006;</div>
+      <h2> Registro: </h2>
+    </div>
+    <div class="modal-body">
+      <%= render 'users/form', user: @user, edit: false %>
+    </div>
+  </div>
 </div>

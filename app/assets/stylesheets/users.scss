@@ -276,7 +276,7 @@ div.user-profile-bets {
 
 .modal-header {
   padding: 20px 40px;
-  background: #546E7A;
+  background: #222;//#546E7A;
   color: #ffffff;
 }
 
@@ -289,29 +289,6 @@ div.user-profile-bets {
 .close-modal {
   text-align: right;
   cursor: pointer;
-}
-
-/* Animation */
-@-webkit-keyframes modalbox {
-  0% {
-    top: -250px;
-    opacity: 0;
-  }
-  100% {
-    top: 0;
-    opacity: 1;
-  }
-}
-
-@keyframes modalbox {
-  0% {
-    top: -250px;
-    opacity: 0;
-  }
-  100% {
-    top: 0;
-    opacity: 1;
-  }
 }
 
 div.tab.full-tab {

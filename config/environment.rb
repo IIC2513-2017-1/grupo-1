@@ -16,7 +16,6 @@ ActionMailer::Base.smtp_settings = {
   password: ENV['GMAIL_PASSWORD']
 }
 
-ActionMailer::Base.default_url_options = { host: 'localhost:3000' }
 ActionMailer::Base.delivery_method = :smtp
 ActionMailer::Base.raise_delivery_errors = true
 ActionMailer::Base.perform_deliveries = true
