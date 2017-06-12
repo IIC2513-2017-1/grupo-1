@@ -35,7 +35,7 @@ admin_amount.times do
   User.create(
     username: Faker::Internet.unique.user_name(6..40),
     name: Faker::Name.first_name,
-    role: 'admin',
+    role: 'gambler',
     money: 1000,
     birthday: rand(80.year.ago..18.year.ago),
     # avatar: Faker::Avatar.image,
