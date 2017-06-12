@@ -36,7 +36,7 @@
 <div class="meesbets">
   <% @bets.each do |bet| %>
     <% if bet.bet_limit > 0 && DateTime.current < bet.start_date %>
-      <%= render 'bet_show', bet: bet, return_path: '/bet_list', button_name: 'Aceptar apuesta', assignation: 4 %>
+      <%= render 'bet_show', bet: bet, return_path: '/bet_list', button_name: 'Aceptar apuesta', assignation: 5 %>
     <% end %>
   <% end %>
 </div>
