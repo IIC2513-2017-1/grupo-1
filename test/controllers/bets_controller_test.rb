@@ -10,7 +10,7 @@ class BetsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get index" do
-    get bets_url
+    get root_url
     assert_response :success
   end
 

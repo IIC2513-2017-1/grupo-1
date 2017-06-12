@@ -15,6 +15,7 @@
 #  updated_at        :datetime         not null
 #  checked           :boolean
 #  result            :integer
+#  exclusive         :boolean
 #
 
 class MyValidator1 < ActiveModel::Validator
@@ -68,5 +69,4 @@ class UserBet < ApplicationRecord
   validates :bet_limit, presence: true,
                         numericality: { only_integer: true, greater_than: -1 }
   validates_with MyValidator1, on: :create
-
 end

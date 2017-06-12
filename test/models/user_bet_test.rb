@@ -15,6 +15,7 @@
 #  updated_at        :datetime         not null
 #  checked           :boolean
 #  result            :integer
+#  exclusive         :boolean
 #
 
 require 'test_helper'
