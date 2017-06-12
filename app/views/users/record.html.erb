@@ -27,13 +27,23 @@
           <% plata = get_multiplicator(grand) * grand.amount %>
         <% end %>
         <% grand.bets_per_grand.each do |bet| %>
+          <%
+          winner = 'Empate'
+          unless bet.bet.result == -1
+            winner = Competitor.find(bet.bet.result).name
+          end
+          selection = 'Empate'
+          unless bet.selection == -1
+            selection = Competitor.find(bet.selection).name
+          end
+          %>
           <tr>
             <td class="text-left"><%= bet.bet.sport %></td>
             <td class="text-left"><%= bet.bet.tournament %></td>
             <td class="text-left"><%= bet.bet.start_date %></td>
             <td class="text-left"><%= bet.bet.country %></td>
-            <td class="text-center"><%= Competitor.find(bet.bet.result).name %></td>
-            <td class="text-center"><%= bet.bet.competitors.find(bet.selection).name %></td>
+            <td class="text-center"><%= winner %></td>
+            <td class="text-center"><%= selection %></td>
             <td class='text-center'> <%= "$#{ plata }" %> </td>
           </tr>
         <% end %>

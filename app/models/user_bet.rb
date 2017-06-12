@@ -65,4 +65,5 @@ class UserBet < ApplicationRecord
   validates :bet_limit, presence: true,
                         numericality: { only_integer: true, greater_than: -1 }
   validates_with MyValidator1, on: :create
+  validates :exclusive, presence: true
 end

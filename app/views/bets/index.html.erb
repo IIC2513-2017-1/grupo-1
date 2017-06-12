@@ -54,11 +54,20 @@
               <td class="text-left"><%= bet.start_date %></td>
               <td class="text-left"><%= bet.country %></td>
               <td class="text-center">
-                <%= select_tag "#{bet.id}",
-                  content_tag(:option,'Empate', value:"-1") +
-                  options_from_collection_for_select(bet.competitors, "id", "name"),
+                <% if empate?(bet) == 1 %>
+                <%=
+                  select_tag "#{bet.id}",
+                  options_for_select(@contents[bet.id]),
                   include_blank: true,
                   class: "bet-selection" %>
+                <% else %>
+                  <%=select_tag "#{bet.id}",
+                  @contents[bet.id],
+                  include_blank: true,
+                  class: "bet-selection"
+                  %>
+                <% end %>
+
               </td>
             </tr>
           <% end %>

@@ -11,6 +11,7 @@ class ApplicationController < ActionController::Base
       next unless bet.end_date < DateTime.current
       bet.finish = true
       bet.result = bet.competitors.order('RANDOM()').first.id
+      bet.result = -1 if Random.rand(1..3) == 3
       bet.save!
       bet.grands.each do |grand|
         next unless grand.end_date < DateTime.current_user
@@ -37,8 +38,12 @@ class ApplicationController < ActionController::Base
     multiplier = 1
     grand.bets_per_grand do |bet|
       selection = bet.selection
-      mul = bet.bet.competitors_per_bet.find_by(competitor_id:
-       selection).multiplicator
+      if selection == -1
+        mul = bet.pay_per_tie
+      else
+        mul = bet.bet.competitors_per_bet.find_by(competitor_id:
+         selection).multiplicator
+      end
       multiplier *= mul
     end
     multiplier

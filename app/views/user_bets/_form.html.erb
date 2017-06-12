@@ -51,6 +51,11 @@
   </div>
 
   <div class="form-group">
+    <%= f.label :privada %>
+    <%= f.check_box :exclusive %>
+  </div>
+
+  <div class="form-group">
     <%= f.submit 'Crear MeesBet' if !edit %>
     <%= f.submit 'Editar MeesBet' if edit %>
   </div>

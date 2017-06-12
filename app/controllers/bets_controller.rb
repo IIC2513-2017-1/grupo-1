@@ -4,12 +4,24 @@ class BetsController < ApplicationController
   before_action :set_bet, only: %i[show edit update destroy]
   before_action :logged_in?, only: %i[edit update destroy
                                       new make_up_grand create_grand]
+  helper_method :empate?
+  helper_method :get_percentage
 
   def index
-    betss = Bet.includes(:competitors)
+    betss = Bet.order(:start_date).includes(:competitors)
     @bets = []
     betss.each do |bet|
       @bets << bet if bet.start_date > DateTime.current
+    end
+    @contents = Hash.new
+    @bets.each do |bet|
+      content = []
+      content << ["Empate #{get_percentage(bet, -1)}", -1] if empate?(bet) == 1
+      bet.competitors.each do |competitor|
+        content << ["#{competitor.name} #{get_percentage(bet, competitor.id)}",
+                    competitor.id]
+      end
+      @contents[bet.id] = content
     end
   end
 
@@ -100,6 +112,9 @@ class BetsController < ApplicationController
   else
     grand.end_date = grand.bets.maximum('start_date')
     grand.save
+    grand.bets.each do |bet|
+      calculate_multiplicator(bet)
+    end
     redirect_to root_path, flash: { success: 'Grand fue creado con exito' }
   end
 
@@ -139,12 +154,65 @@ class BetsController < ApplicationController
 
   private
 
+  def calculate_multiplicator(bet)
+    total = bet.selections.count
+    options = bet.competitors.count + empate?(bet)
+    if total < 2
+      bet.pay_per_tie = (options + 1) / 2
+      bet.competitors_per_bet.each do |competitor|
+        competitor.multiplicator = (options + 1) / 2
+        competitor.save
+      end
+    elsif total < 5
+      return
+    else
+      general = {}
+      general[-1] = 1
+      bet.competitors.each do |c|
+        general[c.id] = 0
+      end
+      general.update(bet.selections.group(:selection).count)
+      general[-1] = 1 if general[-1].zero?
+      bet.pay_per_tie = get_mul(general[-1], total) if empate?(bet) == 1
+      bet.competitors_per_bet.each do |competitor|
+        general[competitor.competitor_id] = 1 if general[competitor.competitor_id].zero?
+        competitor.multiplicator = get_mul(general[competitor.competitor_id], total)
+        competitor.save
+      end
+    end
+    bet.save
+  end
+
+  def empate?(bet)
+    sport = bet.sport
+    return 1 if sport == 'football'
+    0
+  end
+
+  def get_percentage(bet, competitor)
+    total = bet.selections.count
+    total = 1 if total.zero?
+    participate = bet.selections.where(selection: competitor).count
+    if competitor == -1
+      multiplicator = bet.pay_per_tie
+    else
+      multiplicator = bet.competitors_per_bet
+                         .find_by_competitor_id(competitor).multiplicator
+    end
+    "#{participate * 100 / total}% - x#{multiplicator}"
+  end
+
   def set_bet
     @bet = Bet.find(params[:id])
   end
 
   def bet_params
     params.require(:bet).permit(:sport, :start_date, :country, :pay_per_tie)
+  end
+
+  def get_mul(porcentaje, total)
+    numero = 1.05 * total / (porcentaje + total / 5)
+    ([1.05, numero].max).round(2)
   end
 
   def get_bets_width(tournament, team, sport, country)

@@ -16,18 +16,28 @@
           <Cell><Data ss:Type="String">Seleccion</Data></Cell>
           <Cell><Data ss:Type="String">Plata ganada</Data></Cell>
         </Row>
+        <% plata = 0 %>
+        <% if ganada?(grand) %>
+          <% plata = get_multiplicator(grand) * grand.amount %>
+        <% end %>
         <% grand.bets_per_grand.each do |bet| %>
+        <%
+        winner = 'Empate'
+        unless bet.bet.result == -1
+          winner = Competitor.find(bet.bet.result).name
+        end
+        selection = 'Empate'
+        unless bet.selection == -1
+          selection = Competitor.find(bet.selection).name
+        end
+        %>
           <Row>
             <Cell class="text-left"><Data ss:Type="String"><%= bet.bet.sport %></Data></Cell>
             <Cell class="text-left"><Data ss:Type="String"><%= bet.bet.tournament %></Data></Cell>
             <Cell class="text-left"><Data ss:Type="String"><%= bet.bet.start_date %></Data></Cell>
             <Cell class="text-left"><Data ss:Type="String"><%= bet.bet.country %></Data></Cell>
-            <Cell class="text-center"><Data ss:Type="String"><%= bet.bet.competitors.find(bet.bet.result).name %></Data></Cell>
-            <Cell class="text-center"><Data ss:Type="String"><%= bet.bet.competitors.find(bet.selection).name %></Data></Cell>
-            <% plata = 0 %>
-            <% if ganada?(grand) %>
-              <% plata = get_multiplicator(grand) * grand.amount %>
-            <% end %>
+            <Cell class="text-center"><Data ss:Type="String"><%= winner %></Data></Cell>
+            <Cell class="text-center"><Data ss:Type="String"><%= selection %></Data></Cell>
             <Cell class='text-center'><Data ss:Type="String"><%= "$#{ plata }" %></Data></Cell>
           </Row>
         <% end %>
