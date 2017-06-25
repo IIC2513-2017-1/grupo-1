@@ -30,6 +30,7 @@ user = User.create!(
   password_confirmation: '12345678'
 )
 user.confirmation_token
+user.generate_token_and_save
 
 admin_amount.times do
   User.create(

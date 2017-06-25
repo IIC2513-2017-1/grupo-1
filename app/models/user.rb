@@ -95,4 +95,11 @@ class User < ApplicationRecord
     self.confirm_token = nil
     save!(validate: false)
   end
+
+  def generate_token_and_save
+    loop do
+      self.token = SecureRandom.hex(64)
+      break if save
+    end
+  end
 end
