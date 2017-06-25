@@ -33,4 +33,5 @@ class Bet < ApplicationRecord
                                          apostrofes.' }
 
   scope :active_bets, (-> { where(finish: false) })
+  scope :current_bets, (-> { where('start_date > ?', DateTime.current) })
 end

@@ -8,21 +8,10 @@ class BetsController < ApplicationController
   helper_method :get_percentage
 
   def index
-    betss = Bet.order(:start_date).includes(:competitors)
-    @bets = []
-    betss.each do |bet|
-      @bets << bet if bet.start_date > DateTime.current
-    end
-    @contents = Hash.new
-    @bets.each do |bet|
-      content = []
-      content << ["Empate #{get_percentage(bet, -1)}", -1] if empate?(bet) == 1
-      bet.competitors.each do |competitor|
-        content << ["#{competitor.name} #{get_percentage(bet, competitor.id)}",
-                    competitor.id]
-      end
-      @contents[bet.id] = content
-    end
+    @bets = Bet.current_bets.order(:start_date).includes(
+      :competitors, :selections, :competitors_per_bet
+    )
+    @contents = get_contents(@bets)
   end
 
   def show; end
@@ -43,6 +32,8 @@ class BetsController < ApplicationController
       return redirect_to root_path,
                          flash: { notice: 'No se encontraron resultados' }
     end
+    @bets = @bets
+    @contents = get_contents(@bets)
     render 'index'
   end
 
@@ -64,7 +55,8 @@ class BetsController < ApplicationController
       @multiplicator = previo / @bet.pay_per_tie
     else
       @multiplicator = previo / @bet.competitors_per_bet.find_by_competitor_id(
-        params[:previous].to_i).multiplicator
+        params[:previous].to_i
+      ).multiplicator
     end
     if params[:competitor].blank?
       @competitor = nil
@@ -75,7 +67,8 @@ class BetsController < ApplicationController
     else
       @competitor = Competitor.find(params[:competitor].to_i).name
       @multiplicator = previo * @bet.competitors_per_bet.find_by_competitor_id(
-        params[:competitor].to_i).multiplicator
+        params[:competitor].to_i
+      ).multiplicator
     end
     @wining = amount * @multiplicator
     respond_to :json
@@ -155,8 +148,8 @@ class BetsController < ApplicationController
   private
 
   def calculate_multiplicator(bet)
-    total = bet.selections.count
-    options = bet.competitors.count + empate?(bet)
+    total = bet.selections.length
+    options = bet.competitors.length + empate?(bet)
     if total < 2
       bet.pay_per_tie = (options + 1) / 2
       bet.competitors_per_bet.each do |competitor|
@@ -171,7 +164,7 @@ class BetsController < ApplicationController
       bet.competitors.each do |c|
         general[c.id] = 0
       end
-      general.update(bet.selections.group(:selection).count)
+      general.update(bet.selections.group(:selection).length)
       general[-1] = 1 if general[-1].zero?
       bet.pay_per_tie = get_mul(general[-1], total) if empate?(bet) == 1
       bet.competitors_per_bet.each do |competitor|
@@ -190,14 +183,15 @@ class BetsController < ApplicationController
   end
 
   def get_percentage(bet, competitor)
-    total = bet.selections.count
+    total = bet.selections.length
     total = 1 if total.zero?
-    participate = bet.selections.where(selection: competitor).count
+    participate = bet.selections.where(selection: competitor).length
     if competitor == -1
       multiplicator = bet.pay_per_tie
     else
-      multiplicator = bet.competitors_per_bet
-                         .find_by_competitor_id(competitor).multiplicator
+      multiplicator = bet.competitors_per_bet.find_by_competitor_id(
+        competitor
+      ).multiplicator
     end
     "#{participate * 100 / total}% - x#{multiplicator}"
   end
@@ -212,11 +206,11 @@ class BetsController < ApplicationController
 
   def get_mul(porcentaje, total)
     numero = 1.05 * total / (porcentaje + total / 5)
-    ([1.05, numero].max).round(2)
+    [1.05, numero].max.round(2)
   end
 
   def get_bets_width(tournament, team, sport, country)
-    initial_bets = Bet.all
+    initial_bets = Bet.current_bets
     bets = []
     initial_bets.each do |bet|
       unless sport.blank?
@@ -241,5 +235,19 @@ class BetsController < ApplicationController
       bets << bet
     end
     bets
+  end
+
+  def get_contents(bets)
+    contents = {}
+    bets.each do |bet|
+      content = []
+      content << ["Empate #{get_percentage(bet, -1)}", -1] if empate?(bet) == 1
+      bet.competitors.each do |competitor|
+        content << ["#{competitor.name} #{get_percentage(bet, competitor.id)}",
+                    competitor.id]
+      end
+      contents[bet.id] = content
+    end
+    contents
   end
 end
