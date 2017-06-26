@@ -75,7 +75,6 @@ module Api::V1
     end
 
     def accept_a_bet
-      p 'lalalalalaalllalalalal'
       user = @current_user
       @bet = UserBet.find(params[:bet_id].to_i)
       @result = accept_user_bet(user, @bet)

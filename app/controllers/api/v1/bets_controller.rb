@@ -190,5 +190,6 @@ module Api::V1
       end
       multiplier
     end
+
   end
 end

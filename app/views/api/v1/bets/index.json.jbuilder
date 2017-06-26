@@ -1,3 +1,4 @@
+
 json.users do
   json.href api_v1_bets_url
   json.bets do
