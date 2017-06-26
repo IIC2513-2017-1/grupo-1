@@ -43,7 +43,17 @@ Rails.application.routes.draw do
   # api
   namespace :api do
     namespace :v1 do
-      resources :users, only: %i[show index]
+      resources :users, only: %i[show index] do
+        resources :user_bets, only: %i[show index create]
+      end
+      post 'obtener_resultado', to: 'user_bets#obtener_resultado'
+      post 'accept_a_bet', to: 'user_bets#accept_a_bet'
+      resources :bets, only: %i[index show] do
+        collection do
+          post 'make_a_grand'
+          get 'check_bets'
+        end
+      end
     end
   end
 end

@@ -182,10 +182,9 @@ class BetsController < ApplicationController
     0
   end
 
-  def get_percentage(bet, competitor)
-    total = bet.selections.length
+  def get_percentage(bet, competitor, total, participate)
+    participate = 0 if participate.nil?
     total = 1 if total.zero?
-    participate = bet.selections.where(selection: competitor).length
     if competitor == -1
       multiplicator = bet.pay_per_tie
     else
@@ -240,10 +239,12 @@ class BetsController < ApplicationController
   def get_contents(bets)
     contents = {}
     bets.each do |bet|
+      parts = bet.selections.group(:selection).count
       content = []
-      content << ["Empate #{get_percentage(bet, -1)}", -1] if empate?(bet) == 1
+      total = bet.selections.count
+      content << ["Empate #{get_percentage(bet, -1, total, parts[-1])}", -1] if empate?(bet) == 1
       bet.competitors.each do |competitor|
-        content << ["#{competitor.name} #{get_percentage(bet, competitor.id)}",
+        content << ["#{competitor.name} #{get_percentage(bet, competitor.id, total, parts[competitor.id])}",
                     competitor.id]
       end
       contents[bet.id] = content

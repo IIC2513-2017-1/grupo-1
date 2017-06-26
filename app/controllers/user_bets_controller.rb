@@ -102,8 +102,6 @@ class UserBetsController < ApplicationController
     @user_bet = UserBet.find(params[:bet_id])
     @user = @user_bet.user
     @user_bet.result = params[:result].to_i
-    p @user_bet.valid?
-    p @user_bet.errors.full_messages
     if @user_bet.save
       repartir @user_bet
       UserBetMailer.finished_user_bet_email(@user, @user_bet).deliver_now
