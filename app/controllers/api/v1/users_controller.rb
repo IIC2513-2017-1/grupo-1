@@ -7,10 +7,10 @@ module Api::V1
     end
 
     def index
-      # unless current_user.admin?
-      #   render json: { errors: 'No tiene permisos' },
-      #          status: :access_not_authorized
-      # end
+      unless @current_user.admin?
+        render json: { errors: 'No tiene permisos' },
+               status: :access_not_authorized
+      end
       @users = User.all
     end
   end
