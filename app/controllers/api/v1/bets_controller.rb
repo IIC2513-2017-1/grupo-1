@@ -9,10 +9,6 @@ module Api::V1
     end
 
     def index
-      # unless current_user.admin?
-      #   render json: { errors: 'No tiene permisos' },
-      #          status: :access_not_authorized
-      # end
       @bets = Bet.all
     end
 
@@ -116,7 +112,7 @@ module Api::V1
         bet.competitors.each do |c|
           general[c.id] = 0
         end
-        general.update(bet.selections.group(:selection).length)
+        general.update(bet.selections.group(:selection).count)
         general[-1] = 1 if general[-1].zero?
         bet.pay_per_tie = get_mul(general[-1], total) if empate?(bet) == 1
         bet.competitors_per_bet.each do |competitor|

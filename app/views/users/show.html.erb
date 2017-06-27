@@ -6,6 +6,9 @@
     <button class="tablinks active" data-tab="user-profile-info">Información</button>
     <button class="tablinks" data-tab="user-profile-bets">Apuestas aceptadas</button>
     <button class="modal-trigger" data-modal="user-money-manage">Agregar dinerin</button>
+    <% if current_user.admin? %>
+      <button class="modal-trigger" data-modal="api-matchs">add_api_matchs</button>
+    <% end %>
   </div>
 <% end %>
 
@@ -101,6 +104,29 @@ token: <%= @user.token %>
           </tbody>
       </table>
     <% end %>
+  </div>
+<% end %>
+
+<% if current_user == @user && current_user.admin? %>
+  <div class="api-matchs modal">
+    <div class="modal-sandbox"></div>
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="close-modal">&#10006;</div>
+        <h2> Actualizar dias </h2>
+      </div>
+      <div class="modal-body">
+        <%= form_tag update_match_days_path do %>
+          <div class="form-group">
+            <%= label_tag 'Dias a actualizar' %>
+            <%= number_field_tag :days %>
+          </div>
+          <div class="form-group">
+            <%= submit_tag 'Efectuar actualizacion' %>
+          </div>
+        <% end %>
+      </div>
+    </div>
   </div>
 <% end %>
 

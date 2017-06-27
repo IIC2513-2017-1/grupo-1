@@ -1,11 +1,17 @@
 <%= provide(:title, 'Mi historial') %>
 <%= provide(:header, "Historial de apuestas") %>
 
+<div class="tab full-tab">
+  <button class="tablinks active" data-tab="grands-record">Grands</button>
+  <button class="tablinks" data-tab="accepted-user-bets-record">Apuestas aceptadas</button>
+  <button class="tablinks" data-tab="my-user-bets-record">Mis apuestas</button>
+</div>
+
 <div class="btn-group">
   <%= link_to 'Download', record_user_path(@user, format: 'xls'), class: 'btn-primary' %>
 </div>
 
-<div>
+<div class="tab-content grands-record">
   <h3>Grands</h3>
   <% @grands.each do |grand| %>
     <h5 class="grand-id"> Grand ID <%= grand.id %></h5>
@@ -50,6 +56,9 @@
       </tbody>
     </table>
   <% end %>
+</div>
+
+<div class="tab-content my-user-bets-record">
   <h3>Tus Meesbets</h3>
   <table class="bets-table">
     <thead>
@@ -86,6 +95,9 @@
     <td class="text-center"><%= ganancia %></td>
   <% end %>
 </table>
+</div>
+
+<div class="tab-content accepted-user-bets-record">
   <h3>Meesbets aceptadas</h3>
   <table class="bets-table">
     <thead>
