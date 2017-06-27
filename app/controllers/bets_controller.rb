@@ -178,6 +178,7 @@ class BetsController < ApplicationController
       end
       today += 1.day
     end
+    redirect_to root_path, flash: { success: 'se han actualizado las apuestas' }
   end
 
   private
