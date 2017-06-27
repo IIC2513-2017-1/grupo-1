@@ -28,7 +28,7 @@ real_teams.each do |team|
 end
 
 today = Date.today
-10.times do
+5.times do
   month = today.month.to_s
   month = "0#{month}" if month.length == 1
   day = today.day.to_s

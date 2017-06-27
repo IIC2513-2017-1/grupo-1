@@ -39,7 +39,7 @@ Rails.application.routes.draw do
   post '/make_up', to: 'bets#create_grand'
   post '/aceptar_rechazar', to: 'user_bets#aceptar_rechazar'
   post '/obtener_resultado', to: 'user_bets#obtener_resultado'
-  post '/update_match_days', to: 'bets#add_api_match'
+  post '/update_match_days', to: 'bets#add_api_matchs'
 
   # api
   namespace :api do

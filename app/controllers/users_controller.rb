@@ -56,6 +56,8 @@ class UsersController < ApplicationController
     @user = User.new(user_params.merge(money: 100, role: 'gambler'))
     User.transaction do
       @user.save
+      @user.confirmation_token
+      @user.generate_token_and_save
       UserMailer.registration_confirmation(@user).deliver_now
     end
   rescue => invalid

@@ -146,6 +146,7 @@ class BetsController < ApplicationController
   end
 
   def add_api_matchs
+    api = MySportsFeedApi.new
     today = Date.today
     days = params[:days].to_i
     days.times do
@@ -155,34 +156,35 @@ class BetsController < ApplicationController
       day = "0#{day}" if month.length == 1
       matchs = api.daily_game_schedule("2016#{month}#{day}")
       matchs.each do |match|
-        next unless Bet.where(api_id: match['ID']).empty?
-        hour = match['time'].sub('PM', '').sub('AM', '').split(':')
-        start = DateTime.new(2017, month.to_i, day.to_i,
-                             hour[0].to_i + 11, hour[1].to_i, 0)
-        bet = Bet.new(
-          country: 'US',
-          sport: 'baseball',
-          start_date: start,
-          end_date: start + 3.hours,
-          finish: false,
-          pay_per_tie: 2,
-          result: nil,
-          api_id: match['ID'].to_i,
-          tournament: 'mlb'
-        )
-        bet.save
-        Part.create(
-          local: 1,
-          multiplicator: 1 + Random.rand(0..10) / 10.0,
-          bet_id: bet.id,
-          competitor_id: Competitor.find_by_api_id(match['homeTeam']['ID']).id
-        )
-        Part.create(
-          local: 0,
-          multiplicator: 1 + Random.rand(0..10) / 10.0,
-          bet_id: bet.id,
-          competitor_id: Competitor.find_by_api_id(match['awayTeam']['ID']).id
-        )
+        if Bet.where(api_id: match['ID']).empty?
+          hour = match['time'].sub('PM', '').sub('AM', '').split(':')
+          start = DateTime.new(2017, month.to_i, day.to_i,
+                               hour[0].to_i + 11, hour[1].to_i, 0)
+          bet = Bet.new(
+            country: 'US',
+            sport: 'baseball',
+            start_date: start,
+            end_date: start + 3.hours,
+            finish: false,
+            pay_per_tie: 2,
+            result: nil,
+            api_id: match['ID'].to_i,
+            tournament: 'mlb'
+          )
+          bet.save
+          Part.create(
+            local: 1,
+            multiplicator: 1 + Random.rand(0..10) / 10.0,
+            bet_id: bet.id,
+            competitor_id: Competitor.find_by_api_id(match['homeTeam']['ID']).id
+          )
+          Part.create(
+            local: 0,
+            multiplicator: 1 + Random.rand(0..10) / 10.0,
+            bet_id: bet.id,
+            competitor_id: Competitor.find_by_api_id(match['awayTeam']['ID']).id
+          )
+        end
       end
       today += 1.day
     end
@@ -207,15 +209,12 @@ class BetsController < ApplicationController
       bet.competitors.each do |c|
         general[c.id] = 0
       end
-      general.update(bet.selections.group(:selection).count)
+      general.update(bet.selections.group(:selection).length)
       general[-1] = 1 if general[-1].zero?
       bet.pay_per_tie = get_mul(general[-1], total) if empate?(bet) == 1
       bet.competitors_per_bet.each do |competitor|
-        if general[competitor.competitor_id].zero?
-          general[competitor.competitor_id] = 1
-        end
-        competitor.multiplicator = get_mul(general[competitor.competitor_id],
-                                           total)
+        general[competitor.competitor_id] = 1 if general[competitor.competitor_id].zero?
+        competitor.multiplicator = get_mul(general[competitor.competitor_id], total)
         competitor.save
       end
     end
