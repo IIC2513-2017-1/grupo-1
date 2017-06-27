@@ -304,3 +304,10 @@ div.tab button.modal-trigger {
 div.tab-content.grands-record {
 	display: block;
 }
+
+/* tokken */
+div.modal.show-tokken {
+	p {
+		word-break: break-all;
+	}
+}
