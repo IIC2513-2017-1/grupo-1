@@ -11,8 +11,13 @@ class ApplicationController < ActionController::Base
       next if bet.finish
       next unless bet.end_date < DateTime.current
       bet.finish = true
-      bet.result = bet.competitors.order('RANDOM()').first.id
-      bet.result = -1 if Random.rand(1..3) == 3
+      if bet.api_id.nil?
+        bet.result = bet.competitors.order('RANDOM()').first.id
+        bet.result = -1 if Random.rand(1..3) == 3
+      else
+        api = MySportsFeedApi.new
+        bet.result = bet.competitors.find_by_api_id(api.game_result bet.api_id).id
+      end
       bet.save!
       bet.grands.each do |grand|
         next unless grand.end_date < DateTime.current_user

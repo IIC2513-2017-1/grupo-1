@@ -28,4 +28,9 @@ class MySportsFeedApi
       0
     end
   end
+
+  def get_teams
+    self.class.get("https://www.mysportsfeeds.com/api/feed/pull/mlb/2016-regular/overall_team_standings.json",
+                   headers: { Authorization: "Basic #{@api_key}" })['overallteamstandings']['teamstandingsentry']
+  end
 end

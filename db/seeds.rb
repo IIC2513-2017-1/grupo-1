@@ -14,6 +14,57 @@ bet_amount = 30
 grands_amount = 10
 user_bets_amount = 20
 bet_per_grand = 3
+api = MySportsFeedApi.new
+real_teams = api.get_teams
+
+real_teams.each do |team|
+  name = "#{team['team']['City']} #{team['team']['Name']}"
+  competitor = Competitor.new(name: name,
+                              country: 'US',
+                              sport: 'baseball',
+                              api_id: team['team']['ID'])
+  save = competitor.save
+  p 'error' unless save
+end
+
+today = Date.today
+10.times do
+  month = today.month.to_s
+  month = "0#{month}" if month.length == 1
+  day = today.day.to_s
+  day = "0#{day}" if month.length == 1
+  matchs = api.daily_game_schedule("2016#{month}#{day}")
+  matchs.each do |match|
+    hour = match['time'].sub('PM', '').sub('AM', '').split(':')
+    start = DateTime.new(2017, month.to_i, day.to_i,
+                         hour[0].to_i + 11, hour[1].to_i, 0)
+    bet = Bet.new(
+      country: 'US',
+      sport: 'baseball',
+      start_date: start,
+      end_date: start + 3.hours,
+      finish: false,
+      pay_per_tie: 2,
+      result: nil,
+      api_id: match['ID'].to_i,
+      tournament: 'mlb'
+    )
+    bet.save
+    Part.create(
+      local: 1,
+      multiplicator: 1 + Random.rand(0..10) / 10.0,
+      bet_id: bet.id,
+      competitor_id: Competitor.find_by_api_id(match['homeTeam']['ID']).id
+    )
+    Part.create(
+      local: 0,
+      multiplicator: 1 + Random.rand(0..10) / 10.0,
+      bet_id: bet.id,
+      competitor_id: Competitor.find_by_api_id(match['awayTeam']['ID']).id
+    )
+  end
+  today += 1.day
+end
 
 user = User.create!(
   username: Faker::Internet.unique.user_name(6..40),
@@ -86,10 +137,10 @@ bet_amount.times do
     end_date: time + 2.hours
   )
   next unless bet.save
-  id1 = Competitor.order('RANDOM()').first.id
+  id1 = Competitor.where(api_id: nil).order('RANDOM()').first.id
   2.times do |i|
-    id2 = Competitor.order('RANDOM()').first.id
-    id2 = Competitor.order('RANDOM()').first.id while id2 == id1
+    id2 = Competitor.where(api_id: nil).order('RANDOM()').first.id
+    id2 = Competitor.where(api_id: nil).order('RANDOM()').first.id while id2 == id1
     id1 = id2
     Part.create(
       local: i,

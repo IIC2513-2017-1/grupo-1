@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170625034043) do
+ActiveRecord::Schema.define(version: 20170627015152) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(version: 20170625034043) do
     t.integer  "result"
     t.datetime "end_date"
     t.string   "tournament"
+    t.integer  "api_id"
   end
 
   create_table "bets_competitors", id: false, force: :cascade do |t|
@@ -60,6 +61,7 @@ ActiveRecord::Schema.define(version: 20170625034043) do
     t.string   "sport"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "api_id"
   end
 
   create_table "grands", force: :cascade do |t|

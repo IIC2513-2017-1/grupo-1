@@ -145,6 +145,49 @@ class BetsController < ApplicationController
     end
   end
 
+  def add_api_matchs
+    today = Date.today
+    days = params[:days].to_i
+    days.times do
+      month = today.month.to_s
+      month = "0#{month}" if month.length == 1
+      day = today.day.to_s
+      day = "0#{day}" if month.length == 1
+      matchs = api.daily_game_schedule("2016#{month}#{day}")
+      matchs.each do |match|
+        next unless Bet.where(api_id: match['ID']).empty?
+        hour = match['time'].sub('PM', '').sub('AM', '').split(':')
+        start = DateTime.new(2017, month.to_i, day.to_i,
+                             hour[0].to_i + 11, hour[1].to_i, 0)
+        bet = Bet.new(
+          country: 'US',
+          sport: 'baseball',
+          start_date: start,
+          end_date: start + 3.hours,
+          finish: false,
+          pay_per_tie: 2,
+          result: nil,
+          api_id: match['ID'].to_i,
+          tournament: 'mlb'
+        )
+        bet.save
+        Part.create(
+          local: 1,
+          multiplicator: 1 + Random.rand(0..10) / 10.0,
+          bet_id: bet.id,
+          competitor_id: Competitor.find_by_api_id(match['homeTeam']['ID']).id
+        )
+        Part.create(
+          local: 0,
+          multiplicator: 1 + Random.rand(0..10) / 10.0,
+          bet_id: bet.id,
+          competitor_id: Competitor.find_by_api_id(match['awayTeam']['ID']).id
+        )
+      end
+      today += 1.day
+    end
+  end
+
   private
 
   def calculate_multiplicator(bet)

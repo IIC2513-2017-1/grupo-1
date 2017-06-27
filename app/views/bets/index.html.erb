@@ -1,9 +1,6 @@
 <%= provide(:title, 'Apuestas principales') %>
 <%= provide(:header, 'Apuestas') %>
 
-<% api = MySportsFeedApi.new() %>
-<% id = api.daily_game_schedule('20160626')[0]['id'] %>
-<%= api.game_result(id) %>
 
 <div class="bets-search">
 
