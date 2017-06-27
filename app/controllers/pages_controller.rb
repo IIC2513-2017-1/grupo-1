@@ -3,8 +3,6 @@ class PagesController < ApplicationController
 
   before_action :logged_in?
 
-  def home; end
-
   # eliminar mis apuestas de aqui
   def bet_list
     bets = UserBet.where.not(

@@ -14,14 +14,6 @@ class BetsController < ApplicationController
     @contents = get_contents(@bets)
   end
 
-  def show; end
-
-  def new
-    @bet = Bet.new
-  end
-
-  def edit; end
-
   def search
     @tournament = params[:tournament]
     @team = params[:team]
@@ -156,35 +148,33 @@ class BetsController < ApplicationController
       day = "0#{day}" if month.length == 1
       matchs = api.daily_game_schedule("2016#{month}#{day}")
       matchs.each do |match|
-        if Bet.where(api_id: match['ID']).empty?
-          hour = match['time'].sub('PM', '').sub('AM', '').split(':')
-          start = DateTime.new(2017, month.to_i, day.to_i,
-                               hour[0].to_i + 11, hour[1].to_i, 0)
-          bet = Bet.new(
-            country: 'US',
-            sport: 'baseball',
-            start_date: start,
-            end_date: start + 3.hours,
-            finish: false,
-            pay_per_tie: 2,
-            result: nil,
-            api_id: match['ID'].to_i,
-            tournament: 'mlb'
-          )
-          bet.save
-          Part.create(
-            local: 1,
-            multiplicator: 1 + Random.rand(0..10) / 10.0,
-            bet_id: bet.id,
-            competitor_id: Competitor.find_by_api_id(match['homeTeam']['ID']).id
-          )
-          Part.create(
-            local: 0,
-            multiplicator: 1 + Random.rand(0..10) / 10.0,
-            bet_id: bet.id,
-            competitor_id: Competitor.find_by_api_id(match['awayTeam']['ID']).id
-          )
-        end
+        hour = match['time'].sub('PM', '').sub('AM', '').split(':')
+        start = DateTime.new(2017, month.to_i, day.to_i,
+                             hour[0].to_i + 11, hour[1].to_i, 0)
+        bet = Bet.new(
+          country: 'US',
+          sport: 'baseball',
+          start_date: start,
+          end_date: start + 3.hours,
+          finish: false,
+          pay_per_tie: 2,
+          result: nil,
+          api_id: match['ID'].to_i,
+          tournament: 'mlb'
+        )
+        bet.save
+        Part.create(
+          local: 1,
+          multiplicator: 1 + Random.rand(0..10) / 10.0,
+          bet_id: bet.id,
+          competitor_id: Competitor.find_by_api_id(match['homeTeam']['ID']).id
+        )
+        Part.create(
+          local: 0,
+          multiplicator: 1 + Random.rand(0..10) / 10.0,
+          bet_id: bet.id,
+          competitor_id: Competitor.find_by_api_id(match['awayTeam']['ID']).id
+        )
       end
       today += 1.day
     end
