@@ -21,3 +21,7 @@ Aplicamos ajax en tres funcionalidades, la primera es al acaptar una apuesta de 
 
 Por último, utilizamos dos modals, para agregar dinero a la cuenta y para registrarse. Ademas, utilizamos un menu dropdown para la navegacion y, por último, tabs para la navegación del perfil y de las vistas de amigos.
 
+**Entrega 6**
+
+Junto con los metodos hechos en las carpetas de api, ocupamos la api externa https://www.mysportsfeeds.com de la cual obtenemos los datos de partidos de la mlb (baseball) y los equipos de la misma liga. Por ahora la eleccion de quien gano la hacemos aleatoriamente, pero tenemos la funcion hecha para poder decidir mediante la api (no alcanzamos).
+
