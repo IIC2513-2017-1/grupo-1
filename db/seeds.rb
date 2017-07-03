@@ -27,7 +27,7 @@ real_teams.each do |team|
   p 'error' unless save
 end
 
-today = Date.today
+today = Date.today - 10.days
 5.times do
   month = today.month.to_s
   month = "0#{month}" if month.length == 1
@@ -46,7 +46,7 @@ today = Date.today
       finish: false,
       pay_per_tie: 2,
       result: nil,
-      api_id: match['ID'].to_i,
+      api_id: match['id'].to_i,
       tournament: 'mlb'
     )
     bet.save

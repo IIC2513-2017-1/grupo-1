@@ -6,14 +6,25 @@ class ApplicationController < ActionController::Base
   helper_method :revisar_apuestas
 
   def revisar_apuestas
+    api = MySportsFeedApi.new()
     bets = Bet.all
     bets.each do |bet|
       next if bet.finish
       next unless bet.end_date < DateTime.current
       bet.finish = true
-      bet.result = bet.competitors.order('RANDOM()').first.id
-      if bet.sport == 'football'
-        bet.result = -1 if Random.rand(1..3) == 3
+      if bet.api_id.nil?
+        bet.result = bet.competitors.order('RANDOM()').first.id
+        if bet.sport == 'football'
+          bet.result = -1 if Random.rand(1..3) == 3
+        end
+      else
+        p bet.api_id
+        result = api.game_result(bet.api_id.to_i)
+        if result == 1
+          bet.result = bet.competitors_per_bet.where(local: 1).first.id
+        else
+          bet.result = bet.competitors_per_bet.where.not(local: 1).first.id
+        end
       end
       bet.save!
       bet.grands.each do |grand|
