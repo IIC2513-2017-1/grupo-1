@@ -11,9 +11,13 @@ class PagesController < ApplicationController
     @bets = []
     bets.each do |bet|
       mostra = true
+      p 'hola'
       if bet.exclusive && !current_user.admin?
+        p 'chao'
         mostra = false unless bet.user.following.include?(current_user)
       end
+      p bet.checked
+      p bet.start_date > DateTime.current
       @bets << bet if bet.start_date > DateTime.current && bet.checked && mostra
     end
   end

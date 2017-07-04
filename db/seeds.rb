@@ -7,12 +7,11 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 #
 
-user_amount = 10
-admin_amount = 3
+user_amount = 5
 competitor_amount = 50
 bet_amount = 30
 grands_amount = 10
-user_bets_amount = 20
+user_bets_amount = 2
 bet_per_grand = 3
 api = MySportsFeedApi.new
 real_teams = api.get_teams
@@ -67,12 +66,12 @@ today = Date.today - 10.days
 end
 
 user = User.create!(
-  username: Faker::Internet.unique.user_name(6..40),
+  username: 'jecastro2',
   name: Faker::Name.first_name,
   role: 'admin',
   money: 10_000,
   birthday: rand(80.year.ago..18.year.ago),
-  description: Faker::Lorem.paragraph,
+  description: 'Soy un admin de MrMeesBet',
   email: 'j123@uc.cl',
   # : Faker::.image,
   lastname: Faker::Name.last_name,
@@ -83,20 +82,6 @@ user = User.create!(
 user.confirmation_token
 user.generate_token_and_save
 
-admin_amount.times do
-  User.create(
-    username: Faker::Internet.unique.user_name(6..40),
-    name: Faker::Name.first_name,
-    role: 'gambler',
-    money: 1000,
-    birthday: rand(80.year.ago..18.year.ago),
-    # avatar: Faker::Avatar.image,
-    description: Faker::Lorem.paragraph,
-    email: Faker::Internet.unique.email,
-    lastname: Faker::Name.last_name,
-    password_digest: Faker::Internet.password
-  )
-end
 user_amount.times do
   user2 = User.create(
     username: Faker::Internet.unique.user_name(6..40),

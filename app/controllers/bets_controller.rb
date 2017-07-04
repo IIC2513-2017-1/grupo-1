@@ -100,6 +100,7 @@ class BetsController < ApplicationController
     grand.bets.each do |bet|
       calculate_multiplicator(bet)
     end
+    BetMailer.grand_accepted_email(user, grand).deliver_now
     redirect_to root_path, flash: { success: 'Grand fue creado con exito' }
   end
 
