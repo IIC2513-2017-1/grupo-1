@@ -6,12 +6,7 @@ $(document).on('turbolinks:load', function () {
   var $previous;
   var $previous_mul;
   $monto.on('change', function() {
-    $.getJSON("/set_amount", {
-      amount: $('#amount').val(),
-      previous_mul: $('#multiplicator').text()
-    }, function( data ) {
-      $('#wining').text("Ganancia: " + data.wining);
-    });
+    $('#wining').text("Ganancia: " + (parseFloat($('#multiplicator').text().split(" ")[1]) * $('#amount').val()).toFixed(2) );
   });
   $bets.on('focus', function () {
         // Store the current value on focus and on change
@@ -36,8 +31,8 @@ $(document).on('turbolinks:load', function () {
         } else {
           $(".bet-" + data.bet_id).remove();
         }
-        $('#wining').text("Ganancia: " + data.wining);
-        $('#multiplicator').text("Multiplicador: " + data.multiplicator);
+        $('#wining').text("Ganancia: " + parseFloat(data.wining).toFixed(2));
+        $('#multiplicator').text("Multiplicador: " + parseFloat(data.multiplicator).toFixed(2));
       }
     });
   });
