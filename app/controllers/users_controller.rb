@@ -203,6 +203,7 @@ class UsersController < ApplicationController
 
   def destroy
     username = @user.username
+    reset_session
     @user.destroy
     respond_to do |format|
       format.html do

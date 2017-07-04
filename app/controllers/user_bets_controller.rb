@@ -83,6 +83,11 @@ class UserBetsController < ApplicationController
   end
 
   def destroy
+    if @user_bet.start_date > DateTime.current
+      return redirect_to user_user_bet_path(current_user, @user_bet),
+                         flash: { alert: 'No se puede eliminar una
+                                          apuesta cuyo evento ya inició' }
+    end
     @user_bet.user.money += @user_bet.bet_limit * @user_bet.challenger_amount
     @user_bet.bettors.each do |bettor|
       @user_bet.user.money += @user_bet.challenger_amount
