@@ -9,7 +9,11 @@
       sus apuestas fueron por:
       <ul>
         <% @bets.each do |bet| %>
-          <li><%= "bet numero #{bet.id}: #{Competitor.find(bet.selection).name}" %></li>
+          <% if bet.selection == -1 %>
+            <li><%= "bet numero #{bet.id}: Empate" %></li>
+          <% else %>
+            <li><%= "bet numero #{bet.id}: #{Competitor.find(bet.selection).name}" %></li>
+          <% end %>
         <% end %>
       </ul>
     </p>
