@@ -1,15 +1,13 @@
 <div class="meesbets-content <%= "meesbet#{bet.id}" %>">
-  <h4>Apuesta numero: <%= bet.id %></h4>
+  <h4>
+    <%= bet.id %> -
+    <% if current_user.admin? %>
+      <th><%= link_to bet.name, user_user_bet_path(bet.user, bet) %></th>
+    <% else %>
+      <th><%= bet.name %></th>
+    <% end %>
+  </h4>
   <table>
-
-    <tr>
-      <th>Nombre:</th>
-      <% if current_user.admin? %>
-        <th><%= link_to bet.name, user_user_bet_path(bet.user, bet) %></th>
-      <% else %>
-        <th><%= bet.name %></th>
-      <% end %>
-    </tr>
 
     <tr>
       <th>Usuario:</th>
@@ -17,28 +15,27 @@
     </tr>
 
     <tr>
-      <th>Descripcion:</th>
-      <th><%= bet.description %></th>
-    </tr>
-
-    <tr>
-      <th>Apuesta de challenger:</th>
+      <th>Plata a ganar:</th>
       <th><%= bet.challenger_amount %></th>
     </tr>
 
     <tr>
-      <th>Apuesta de retador:</th>
+      <th>Plata a apostar:</th>
       <th><%= bet.gambler_amount %></th>
     </tr>
 
     <tr>
-      <th>Fecha límite de apuesta:</th>
+      <th>Fin apuestas:</th>
       <th><%= bet.start_date %></th>
     </tr>
 
     <tr>
-      <th>Fecha fin del evento:</th>
+      <th>Fecha de expiración:</th>
       <th><%= bet.end_date %></th>
+    </tr>
+
+    <tr>
+      <th id="description" colspan="2"><%= bet.description %></th>
     </tr>
   </table>
   <% if assignation == 1 %>

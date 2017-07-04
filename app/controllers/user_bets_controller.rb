@@ -3,8 +3,9 @@ class UserBetsController < ApplicationController
 
   before_action :set_user_bet, only: %i[show edit update destroy invite]
   before_action :logged_in?
-  before_action :authenticate_user, only: %i[show edit update
-                                             destroy invite index]
+  before_action :authenticate_user, only: %i[edit update
+                                             invite index]
+  before_action :authenticate_user_or_admin, only: %i[show destroy]
 
   def index
     @user = User.find(params[:user_id])
@@ -132,6 +133,12 @@ class UserBetsController < ApplicationController
   def authenticate_user
     @user = User.find(params[:user_id])
     return if @user == current_user
+    redirect_to root_path, flash: { alert: 'acceso no autorizado' }
+  end
+
+  def authenticate_user_or_admin
+    @user = User.find(params[:user_id])
+    return if @user == current_user || current_user.admin?
     redirect_to root_path, flash: { alert: 'acceso no autorizado' }
   end
 

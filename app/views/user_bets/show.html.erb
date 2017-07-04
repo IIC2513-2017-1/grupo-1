@@ -4,7 +4,7 @@
 <div class="pull-right">
   <% if @user == current_user %>
     <% if @user_bet.checked %>
-      <%= form_tag invite_user_user_bet_path(@user, @user_bet) do %>
+      <%= form_tag invite_user_user_bet_path(@user, @user_bet), class: 'invite-form' do %>
         <%= select_tag :friend, options_from_collection_for_select(current_user.following, :id, :username) %>
         <%= submit_tag 'invitar' %>
       <% end %>

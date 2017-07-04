@@ -9,8 +9,8 @@ th {
 /* Follow relations index --------------------------------------------------- */
 
 .follow-table {
-  margin: 10px;
   background-color: #ccc;
+  margin: 10px 0px;
 
   table {
     width: 100%;
@@ -101,12 +101,25 @@ div.friends-index.tab-content {
     width: 60%;
     max-width: 500px;
     text-align: center;
-    border: 2px solid black;
     border-radius: 10px;
-    background-color: #c0c0c0;
+    background-color: #BFBFBF;
+    color: #000;
 
     table {
         margin: auto;
+
+        #description {
+          padding: 10px 0px;
+        }
+    }
+
+    a {
+      text-decoration: underline;
+      color: inherit;
+
+      &:hover {
+        color: #404040;
+      }
     }
 
     form {

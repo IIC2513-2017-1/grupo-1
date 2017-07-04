@@ -6,20 +6,51 @@
   margin: 100px auto;
   width: 30%;
   padding: 50px;
-  border: 2px solid #524f5a;
+  background-color: #3E403D;
   border-radius: 5px;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 
   .form-group {
-    text-align: right;
-  }
-  label {
-    width: 40%;
+    text-align: center;
   }
   input[type='text'], input[type="password"] {
-    width: 50%;
+    outline: 0;
+    background: #fff;
+    width: 100%;
+    border: 0;
+    margin: 0 0 15px;
+    padding: 15px;
+    box-sizing: border-box;
+    font-size: 14px;
   }
   input[type="submit"] {
+    text-transform: uppercase;
+    outline: 0;
+    background: #7F7F7F;
     width: 100%;
-    margin: 10px 0px;
+    border: 0;
+    padding: 15px;
+    color: #FFFFFF;
+    font-size: 14px;
+    -webkit-transition: all 0.3 ease;
+    transition: all 0.3 ease;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #BFBFBF;
+    }
+  }
+
+  p {
+    color: #fff;
+    padding: 0px 15px;
+
+    a {
+      color: inherit;
+
+      &:hover {
+        color: #7F7F7F;
+      }
+    }
   }
 }

@@ -25,7 +25,7 @@
 
 <div class="friends friends-index tab-content">
   <%= form_tag(friends_follow_path, method: "POST") do %>
-      <%= select_tag :followed_id, options_from_collection_for_select(@users, "id", "username")  %>
+      <%= text_field_tag :followed_username, nil, placeholder: 'nombre de usuario', required: true  %>
       <%= submit_tag("Enviar solicitud") %>
   <% end %>
 

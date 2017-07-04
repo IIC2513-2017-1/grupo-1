@@ -115,12 +115,16 @@ class UsersController < ApplicationController
 
   # Falta testear permisos
   def new_follow_relation
-    unless params.key?(:followed_id)
-      return redirect_to follow_path,
-                         flash: { alert: 'Debe seleccionar usuario seguido' }
+    unless params.key?(:followed_username)
+      return redirect_to friends_path,
+                         flash: { alert: 'Debe ingresar algun nombre de usuario' }
     end
     follower = current_user
-    followed = User.find(params[:followed_id])
+    followed = User.find_by_username(params[:followed_username])
+    unless followed
+      return redirect_to friends_path,
+                         flash: { alert: 'Usuario ingresado no existe' }
+    end
     if followed.in?(follower.following) || follower.in?(followed.following)
       flash[:notice] = "Ya sigues al usuario #{followed.username}"
     elsif follower == followed
