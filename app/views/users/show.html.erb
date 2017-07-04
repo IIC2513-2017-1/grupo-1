@@ -23,7 +23,7 @@
         <% if @user == current_user %>
           <%= link_to 'Editar', edit_user_path(@user), class: 'btn-primary' %>
         <% end %>
-        <% if current_user.admin? && !@user.admin? %>
+        <% if (current_user.admin? && !@user.admin?) || (@user == current_user) %>
           <%= link_to 'Eliminar', @user, method: :delete, class: 'btn-primary', data: { confirm: 'Are you sure?' } %>
         <% end %>
       </td>
