@@ -73,7 +73,7 @@ user = User.create!(
   birthday: rand(80.year.ago..18.year.ago),
   description: 'Soy un admin de MrMeesBet',
   email: 'j123@uc.cl',
-  # : Faker::.image,
+  avatar: Faker::Avatar.image,
   lastname: Faker::Name.last_name,
   email_confirmed: true,
   password: '12345678',
@@ -89,7 +89,7 @@ user_amount.times do
     role: 'gambler',
     money: 5000,
     birthday: rand(80.year.ago..18.year.ago),
-    # avatar: Faker::Avatar.image,
+    avatar: Faker::Avatar.image,
     description: Faker::Lorem.paragraph,
     email: Faker::Internet.unique.email,
     email_confirmed: true,
@@ -242,27 +242,4 @@ user_bets_amount.times do
     admin = User.where(role: 'admin').order('RANDOM()').first
     Assignment.create(user_id: admin.id, user_bet_id: user_bet.id)
   end
-end
-
-grands_amount.times do
-  grand = Grand.create(
-    amount: Random.rand(1..1000),
-    user_id: User.where(email: 'j123@uc.cl').order('RANDOM()').first.id,
-    checked: true
-  )
-  bet_per_grand.times do
-    bet = Bet.order('RANDOM()').first
-    MakeUp.create(
-      grand_id: grand.id,
-      bet_id: bet.id,
-      selection: bet.competitors.order('RANDOM()').first.id
-    )
-  end
-  final_date = DateTime.current - 1.years
-  grand.bets.each do |bet|
-    next unless final_date < bet.start_date
-    final_date = bet.start_date
-  end
-  grand.end_date = final_date
-  grand.save
 end
